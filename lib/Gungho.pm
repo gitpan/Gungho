@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho.pm 6397 2007-04-06T06:52:21.668763Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho.pm 6399 2007-04-06T07:32:52.917316Z lestrrat  $
 # 
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -9,6 +9,7 @@ use warnings;
 use base qw(Class::Accessor::Fast);
 use Carp qw(croak);
 use Config::Any;
+use Class::Inspector;
 use UNIVERSAL::require;
 
 use Gungho::Log;
@@ -120,10 +121,11 @@ sub load_gungho_module
     my $pkg    = shift;
     my $prefix = shift;
 
-    unless ($pkg =~ /^\+/) {
+    unless ($pkg =~ s/^\+//) {
         $pkg = ($prefix ? "Gungho::${prefix}::" : "Gungho::") . $pkg;
     }
-    $pkg->require or die;
+
+    Class::Inspector->loaded($pkg) or $pkg->require or die;
     return $pkg;
 }
 

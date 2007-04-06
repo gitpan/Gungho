@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Provider/File/Simple.pm 6394 2007-04-06T06:37:56.614962Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Provider/File/Simple.pm 6399 2007-04-06T07:32:52.917316Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -56,6 +56,10 @@ __END__
 Gungho::Provider::File::Simple - Provide Requests From A Simple File
 
 =head1 METHODS
+
+=head2 new
+
+Creates a new instance.
 
 =head2 get_requests
 
