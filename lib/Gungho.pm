@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho.pm 6399 2007-04-06T07:32:52.917316Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho.pm 6405 2007-04-07T01:35:58.207076Z lestrrat  $
 # 
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -67,9 +67,6 @@ sub setup_engine
     my $self = shift;
     my $config = $self->config->{engine} || {
         module => 'POE',
-        config => {
-            http_comp_args => {}
-        }
     };
     if (! $config) {
         croak("Gungho requires a engine");

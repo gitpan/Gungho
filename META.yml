@@ -15,6 +15,7 @@ no_index:
 recommends: 
   POE: 0
   POE::Component::Client::HTTP: 0
+  POE::Component::Client::Keepalive: 0
 requires: 
   Class::Accessor::Fast: 0
   Class::C3: 0

@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Provider/File/Simple.pm 6399 2007-04-06T07:32:52.917316Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Provider/File/Simple.pm 6402 2007-04-06T17:34:44.214589Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -54,6 +54,18 @@ __END__
 =head1 NAME
 
 Gungho::Provider::File::Simple - Provide Requests From A Simple File
+
+=head1 SYNOPSIS
+
+  provider:
+    module: File::Simple
+    config:
+      filename: /path/to/filename
+
+  # in file
+  http://foo.com
+  http://bar.com
+  http://baz.com
 
 =head1 METHODS
 
