@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho.pm 6405 2007-04-07T01:35:58.207076Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho.pm 6418 2007-04-07T11:06:03.104460Z lestrrat  $
 # 
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -140,10 +140,16 @@ sub get_requests
     $self->provider->get_requests;
 }
 
+sub send_request
+{
+    my $self = shift;
+    $self->engine->send_request($_[0]);
+}
+
 sub handle_response
 {
-    my ($self, $response) = @_;
-    $self->handler->handle_response($self, $response);
+    my ($self, $request, $response) = @_;
+    $self->handler->handle_response($self, $request, $response);
 }
 
 1;
@@ -211,6 +217,10 @@ Delegates to provider's get_requests
 =head2 handle_response
 
 Delegates to handler's handle_response
+
+=head2 send_request
+
+Delegates to engine's send_request
 
 =head2 load_config($config)
 

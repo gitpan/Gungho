@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Engine/POE.pm 6406 2007-04-07T01:38:07.767531Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Engine/POE.pm 6418 2007-04-07T11:06:03.104460Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -79,16 +79,22 @@ sub session_stop
 
 sub session_loop
 {
-    my ($kernel, $heap) = @_[KERNEL, HEAP];
+    my ($self, $kernel, $heap) = @_[OBJECT, KERNEL, HEAP];
     my $c = $heap->{CONTEXT};
 
     if ($c->has_requests) {
         foreach my $request ( $c->get_requests() ) {
-            $kernel->post(&UserAgentAlias, 'request', 'handle_response', $request);
+            $self->send_request($request);
         }
 
         $kernel->yield('session_loop');
     }
+}
+
+sub send_request
+{
+    my $self = shift;
+    POE::Kernel->post(&UserAgentAlias, 'request', 'handle_response', $_[0]);
 }
 
 sub handle_response
@@ -99,7 +105,7 @@ sub handle_response
 
     my $req = $req_packet->[0];
     my $res = $res_packet->[0];
-    $c->handle_response($res);
+    $c->handle_response($req, $res);
 }
 
 1;
@@ -149,6 +155,10 @@ sets up the engine.
 
 Instantiates a PoCo::Client::HTTP session and a main session that handles the
 main control.
+
+=head2 send_request($request)
+
+Sends a request to the http client
 
 =head2 handle_response
 

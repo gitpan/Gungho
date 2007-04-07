@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Handler/Null.pm 6394 2007-04-06T06:37:56.614962Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Handler/Null.pm 6417 2007-04-07T10:46:29.321551Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -11,8 +11,8 @@ sub handle_response
 {
     my $self = shift;
     my $c    = shift;
+    my $req  = shift;
     my $res  = shift;
-    my $req  = $res->request;
 
     $c->log->info($req->uri . " responded with code " . $res->code)
         if $c->log->is_info;
