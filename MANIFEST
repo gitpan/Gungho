@@ -1,4 +1,6 @@
 Changes
+deps/Engine-POE.yaml
+deps/Plugin-RequestTimer.yaml
 inc/Module/AutoInstall.pm
 inc/Module/Install.pm
 inc/Module/Install/AutoInstall.pm
@@ -17,8 +19,11 @@ lib/Gungho/Engine/POE.pm
 lib/Gungho/Handler.pm
 lib/Gungho/Handler/Null.pm
 lib/Gungho/Log.pm
+lib/Gungho/Plugin.pm
+lib/Gungho/Plugin/RequestTimer.pm
 lib/Gungho/Provider.pm
 lib/Gungho/Provider/File/Simple.pm
+lib/Gungho/Provider/Simple.pm
 lib/Gungho/Request.pm
 Makefile.PL
 MANIFEST			This list of files

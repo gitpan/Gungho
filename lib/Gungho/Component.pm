@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Component.pm 6394 2007-04-06T06:37:56.614962Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Component.pm 6421 2007-04-09T02:17:43.124659Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -14,12 +14,8 @@ __PACKAGE__->mk_accessors($_) for qw(config);
 sub new
 {
     my $class  = shift;
-    my $config = shift;
-
-    my $self = bless {}, $class;
-    $self->config($config);
-    $self->setup();
-
+    my $self = bless { @_ }, $class;
+    $self->config({}) unless $self->config;
     return $self;
 }
 

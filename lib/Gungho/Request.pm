@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Request.pm 6418 2007-04-07T11:06:03.104460Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Request.pm 6420 2007-04-09T01:47:13.726440Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -25,7 +25,7 @@ sub notes
 
     my $value = $self->{_notes}{$key};
     if (@_) {
-        $self->{_notes}{$key} = $_[1];
+        $self->{_notes}{$key} = $_[0];
     }
     return $value;
 }
