@@ -1,11 +1,11 @@
-# $Id: /mirror/gungho/lib/Gungho/Handler.pm 6417 2007-04-07T10:46:29.321551Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Handler.pm 6450 2007-04-10T01:52:17.416998Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
 
 package Gungho::Handler;
 use strict;
-use base qw(Gungho::Component);
+use base qw(Gungho::Base);
 use Gungho::Request;
 
 sub handle_response {}

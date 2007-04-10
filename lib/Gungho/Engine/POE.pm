@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Engine/POE.pm 6421 2007-04-09T02:17:43.124659Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Engine/POE.pm 6454 2007-04-10T02:44:06.724398Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -11,7 +11,7 @@ use POE;
 use POE::Component::Client::Keepalive;
 use POE::Component::Client::HTTP;
 
-__PACKAGE__->mk_accessors($_) for qw(alias);
+__PACKAGE__->mk_accessors($_) for qw(alias loop_alarm loop_delay);
 
 use constant UserAgentAlias => 'Gungho_Engine_POE_UserAgent_Alias';
 
@@ -81,14 +81,35 @@ sub session_stop
 sub session_loop
 {
     my ($self, $kernel, $heap) = @_[OBJECT, KERNEL, HEAP];
+    $self->loop_alarm(undef);
+
     my $c = $heap->{CONTEXT};
+
+    if (! $c->is_running) {
+        $c->log->debug("is_running = 0, waiting for other queued states to finish...\n") if $c->log->is_debug;
+        return;
+    }
+
+    $self->dispatch_requests($c);
+
+    my $alarm_id = $self->loop_alarm;
+    if (! $alarm_id) {
+        my $delay = $self->loop_delay;
+        if (! defined $delay || $delay <= 0) {
+            $delay = 5;
+        }
+        $self->loop_alarm($kernel->delay_set('session_loop', $delay));
+    }
+}
+
+sub dispatch_requests
+{
+    my ($self, $c) = @_;
 
     if ($c->has_requests) {
         foreach my $request ( $c->get_requests() ) {
             $self->send_request($c, $request);
         }
-
-        $kernel->yield('session_loop');
     }
 }
 
@@ -109,6 +130,14 @@ sub handle_response
     my $req = $req_packet->[0];
     my $res = $res_packet->[0];
     $c->run_hook('engine.handle_response', { request => $req, response => $res });
+
+    # Do we support auth challenge ?
+    my $code = $c->can('check_authentication_challenge');
+    if ( $code ) {
+        # return if auth has taken care of the response
+        return if $code->($c, $req, $res);
+    }
+        
     $c->handle_response($req, $res);
 }
 
@@ -159,6 +188,10 @@ sets up the engine.
 
 Instantiates a PoCo::Client::HTTP session and a main session that handles the
 main control.
+
+=head2 dispatch_requests($c)
+
+Retrieves pending requests from Gungho and dispatches them
 
 =head2 send_request($request)
 

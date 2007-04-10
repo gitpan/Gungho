@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Request.pm 6420 2007-04-09T01:47:13.726440Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Request.pm 6454 2007-04-10T02:44:06.724398Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -8,12 +8,45 @@ use strict;
 use warnings;
 use base qw(HTTP::Request);
 use Storable qw(dclone);
+use UNIVERSAL::require;
+
+our $DIGEST;
+
+sub _find_digest
+{
+    $DIGEST ||= do {
+        my $pkg;
+        foreach my $x qw(SHA1 SHA-256 MD5) {
+            my $candidate = "Digest::$x";
+            if ($candidate->require()) {
+                $pkg = $candidate;
+                last;
+            }
+        }
+        $pkg;
+    };
+}
+
+sub id
+{
+    my $self = shift;
+    $self->{_id} ||= do {
+        my $digest = _find_digest();
+
+        $digest->add(time(), {}, rand(), $self->method, $self->uri, $self->protocol);
+        $self->headers->scan(sub {
+            $digest->add($_[0], $_[1]);
+        });
+        $digest->hexdigest;
+    };
+}
 
 sub clone
 {
     my $self  = shift;
     my $clone = $self->SUPER::clone;
     $clone->notes( dclone $self->notes );
+    return $clone;
 }
 
 sub notes
@@ -45,7 +78,11 @@ creating this separately in anticipation for a possible change
 
 =head1 METHODS
 
-=head2 clone
+=head2 id()
+
+Returns a Unique ID for this request
+
+=head2 clone()
 
 Clones the request.
 

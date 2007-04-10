@@ -1,11 +1,11 @@
-# $Id: /mirror/gungho/lib/Gungho/Provider.pm 6394 2007-04-06T06:37:56.614962Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Provider.pm 6450 2007-04-10T01:52:17.416998Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
 
 package Gungho::Provider;
 use strict;
-use base qw(Gungho::Component);
+use base qw(Gungho::Base);
 use Gungho::Request;
 
 __PACKAGE__->mk_accessors($_) for qw(has_requests);

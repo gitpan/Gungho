@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Plugin.pm 6422 2007-04-09T02:27:47.388429Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Plugin.pm 6450 2007-04-10T01:52:17.416998Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -6,7 +6,7 @@
 package Gungho::Plugin;
 use strict;
 use warnings;
-use base qw(Gungho::Component);
+use base qw(Gungho::Base);
 
 1;
 

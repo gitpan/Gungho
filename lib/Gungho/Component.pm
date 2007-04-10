@@ -1,25 +1,34 @@
-# $Id: /mirror/gungho/lib/Gungho/Component.pm 6421 2007-04-09T02:17:43.124659Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Component.pm 6452 2007-04-10T02:26:11.598323Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
 
 package Gungho::Component;
 use strict;
-use base qw(Class::Accessor::Fast);
-use Class::C3;
-INIT { Class::C3::initialize() }
+use warnings;
+use base qw(Gungho::Base);
 
-__PACKAGE__->mk_accessors($_) for qw(config);
-
-sub new
+sub inject_base
 {
-    my $class  = shift;
-    my $self = bless { @_ }, $class;
-    $self->config({}) unless $self->config;
-    return $self;
+    my $class = shift;
+    my $c     = shift;
+
+    my $pkg = ref($c);
+    {
+        no strict 'refs';
+        push @{ "${pkg}::ISA" }, $class;
+    }
+
+    $c->features->{ $class->feature_name }++;
 }
 
-sub setup {}
+sub feature_name
+{
+    my $class = shift;
+    my $name = ref $class || $class;
+    $name =~ s/^Gungho::Component:://;
+    $name;
+}
 
 1;
 
@@ -27,28 +36,40 @@ __END__
 
 =head1 NAME
 
-Gungho::Component - Base Class For Various Gungho Components
+Gungho::Component - Component Base Class For Gungho
 
 =head1 SYNOPSIS
 
-  package Gungho::Something;
+  package MyComponent;
   use base qw(Gungho::Component);
 
-=head1 MMETHODS
+  # in your conf
+  ---
+  components:
+    - +MyComponent
+    - Authentication::Basic
 
-=head2 new(\%config)
+=head1 DESCRIPTION
 
-Creates a new component instance. Takes a config hashref. 
+Gungho::Component is yet another way to modify Gungho's behavior. It differs
+from plugins in that it adds directly to Gungho's internals via subclassing.
+Plugins are called from various hooks, but components can directly interfere
+and/or add functionality to Gungho.
 
-=head2 setup()
+=head1 METHODS
 
-Sets up the components. Use it like this in your component:
+=head2 inject_base($c)
 
-  sub setup
-  {
-     my $self = shift;
-     # do custom setup
-     $self->next::method(@_);
-  }
+Inject the component to Gungho. It also sets a flag in the features() hash
+so that other components in the system can query Gungho if it supprots
+a certain feature X
+
+=head2 feature_name()
+
+Returns the name of the feature that this component provides. By default
+it's the package name with "Gungho::Component::" stripped out.
 
 =cut
+
+
+

@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Provider/File/Simple.pm 6402 2007-04-06T17:34:44.214589Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Provider/File/Simple.pm 6446 2007-04-09T04:06:21.781431Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -33,7 +33,7 @@ sub _parse_fh
 
 sub get_requests
 {
-    my $self = shift;
+    my ($self, $c) = @_;
 
     my $filename = $self->config->{filename};
     open(my $fh, $filename) or
@@ -43,6 +43,7 @@ sub get_requests
     close($fh);
 
     $self->has_requests(0);
+    $c->is_running(0);
 
     return @requests;
 }

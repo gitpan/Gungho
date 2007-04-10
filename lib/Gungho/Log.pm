@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Log.pm 6401 2007-04-06T07:50:46.818089Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Log.pm 6450 2007-04-10T01:52:17.416998Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -6,7 +6,7 @@
 package Gungho::Log;
 use strict;
 use warnings;
-use base qw(Gungho::Component);
+use base qw(Gungho::Base);
 use Data::Dump;
 
 our %LEVELS = ();

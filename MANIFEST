@@ -1,4 +1,6 @@
 Changes
+deps/Component-Authentication-Basic.yaml
+deps/Component-Authentication.yaml
 deps/Engine-POE.yaml
 deps/Plugin-RequestTimer.yaml
 inc/Module/AutoInstall.pm
@@ -13,7 +15,10 @@ inc/Module/Install/Metadata.pm
 inc/Module/Install/Win32.pm
 inc/Module/Install/WriteAll.pm
 lib/Gungho.pm
+lib/Gungho/Base.pm
 lib/Gungho/Component.pm
+lib/Gungho/Component/Authentication.pm
+lib/Gungho/Component/Authentication/Basic.pm
 lib/Gungho/Engine.pm
 lib/Gungho/Engine/POE.pm
 lib/Gungho/Handler.pm

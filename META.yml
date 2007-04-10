@@ -13,10 +13,14 @@ no_index:
     - inc
     - t
 recommends: 
+  HTTP::Headers::Util: 0
+  HTTP::Status: 0
+  MIME::Base64: 0
   POE: 0
   POE::Component::Client::HTTP: 0
   POE::Component::Client::Keepalive: 0
   Time::HiRes: 0
+  URI: 0
 requires: 
   Class::Accessor::Fast: 0
   Class::C3: 0

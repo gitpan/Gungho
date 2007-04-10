@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho.pm 6422 2007-04-09T02:27:47.388429Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho.pm 6454 2007-04-10T02:44:06.724398Z lestrrat  $
 # 
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -6,7 +6,7 @@
 package Gungho;
 use strict;
 use warnings;
-use base qw(Class::Accessor::Fast);
+use base qw(Gungho::Base);
 use Carp qw(croak);
 use Config::Any;
 use Class::Inspector;
@@ -14,7 +14,7 @@ use UNIVERSAL::require;
 
 use Gungho::Log;
 
-__PACKAGE__->mk_accessors($_) for qw(config log provider handler engine hooks);
+__PACKAGE__->mk_accessors($_) for qw(config log provider handler engine is_running hooks features);
 
 our $VERSION = '0.02';
 
@@ -35,13 +35,35 @@ sub setup
     my $self = shift;
 
     $self->hooks({});
+    $self->features({});
 
+    $self->setup_components();
     $self->setup_log();
     $self->setup_provider();
     $self->setup_handler();
     $self->setup_engine();
 
     $self->setup_plugins();
+
+    $self->next::method(@_); # This propagates to 
+}
+
+sub setup_components
+{
+    my $self = shift;
+
+    my $list = $self->config->{components};
+    foreach my $module (@$list) {
+        my $pkg = $self->load_gungho_module($module, 'Component');
+        $pkg->inject_base($self);
+    }
+
+    # XXX - Hack! Class::C3 doesn't like it when we have G::Base
+    # before G::Component based objects in our ISA, so remove
+    if (@$list) {
+        @Gungho::ISA = grep { $_ ne 'Gungho::Base' } @Gungho::ISA;
+        Class::C3::reinitialize();
+    }
 }
 
 sub setup_log
@@ -135,6 +157,12 @@ sub run_hook
     }
 }
 
+sub has_feature
+{
+    my ($self, $name) = @_;
+    return exists $self->features()->{$name};
+}
+
 sub load_config
 {
     my $self = shift;
@@ -173,30 +201,35 @@ sub load_gungho_module
     return $pkg;
 }
 
-sub run { $_[0]->engine->run($_[0]) }
+sub run
+{
+    $_[0]->is_running(1);
+    $_[0]->engine->run($_[0]);
+}
 
 sub has_requests
 {
-    my $self = shift;
-    $self->provider->has_requests;
+    my ($self) = @_;
+    $self->provider->has_requests(@_);
 }
 
 sub get_requests
 {
-    my $self = shift;
-    $self->provider->get_requests;
+    my ($self) = @_;
+    $self->provider->get_requests(@_);
 }
 
 sub send_request
 {
-    my $self = shift;
-    $self->engine->send_request($_[0]);
+    my ($self) = @_;
+$self->log->debug("Sending request!");
+    $self->engine->send_request(@_);
 }
 
 sub handle_response
 {
-    my ($self, $request, $response) = @_;
-    $self->handler->handle_response($self, $request, $response);
+    my ($self) = @_;
+    $self->handler->handle_response(@_);
 }
 
 1;
@@ -253,10 +286,16 @@ or a hashref.
 
 Starts the Gungho process.
 
+=head2 has_feature($name)
+
+Returns true if Gungho supports some feature $name
+
 =head2 setup()
 
 Sets up the Gungho environment, including calling the various setup_*
 methods to configure the provider, engine, handler, etc.
+
+=head2 setup_components()
 
 =head2 setup_engine()
 
