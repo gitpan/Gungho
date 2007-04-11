@@ -1,4 +1,4 @@
-# $Id$
+# $Id: /mirror/gungho/lib/Gungho/Exception.pm 6461 2007-04-11T03:53:55.931149Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
