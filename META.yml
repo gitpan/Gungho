@@ -13,6 +13,7 @@ no_index:
     - inc
     - t
 recommends: 
+  Data::Throttler: 0
   HTTP::Headers::Util: 0
   HTTP::Status: 0
   MIME::Base64: 0
@@ -27,6 +28,8 @@ requires:
   Class::Inspector: 0
   Config::Any: 0
   Data::Dump: 0
+  Exception::Class: 0
   Storable: 0
+  UNIVERSAL::isa: 0
   UNIVERSAL::require: 0
 version: 0.02

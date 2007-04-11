@@ -19,8 +19,11 @@ lib/Gungho/Base.pm
 lib/Gungho/Component.pm
 lib/Gungho/Component/Authentication.pm
 lib/Gungho/Component/Authentication/Basic.pm
+lib/Gungho/Component/Throttle.pm
+lib/Gungho/Component/Throttle/Domain.pm
 lib/Gungho/Engine.pm
 lib/Gungho/Engine/POE.pm
+lib/Gungho/Exception.pm
 lib/Gungho/Handler.pm
 lib/Gungho/Handler/Null.pm
 lib/Gungho/Log.pm
@@ -33,6 +36,7 @@ lib/Gungho/Request.pm
 Makefile.PL
 MANIFEST			This list of files
 META.yml
+script/gungho
 t/01_load.t
 t/02_config.t
 t/99_pod-coverage.t

@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Component.pm 6452 2007-04-10T02:26:11.598323Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Component.pm 6458 2007-04-11T03:33:18.491463Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.

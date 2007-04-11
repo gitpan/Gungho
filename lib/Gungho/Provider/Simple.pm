@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Provider/Simple.pm 6454 2007-04-10T02:44:06.724398Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Provider/Simple.pm 6457 2007-04-11T03:32:16.482599Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -19,12 +19,13 @@ sub new
     $self;
 }
 
+=head1
 sub setup
 {
     my $self = shift;
 
     my $url = $self->config->{url};
-    if (! ref($url) ) {
+    if ($url && ! ref($url) ) {
         $url = [ $url ];
     }
 
@@ -35,6 +36,7 @@ sub setup
     }
     $self->next::method(@_);
 }
+=cut
 
 sub add_request
 {
