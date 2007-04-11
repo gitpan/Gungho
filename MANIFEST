@@ -1,6 +1,8 @@
 Changes
 deps/Component-Authentication-Basic.yaml
 deps/Component-Authentication.yaml
+deps/Component-Throttle-Domain.yaml
+deps/Component-Throttle-Simple.yaml
 deps/Engine-POE.yaml
 deps/Plugin-RequestTimer.yaml
 inc/Module/AutoInstall.pm
@@ -21,6 +23,8 @@ lib/Gungho/Component/Authentication.pm
 lib/Gungho/Component/Authentication/Basic.pm
 lib/Gungho/Component/Throttle.pm
 lib/Gungho/Component/Throttle/Domain.pm
+lib/Gungho/Component/Throttle/Simple.pm
+lib/Gungho/Component/Throttle/Throttler.pm
 lib/Gungho/Engine.pm
 lib/Gungho/Engine/POE.pm
 lib/Gungho/Exception.pm
