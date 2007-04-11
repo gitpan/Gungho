@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Component/Throttle/Domain.pm 6457 2007-04-11T03:32:16.482599Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Component/Throttle/Domain.pm 6460 2007-04-11T03:48:47.439999Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -37,7 +37,7 @@ EOSUB
             if (my $re = $d->{match}) {
                 # protect ourselves from "/"
                 $re =~ s/\//\\\//g;
-                $sub .= "    (\$url =~ /$re/) and return 1;\n";
+                $sub .= "    (\$host =~ /$re/) and return 1;\n";
             }
         }
         $sub .= "\nreturn 0;\n}";
@@ -78,6 +78,7 @@ Gungho::Component::Throttle::Domain - Throttle By Domain
       interval: 3600
       domains:
         - match: 'A [Regular]+ Exp?ression'
+        - match: \.cpan\.org$
   components:
     - Throttle::Domain
 
