@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Request.pm 6454 2007-04-10T02:44:06.724398Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Request.pm 6472 2007-04-11T23:57:08.645886Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -12,11 +12,11 @@ use UNIVERSAL::require;
 
 our $DIGEST;
 
-sub _find_digest
+sub _find_digest_class
 {
     $DIGEST ||= do {
         my $pkg;
-        foreach my $x qw(SHA1 SHA-256 MD5) {
+        foreach my $x qw(SHA1 MD5) {
             my $candidate = "Digest::$x";
             if ($candidate->require()) {
                 $pkg = $candidate;
@@ -30,15 +30,20 @@ sub _find_digest
 sub id
 {
     my $self = shift;
-    $self->{_id} ||= do {
-        my $digest = _find_digest();
 
-        $digest->add(time(), {}, rand(), $self->method, $self->uri, $self->protocol);
+    local $@ = undef;
+    $self->{_id} ||= do {
+        my $pkg    = _find_digest_class() || die "Could not find Digest class";
+        my $digest = $pkg->new;
+
+        $digest->add(map { defined $_ ? $_ : '' } (time(), {}, rand(), $self->method, $self->uri, $self->protocol));
         $self->headers->scan(sub {
-            $digest->add($_[0], $_[1]);
+            $digest->add(join(':', $_[0], $_[1]));
         });
         $digest->hexdigest;
     };
+    die $@ if $@;
+    $self->{_id};
 }
 
 sub clone
@@ -61,6 +66,19 @@ sub notes
         $self->{_notes}{$key} = $_[0];
     }
     return $value;
+}
+
+sub format
+{
+    my $self   = shift;
+    my $scheme = $self->uri->scheme;
+    my $pkg    = "Gungho::Request::$scheme";
+
+    require Class::Inspector;
+    Class::Inspector->loaded($pkg) or $pkg->require or die;
+
+    my $protocol = $pkg->new;
+    $protocol->format($self);
 }
 
 1;
@@ -89,5 +107,9 @@ Clones the request.
 =head2 notes($key[, $value])
 
 Associate arbitrary notes to the request
+
+=head2 format
+
+Formats the request so that it's appropriate to send through a socket.
 
 =cut

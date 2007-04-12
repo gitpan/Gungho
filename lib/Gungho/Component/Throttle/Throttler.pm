@@ -1,4 +1,4 @@
-# $Id$
+# $Id: /mirror/gungho/lib/Gungho/Component/Throttle/Throttler.pm 6465 2007-04-11T12:39:35.495994Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.

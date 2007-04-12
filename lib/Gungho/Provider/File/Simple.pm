@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Provider/File/Simple.pm 6457 2007-04-11T03:32:16.482599Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Provider/File/Simple.pm 6471 2007-04-11T23:53:04.413297Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -23,7 +23,7 @@ sub new
 
 sub pushback_request
 {
-    my ($self, $req) = @_;
+    my ($self, $c, $req) = @_;
 
     my $list = $self->requests;
     push @$list, $req;
@@ -36,6 +36,7 @@ sub dispatch
 
     if (! $self->read_done) {
         my $filename = $self->config->{filename};
+        die "No file specified" unless $filename;
         open(my $fh, $filename) or
             die "Could not open $filename for reading: $!";
 
@@ -44,7 +45,7 @@ sub dispatch
             next unless /\S+/;
 
             my $req = $c->prepare_request(Gungho::Request->new(GET => $_));
-            $self->pushback_request($req);
+            $self->pushback_request($c, $req);
         }
         close($fh);
         $self->read_done(1)

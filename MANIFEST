@@ -3,8 +3,14 @@ deps/Component-Authentication-Basic.yaml
 deps/Component-Authentication.yaml
 deps/Component-Throttle-Domain.yaml
 deps/Component-Throttle-Simple.yaml
+deps/Engine-Danga-Socket.yaml
 deps/Engine-POE.yaml
 deps/Plugin-RequestTimer.yaml
+examples/simple-file/simple-file.yml
+examples/simple-file/url.txt
+examples/simple/simple.yml
+examples/throttle-simple/throttle-simple.yml
+examples/throttle-simple/url.txt
 inc/Module/AutoInstall.pm
 inc/Module/Install.pm
 inc/Module/Install/AutoInstall.pm
@@ -26,6 +32,7 @@ lib/Gungho/Component/Throttle/Domain.pm
 lib/Gungho/Component/Throttle/Simple.pm
 lib/Gungho/Component/Throttle/Throttler.pm
 lib/Gungho/Engine.pm
+lib/Gungho/Engine/Danga/Socket.pm
 lib/Gungho/Engine/POE.pm
 lib/Gungho/Exception.pm
 lib/Gungho/Handler.pm
@@ -37,6 +44,7 @@ lib/Gungho/Provider.pm
 lib/Gungho/Provider/File/Simple.pm
 lib/Gungho/Provider/Simple.pm
 lib/Gungho/Request.pm
+lib/Gungho/Request/http.pm
 Makefile.PL
 MANIFEST			This list of files
 META.yml

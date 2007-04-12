@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Provider/Simple.pm 6463 2007-04-11T04:02:39.921726Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Provider/Simple.pm 6471 2007-04-11T23:53:04.413297Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -45,7 +45,12 @@ sub add_request
     $self->has_requests(1);
 }
 
-*pushback_request = \&add_request;
+sub pushback_request
+{
+    my ($self, $c, $request) = @_;
+    $c->is_running(1);
+    $self->add_request($request);
+}
 
 sub dispatch
 {
@@ -91,7 +96,7 @@ Sets up the provider.
 
 Adds a new request to the provider.
 
-=head2 pushback_request($request)
+=head2 pushback_request($c, $request)
 
 =head2 dispatch()
 

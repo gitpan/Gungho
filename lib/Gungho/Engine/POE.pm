@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Engine/POE.pm 6457 2007-04-11T03:32:16.482599Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Engine/POE.pm 6470 2007-04-11T23:50:49.863502Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -19,6 +19,7 @@ sub setup
 {
     my $self = shift;
     $self->alias('MainComp');
+    $self->loop_delay( $self->config->{loop_delay} ) if $self->config->{loop_delay};
     $self->next::method(@_);
 }
 
@@ -143,6 +144,7 @@ Gungho::Engine::POE - POE Engine For Gungho
   engine:
     module: POE
     config:
+      loop_delay: 0.5
       client:
         agent:
           - AgentName1

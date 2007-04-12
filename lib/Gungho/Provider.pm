@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Provider.pm 6457 2007-04-11T03:32:16.482599Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Provider.pm 6471 2007-04-11T23:53:04.413297Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -21,7 +21,7 @@ sub dispatch_request
     if (my $e = $@) {
         if ($e->isa('Gungho::Exception::RequestThrottled')) {
             # This request was throttled. Attempt to do it later
-            $self->pushback_request($req);
+            $self->pushback_request($c, $req);
         } else {
             die $e;
         }
@@ -52,7 +52,7 @@ Dispatch requests to be fetched to the Gungho framework
 
 Dispatch a single request
 
-=head2 pushback_request($req)
+=head2 pushback_request($c, $req)
 
 Push back a request which couldn't be sent to the engine, for example
 because the request was throttled.

@@ -13,9 +13,12 @@ no_index:
     - inc
     - t
 recommends: 
+  Danga::Socket: 0
   Data::Throttler: 0
   HTTP::Headers::Util: 0
+  HTTP::Parser: 0
   HTTP::Status: 0
+  IO::Socket::INET: 0
   MIME::Base64: 0
   POE: 0
   POE::Component::Client::HTTP: 0
@@ -29,7 +32,11 @@ requires:
   Config::Any: 0
   Data::Dump: 0
   Exception::Class: 0
+  FindBin: 0
+  Getopt::Long: 0
+  Pod::Usage: 0
   Storable: 0
   UNIVERSAL::isa: 0
   UNIVERSAL::require: 0
-version: 0.02
+  perl: 5.8.0
+version: 0.03
