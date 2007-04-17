@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Provider/File/Simple.pm 6471 2007-04-11T23:53:04.413297Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Provider/File/Simple.pm 6627 2007-04-17T01:48:44.796031Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -42,6 +42,7 @@ sub dispatch
 
         while (<$fh>) {
             chomp;
+            s/\s*#.*$//;
             next unless /\S+/;
 
             my $req = $c->prepare_request(Gungho::Request->new(GET => $_));
@@ -81,6 +82,11 @@ Gungho::Provider::File::Simple - Provide Requests From A Simple File
   http://foo.com
   http://bar.com
   http://baz.com
+
+=head1 DESCRIPTION
+
+This module allows you to put a list of URLs in a plain text file. Gungho
+will pick each line up and fetch the URL. You can embed comments via #
 
 =head1 METHODS
 

@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho.pm 6474 2007-04-12T00:05:39.347756Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho.pm 6627 2007-04-17T01:48:44.796031Z lestrrat  $
 # 
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -19,7 +19,7 @@ use Gungho::Exception;
 
 __PACKAGE__->mk_accessors($_) for qw(config log provider handler engine is_running hooks features);
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 sub new
 {
@@ -73,8 +73,17 @@ sub setup_log
 {
     my $self = shift;
 
-    my $log = Gungho::Log->new();
+    my $log_config = $self->config->{log} || {};
+    my @levels     = @{ $log_config->{levels} || [ qw(info warn error fatal) ] };
+
+    my $log = Gungho::Log->new(@levels);
     $log->autoflush(1);
+
+    # Only explicitly enable debug if the global debug flag is set
+    if ($self->config->{debug}) {
+        $log->enable('debug');
+    }
+
     $self->log($log);
 }
 
@@ -282,6 +291,17 @@ Engine, which controls the entire process.
 There are also "hooks". These hooks can be registered from anywhere by
 invoking the register_hook() method. They are run at particular points,
 which are specified when you call register_hook().
+
+=head1 INLINE
+
+If you're looking into simple crawlers, you may want to look at Gungho::Inline,
+
+  Gungho::Inline->new({
+    provider => sub { ... },
+    handler  => sub { ... }
+  });
+
+See the manual for Gungho::Inline for details.
 
 =head1 HOOKS
 

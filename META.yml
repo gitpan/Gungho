@@ -13,6 +13,7 @@ no_index:
     - inc
     - t
 recommends: 
+  Best: 0
   Danga::Socket: 0
   Data::Throttler: 0
   HTTP::Headers::Util: 0
@@ -25,6 +26,7 @@ recommends:
   POE::Component::Client::Keepalive: 0
   Time::HiRes: 0
   URI: 0
+  YAML: 0
 requires: 
   Class::Accessor::Fast: 0
   Class::C3: 0
@@ -39,4 +41,4 @@ requires:
   UNIVERSAL::isa: 0
   UNIVERSAL::require: 0
   perl: 5.8.0
-version: 0.03
+version: 0.04
