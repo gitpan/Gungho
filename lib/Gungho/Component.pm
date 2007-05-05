@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Component.pm 6458 2007-04-11T03:33:18.491463Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Component.pm 6856 2007-04-25T03:56:51.229630Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -13,12 +13,7 @@ sub inject_base
     my $class = shift;
     my $c     = shift;
 
-    my $pkg = ref($c);
-    {
-        no strict 'refs';
-        push @{ "${pkg}::ISA" }, $class;
-    }
-
+    push @Gungho::ISA, $class;
     $c->features->{ $class->feature_name }++;
 }
 

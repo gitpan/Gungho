@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Provider/Simple.pm 6471 2007-04-11T23:53:04.413297Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Provider/Simple.pm 6746 2007-04-24T01:05:24.535007Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -57,6 +57,7 @@ sub dispatch
     my ($self, $c) = @_;
 
     my $requests = $self->requests;
+
     $self->requests([]);
     while (@$requests) {
         $self->dispatch_request($c, shift @$requests);

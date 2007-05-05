@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Request.pm 6472 2007-04-11T23:57:08.645886Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Request.pm 7031 2007-05-05T22:50:16.562488Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -25,6 +25,14 @@ sub _find_digest_class
         }
         $pkg;
     };
+}
+
+sub new
+{
+    my $class = shift;
+    my $self  = $class->SUPER::new(@_);
+    $self->{_notes} = {};
+    return $self;
 }
 
 sub id

@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Component/Throttle/Throttler.pm 6465 2007-04-11T12:39:35.495994Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Component/Throttle/Throttler.pm 6746 2007-04-24T01:05:24.535007Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -9,7 +9,7 @@ use warnings;
 use base qw(Gungho::Component::Throttle);
 use Data::Throttler;
 
-__PACKAGE__->mk_accessors($_) for qw(throttler);
+__PACKAGE__->mk_classdata($_) for qw(throttler);
 
 sub prepare_throttler
 {

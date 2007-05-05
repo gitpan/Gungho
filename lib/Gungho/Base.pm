@@ -1,21 +1,20 @@
-# $Id: /mirror/gungho/lib/Gungho/Base.pm 6450 2007-04-10T01:52:17.416998Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Base.pm 6746 2007-04-24T01:05:24.535007Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
 
 package Gungho::Base;
 use strict;
-use base qw(Class::Accessor::Fast);
+use base qw(Class::Accessor::Fast Class::Data::Inheritable);
 use Class::C3;
 INIT { Class::C3::initialize() }
 
-__PACKAGE__->mk_accessors($_) for qw(config);
+__PACKAGE__->mk_classdata(config => {});
 
 sub new
 {
     my $class  = shift;
-    my $self = bless { @_ }, $class;
-    $self->config({}) unless $self->config;
+    my $self = bless {}, $class;
     return $self;
 }
 

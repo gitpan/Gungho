@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Inline.pm 6625 2007-04-17T01:41:37.341441Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Inline.pm 6748 2007-04-24T06:26:14.242512Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # Copyright (c) 2007 Kazuho Oku
@@ -7,13 +7,10 @@
 package Gungho::Inline;
 use strict;
 use warnings;
-
 use base qw(Gungho);
 use Gungho::Request;
 
-__PACKAGE__->mk_accessors($_) for qw(requests callback);
-
-sub new {
+sub setup {
     my $class = shift;
     my $config = shift;
     
@@ -28,7 +25,7 @@ sub new {
         }
     }
 
-    $class->SUPER::new($config);
+    $class->next::method($config);
 }
 
 package Gungho::Provider::Inline;
@@ -148,9 +145,9 @@ This module is still experimental. Feedback welcome
 
 =head1 METHODS
 
-=head2 new(provider => $callback, handler => $callback)
+=head2 setup({ provider => $callback, handler => $callback, %args })
 
-Creates a new Gungho instance with these callbacks
+Sets up Gungho::Inline with this set of providers
 
 =head1 AUTHOR
 
