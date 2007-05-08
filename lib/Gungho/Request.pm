@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Request.pm 7031 2007-05-05T22:50:16.562488Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Request.pm 7068 2007-05-07T09:42:09.898390Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -103,6 +103,10 @@ Currently this class is exactly the same as HTTP::Request, but we're
 creating this separately in anticipation for a possible change
 
 =head1 METHODS
+
+=head2 new()
+
+Creates a new Gungho::Request instance
 
 =head2 id()
 

@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Engine/Danga/Socket.pm 6472 2007-04-11T23:57:08.645886Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Engine/Danga/Socket.pm 7085 2007-05-08T02:49:42.591067Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -59,9 +59,6 @@ sub send_request
 
     my $uri  = $req->uri;
 
-print "Sending request to $uri\n";
-
-    
     my $socket = IO::Socket::INET->new(
         PeerAddr => $uri->host,
         PeerPort => $uri->port || $uri->default_port,
@@ -76,6 +73,8 @@ print "Sending request to $uri\n";
     $danga->watch_write(1);
     $danga->{request} = $req;
     $danga->{engine}  = $self;
+
+    $req->headers->push_header(user_agent => $c->default_user_agent);
     $req->notes(danga => $danga);
 }
 
@@ -116,15 +115,7 @@ sub event_write
         }
     }
 
-    my @h;
     my $request = $self->{request};
-    $request->headers->scan(sub {
-        my($k, $v) = @_;
-        $k =~ s/^://;
-        $v =~ s/\n/ /g;
-        push(@h, $k, $v);
-    });
-
     my $req_str = $request->format();
     if ($self->write($req_str)) {
         $self->watch_write(0);

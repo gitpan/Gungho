@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho.pm 7033 2007-05-05T23:00:18.759769Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho.pm 7088 2007-05-08T02:59:11.205685Z lestrrat  $
 # 
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -19,10 +19,10 @@ use Gungho::Exception;
 
 __PACKAGE__->mk_classdata($_) for (
     qw(log provider handler engine is_running hooks features),
-    qw(setup_finished)
+    qw(setup_finished default_user_agent)
 );
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 
 sub new
 {
@@ -38,7 +38,7 @@ sub setup
 
     my $config = $self->load_config($_[0]);
     $self->config($config);
-
+    $self->default_user_agent("Gungho/$Gungho::VERSION (http://code.google.com/p/gungho-crawler/wiki/Index)");
     $self->hooks({});
     $self->features({});
 
@@ -277,8 +277,7 @@ Gungho - Yet Another High Performance Web Crawler Framework
 =head1 SYNOPSIS
 
   use Gungho;
-  my $g = Gungho->new($config);
-  $g->run;
+  Gungho->run($config);
 
 =head1 DESCRIPTION
 
@@ -308,7 +307,7 @@ which are specified when you call register_hook().
 Components add new functionality to Gungho. Components are loaded at
 startup time fro the config file / hash given to Gungho constructor.
 
-  Gungho->new({
+  Gungho->run({
     components => [
       'Throttle::Simple'
     ],
@@ -325,7 +324,7 @@ before starting the engine.
 
 If you're looking into simple crawlers, you may want to look at Gungho::Inline,
 
-  Gungho::Inline->new({
+  Gungho::Inline->run({
     provider => sub { ... },
     handler  => sub { ... }
   });
@@ -344,12 +343,12 @@ Currently available hooks are:
 
 =head2 new($config)
 
-Creates a new Gungho instance. It requires either the name of a config filename
-or a hashref.
+This method has been deprecated. Use run() instead.
 
 =head2 run
 
-Starts the Gungho process.
+Starts the Gungho process.  It requires either the name of a config filename
+or a hashref.
 
 =head2 has_feature($name)
 
@@ -425,8 +424,17 @@ You can obtain the current code base from
 =head1 AUTHOR
 
 Copyright (c) 2007 Daisuke Maki E<lt>daisuke@endeworks.jpE<gt>
-
 All rights reserved.
+
+=head1 CONTRIBUTORS
+
+=over 4
+
+=item Kazuho Oku
+
+=item Keiichi Okabe
+
+=back
 
 =head1 LICENSE
 

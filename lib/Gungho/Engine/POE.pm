@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Engine/POE.pm 7032 2007-05-05T22:53:57.114833Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Engine/POE.pm 7069 2007-05-07T09:43:23.917991Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -70,7 +70,7 @@ sub run
     }
 
     POE::Component::Client::HTTP->spawn(
-        Agent             => "Gungho/$Gungho::VERSION",
+        Agent             => $c->default_user_agent,
         FollowRedirects   => 1,
         %$client_config,
         Alias             => &UserAgentAlias,
@@ -145,7 +145,9 @@ sub handle_response
     my $res = $res_packet->[0];
 
     # Work around POE doing too much for us. 
-    if (FORCE_ENCODE_CONTENT && $POE::Component::Client::HTTP::VERSION >= 0.80) {
+    if (FORCE_ENCODE_CONTENT && $POE::Component::Client::HTTP::VERSION # Hide from CPAN
+        >= 0.80)
+    {
         if ($res->content_encoding) {
             my @ct = $res->content_type;
             if ((shift @ct) =~ /^text\//) {
