@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Engine.pm 6450 2007-04-10T01:52:17.416998Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Engine.pm 7089 2007-05-08T06:32:17.817713Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -8,6 +8,30 @@ use strict;
 use base qw(Gungho::Base);
 
 sub run {}
+
+# Utility method to create an error HTTP response.
+# Stolen from PoCo::Client::HTTP::Request
+sub _http_error
+{
+    my ($self, $code, $message, $request) = @_;
+
+    my $nl = "\n";
+    my $r = HTTP::Response->new($code);
+    my $http_msg = status_message($code);
+    my $m = (
+      "<html>$nl"
+      . "<HEAD><TITLE>Error: $http_msg</TITLE></HEAD>$nl"
+      . "<BODY>$nl"
+      . "<H1>Error: $http_msg</H1>$nl"
+      . "$message$nl"
+      . "</BODY>$nl"
+      . "</HTML>$nl"
+    );
+
+    $r->content($m);
+    $r->request($request);
+    return $r;
+}
 
 1;
 

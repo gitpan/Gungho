@@ -16,7 +16,7 @@ recommends:
   Best: 0
   Class::C3: 0.16
   Class::C3::XS: 0.02
-  Danga::Socket: 0
+  Danga::Socket::Callback: 0
   Data::Throttler: 0
   HTTP::Headers::Util: 0
   HTTP::Parser: 0
@@ -25,6 +25,7 @@ recommends:
   IO::Socket::INET: 0
   MIME::Base64: 0
   POE: 0
+  POE::Component::Client::DNS: 0
   POE::Component::Client::HTTP: 0
   POE::Component::Client::Keepalive: 0
   Time::HiRes: 0
@@ -45,4 +46,4 @@ requires:
   UNIVERSAL::require: 0
   perl: 5.8.0
 tests: t/01_load.t t/02_config.t t/03_live/perl.t t/99_pod-coverage.t t/99_pod.t
-version: 0.06
+version: 0.07

@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Request.pm 7068 2007-05-07T09:42:09.898390Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Request.pm 7095 2007-05-08T11:46:52.290398Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -76,6 +76,12 @@ sub notes
     return $value;
 }
 
+sub requires_name_lookup
+{
+    my $self = shift;
+    return $self->uri->host() !~ /^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/;
+}
+
 sub format
 {
     my $self   = shift;
@@ -119,6 +125,10 @@ Clones the request.
 =head2 notes($key[, $value])
 
 Associate arbitrary notes to the request
+
+=head2 requires_name_lookup
+
+Returns true if the request object's uri host is not in an IP address format
 
 =head2 format
 
