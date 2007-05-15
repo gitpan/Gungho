@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho.pm 7096 2007-05-08T11:49:45.429564Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho.pm 7191 2007-05-15T02:45:51.609363Z lestrrat  $
 # 
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -17,18 +17,25 @@ use UNIVERSAL::require;
 use Gungho::Log;
 use Gungho::Exception;
 
-__PACKAGE__->mk_classdata($_) for (
-    qw(log provider handler engine is_running hooks features),
-    qw(setup_finished default_user_agent)
+my @INTERNAL_PARAMS             = qw(setup_finished);
+my @CONFIGURABLE_PARAMS         = qw(block_private_ip_address user_agent);
+my %CONFIGURABLE_PARAM_DEFAULTS = (
+    map { ($_ => 0) } @CONFIGURABLE_PARAMS
 );
 
-our $VERSION = '0.07';
+__PACKAGE__->mk_classdata($_) for (
+    qw(log provider handler engine is_running hooks features),
+    @INTERNAL_PARAMS,
+    @CONFIGURABLE_PARAMS,
+);
+
+our $VERSION = '0.08';
 
 sub new
 {
     warn "Gungho::new() has been deprecated in favor of Gungho->run()";
     my $class = shift;
-    $class->setup($_[0]);
+    $class->setup(@_);
     return $class;
 }
 
@@ -37,8 +44,17 @@ sub setup
     my $self = shift;
 
     my $config = $self->load_config($_[0]);
+    if (exists $ENV{GUNGHO_DEBUG}) {
+        $config->{debug} = $ENV{GUNGHO_DEBUG};
+    }
+
     $self->config($config);
-    $self->default_user_agent("Gungho/$Gungho::VERSION (http://code.google.com/p/gungho-crawler/wiki/Index)");
+
+    for my $key (@CONFIGURABLE_PARAMS) {
+        $self->$key( $config->{$key} || $CONFIGURABLE_PARAM_DEFAULTS{$key} );
+    }
+
+    $self->user_agent("Gungho/$Gungho::VERSION (http://code.google.com/p/gungho-crawler/wiki/Index)") unless $self->user_agent;
     $self->hooks({});
     $self->features({});
 
@@ -232,40 +248,47 @@ sub run
 
 sub dispatch_requests
 {
-    my $self = shift;
-    $self->provider->dispatch($self);
+    my $c = shift;
+    $c->provider->dispatch($c, @_);
 }
 
 sub prepare_request
 {
-    my $self = shift;
+    my $c = shift;
     my $req  = shift;
-    $self->run_hook('dispatch.prepare_request', $req);
-
+    $c->run_hook('dispatch.prepare_request', $req);
     return $req;
 }
 
 sub send_request
 {
-    my ($self, $request) = @_;
-
-    if ($self->has_feature('Throttle')) {
-        if ($self->throttle($request)) {
-            $self->engine->send_request($self, $request);
-        } else {
-            $self->log->debug("Request " . $request->url . " (" . $request->id . ") was throttled")
-                if $self->log->is_debug;
-            Gungho::Exception::RequestThrottled->throw($request);
-        }
-    } else {
-        $self->engine->send_request($self, $request);
+    my $c = shift;
+    my $e;
+    eval {
+        $c->maybe::next::method(@_);
+    };
+    if ($e = Gungho::Exception->caught('Gungho::Exception::SendRequest::Handled')) {
+        return;
+    } elsif ($e = Gungho::Exception->caught()) {
+        die $e;
     }
+    $c->engine->send_request($c, @_);
 }
 
 sub handle_response
 {
-    my ($self) = @_;
-    $self->handler->handle_response(@_);
+    my $c = shift;
+
+    my $e;
+    eval {
+        $c->maybe::next::method(@_);
+    };
+    if ($e = Gungho::Exception->caught('Gungho::Exception::HandleResponse::Handled')) {
+        return;
+    } elsif ($e = Gungho::Exception->caught()) {
+        die $e;
+    }
+    $c->handler->handle_response($c, @_);
 }
 
 1;
@@ -301,6 +324,28 @@ Engine, which controls the entire process.
 There are also "hooks". These hooks can be registered from anywhere by
 invoking the register_hook() method. They are run at particular points,
 which are specified when you call register_hook().
+
+=head1 CONFIGURATION OPTIONS
+
+=over 4
+
+=item debug
+
+   ---
+   debug: 1
+
+Setting debug to a non-zero value will trigger debug messages to be displayed.
+
+=item block_private_ip_address
+
+   ---
+   block_private_ip_address: 1
+
+Setting this to a non-zero value will make addresses resolved via DNS lookups
+to be blocked, if they resolved to a private IP address such as 192.168.1.1.
+127.0.0.1 isn't considered to be a private IP.
+
+=back
 
 =head1 COMPONENTS
 

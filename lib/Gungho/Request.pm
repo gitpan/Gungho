@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Request.pm 7095 2007-05-08T11:46:52.290398Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Request.pm 7191 2007-05-15T02:45:51.609363Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -9,6 +9,7 @@ use warnings;
 use base qw(HTTP::Request);
 use Storable qw(dclone);
 use UNIVERSAL::require;
+use Regexp::Common qw(net);
 
 our $DIGEST;
 
@@ -31,6 +32,7 @@ sub new
 {
     my $class = shift;
     my $self  = $class->SUPER::new(@_);
+    $self->id; # Forcefully make the ID here.
     $self->{_notes} = {};
     return $self;
 }
@@ -76,10 +78,20 @@ sub notes
     return $value;
 }
 
+sub original_uri
+{
+    my $self = shift;
+    my $uri  = $self->uri->clone;
+    if (my $host = $self->notes('original_host')) {
+        $uri->host($host);
+    }
+    return $uri;
+}
+
 sub requires_name_lookup
 {
     my $self = shift;
-    return $self->uri->host() !~ /^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/;
+    return $self->uri->host() !~ /^$RE{net}{IPv4}$/;
 }
 
 sub format
@@ -125,6 +137,11 @@ Clones the request.
 =head2 notes($key[, $value])
 
 Associate arbitrary notes to the request
+
+=head2 original_uri
+
+Returns a cloned copy of the request URI, with the host name swapped to
+the original hostname before DNS substitution
 
 =head2 requires_name_lookup
 

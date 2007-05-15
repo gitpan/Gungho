@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Inline.pm 6748 2007-04-24T06:26:14.242512Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Inline.pm 7191 2007-05-15T02:45:51.609363Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # Copyright (c) 2007 Kazuho Oku
@@ -10,7 +10,42 @@ use warnings;
 use base qw(Gungho);
 use Gungho::Request;
 
-sub setup {
+BEGIN
+{
+    if (! __PACKAGE__->can('OLD_PARAMETER_LIST')) {
+        my $old_parameter_list = $ENV{GUNGHO_INLINE_OLD_PARAMETER_LIST} || 0;
+        eval "sub OLD_PARAMETER_LIST() { $old_parameter_list } ";
+        die if $@;
+    }
+}
+
+sub setup
+{
+    my $class = shift;
+    if (&OLD_PARAMETER_LIST) {
+        $class->_setup_old_parameters(@_);
+    } else {
+        my $config = $class->load_config(shift);
+        my $opts   = shift || {};
+
+        foreach my $k qw(provider handler) {
+            if ($opts->{$k} && ref $opts->{$k} eq 'CODE') {
+                $config->{$k} = {
+                    module => qw(Inline),
+                    config => {
+                        callback => $opts->{$k},
+                    },
+                };
+            }
+        }
+        @_ = ($config);
+    }
+
+    $class->next::method(@_);
+}
+
+sub _setup_old_parameters
+{
     my $class = shift;
     my $config = shift;
     
@@ -24,8 +59,6 @@ sub setup {
             };
         }
     }
-
-    $class->next::method($config);
 }
 
 package Gungho::Provider::Inline;
@@ -54,6 +87,7 @@ sub setup {
 sub add_request {
     my ($self, $req) = @_;
     push @{$self->requests}, $req;
+    $self->has_requests(1);
 }
 
 sub pushback_request {
@@ -65,7 +99,8 @@ sub dispatch {
     my ($self, $c) = @_;
     
     if ($self->callback) {
-        unless ($self->callback->($c, $self)) {
+        my @args = (&Gungho::Inline::OLD_PARAMETER_LIST ? ($c, $self) : ($self, $c));
+        unless ($self->callback->(@args)) {
             $self->callback(undef);
         }
     }
@@ -101,7 +136,8 @@ sub setup {
 sub handle_response {
     my ($self, $c, $req, $res) = @_;
     
-    $self->callback->($req, $res, $c, $self);
+    my @args = (&Gungho::Inline::OLD_PARAMETER_LIST ? ($req, $res, $c, $self) : ($self, $c, $req, $res));
+    $self->callback->(@args);
 }
 
 1;
@@ -118,22 +154,24 @@ Gungho::Inline - Inline Your Providers And Handlers
   use Gungho::Inline;
   use IO::Select;
   
-  Gungho::Inline->new({
-    provider => sub {
-      my ($c, $p) = @_;
-      while (IO::Select->new(STDIN)->can_read(0)) {
-        return if STDIN->eof;
-        my $url = STDIN->getline;
-        chomp $url;
-        $p->add_request($c->prepare_request(Gungho::Request->new(GET => $url)));
-      }
-      1;
+  Gungho::Inline->run(
+     $config,
+     {
+        provider => sub {
+           my ($provider, $c) = @_;
+           while (IO::Select->new(STDIN)->can_read(0)) {
+              return if STDIN->eof;
+              my $url = STDIN->getline;
+              chomp $url;
+              $provider->add_request($c->prepare_request(Gungho::Request->new(GET => $url)));
+            }
+        },
+        handler => sub {
+           my ($handler, $c, $req, $res) = @_;
+           print $res->code, ' ', $req->uri, "\n";
+        }
     },
-    handler => sub {
-      my ($req, $res) = @_;
-      print $res->code, ' ', $req->uri, "\n";
-    },
-  })->run();
+  });
 
 =head1 DESCRIPTION
 
@@ -142,6 +180,28 @@ and or Handler. In those cases, Gungho::Inline saves you from creating
 separate packages
 
 This module is still experimental. Feedback welcome
+
+=head1 BACKWARDS COMPATIBILITY WITH VERSIONS < 0.08
+
+From version 0.08 of Gungho::Inline, the parameter list passed to the
+handler and providers, as well as the run method has been changed. You
+can enable the old behavior if you do
+
+   env GUNGHO_INLINE_OLD_PARAMETER_LIST=1 gungho 
+
+or, somewhere in your code, create a subroutine constant:
+
+   BEGIN
+   {
+       sub Gungho::Inline::OLD_PARAMETER_LIST { 1 };
+   }
+   use Gungho::Inline;
+
+=head1 CONSTANTS
+
+=head2 OLD_PARAMETER_LIST
+
+If true, uses the old-style parameter list
 
 =head1 METHODS
 

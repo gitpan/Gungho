@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Component/Throttle/Domain.pm 6460 2007-04-11T03:48:47.439999Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Component/Throttle/Domain.pm 7189 2007-05-14T21:43:40.758591Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -8,7 +8,7 @@ use strict;
 use warnings;
 use base qw(Gungho::Component::Throttle::Throttler);
 
-__PACKAGE__->mk_accessors($_) for qw(matcher);
+__PACKAGE__->mk_classdata($_) for qw(matcher);
 
 sub setup
 {
@@ -23,9 +23,7 @@ sub setup
 
     my $domains = $config->{domains} || [];
     my $matcher;
-    if (! @$domains) {
-        $matcher = sub { 0 };
-    } else {
+    if (@$domains) {
         my $sub = <<EOSUB;
 sub {
     my \$request = shift;
@@ -54,11 +52,16 @@ sub throttle
     my $self = shift;
     my $request = shift;
 
-    if ($self->matcher->($request)) {
-        my $t = $self->throttler;
-        return $t->try_push(key => $request->url->host);
+    my $do_throttle = 1;
+    my $code = $self->matcher;
+    if ($code) {
+        $do_throttle = $code->($request);
     }
-    $self->next::method($request);
+
+    if ($do_throttle) {
+        return $self->throttler->try_push(key => $request->url->host);
+    }
+    return 1;
 }
 
 1;
@@ -81,6 +84,14 @@ Gungho::Component::Throttle::Domain - Throttle By Domain
         - match: \.cpan\.org$
   components:
     - Throttle::Domain
+
+=head1 DESCRIPITION
+
+This component allows you to throttle requests by domain names.
+
+You can specify a regular expression, in which case only the domains that 
+match the particular regular expression will be throttled. Otherwise,
+the hostname from each request will be used as the key to throttle
 
 =head1 METHODS
 

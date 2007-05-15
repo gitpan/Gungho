@@ -2,6 +2,7 @@ Changes
 deps/Class-C3-XS.yaml
 deps/Component-Authentication-Basic.yaml
 deps/Component-Authentication.yaml
+deps/Component-RobotRules.yml
 deps/Component-Throttle-Domain.yaml
 deps/Component-Throttle-Simple.yaml
 deps/Engine-Danga-Socket.yaml
@@ -9,6 +10,7 @@ deps/Engine-IO-Async.yaml
 deps/Engine-POE.yaml
 deps/Plugin-RequestTimer.yaml
 deps/Provider-YAML.yaml
+examples/robotrules/simple.yml
 examples/simple-file/simple-file.yml
 examples/simple-file/url.txt
 examples/simple-write-to-file/simple-write-to-file.yml
@@ -33,6 +35,10 @@ lib/Gungho/Base.pm
 lib/Gungho/Component.pm
 lib/Gungho/Component/Authentication.pm
 lib/Gungho/Component/Authentication/Basic.pm
+lib/Gungho/Component/RobotRules.pm
+lib/Gungho/Component/RobotRules/Rule.pm
+lib/Gungho/Component/RobotRules/Storage.pm
+lib/Gungho/Component/RobotRules/Storage/DB_File.pm
 lib/Gungho/Component/Throttle.pm
 lib/Gungho/Component/Throttle/Domain.pm
 lib/Gungho/Component/Throttle/Simple.pm

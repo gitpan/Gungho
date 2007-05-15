@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Engine/Danga/Socket.pm 7094 2007-05-08T11:44:12.060466Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Engine/Danga/Socket.pm 7191 2007-05-15T02:45:51.609363Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -76,20 +76,10 @@ sub lookup_name
         on_read_ready => sub { 
             my $ds = shift;
             delete Danga::Socket->DescriptorMap->{ fileno($ds->sock) };
-            my $packet = $resolver->bgread($ds->sock);
-            foreach my $rr ($packet->answer) {
-                next unless $rr->type eq 'A';
-                $req->notes('original_host', $req->uri->host);
-                $req->push_header('Host', $req->uri->host);
-                $req->uri->host($rr->address);
-                $self->start_request($c, $req);
-                return;
-            }
-
-            $self->handle_response(
+            $self->handle_dns_response(
                 $c,
                 $req,
-                $self->_http_error(500, "Failed to resolve host " . $req->uri->host, $req)
+                $resolver->bgread($ds->sock)
             );
         },
         on_error => sub {
@@ -218,7 +208,11 @@ In particular, this class definitely should cache connections.
 
 =head2 run
 
+=head2 lookup_name
+
 =head2 send_request
+
+=head2 start_request
 
 =head2 handle_response
 

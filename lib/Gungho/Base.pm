@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Base.pm 6746 2007-04-24T01:05:24.535007Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Base.pm 7191 2007-05-15T02:45:51.609363Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -14,7 +14,7 @@ __PACKAGE__->mk_classdata(config => {});
 sub new
 {
     my $class  = shift;
-    my $self = bless {}, $class;
+    my $self = bless { @_ }, $class;
     return $self;
 }
 

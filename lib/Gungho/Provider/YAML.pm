@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Provider/YAML.pm 6626 2007-04-17T01:42:42.657580Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Provider/YAML.pm 7190 2007-05-15T00:12:58.296498Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -66,8 +66,6 @@ sub dispatch
             }
 
             $req = $c->prepare_request($req);
-
-print $req->as_string;
             $self->pushback_request($c, $req);
         }
         $self->read_done(1)

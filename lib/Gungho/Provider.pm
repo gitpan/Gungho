@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Provider.pm 6471 2007-04-11T23:53:04.413297Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Provider.pm 7191 2007-05-15T02:45:51.609363Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -15,17 +15,7 @@ sub dispatch {}
 sub dispatch_request
 {
     my ($self, $c, $req) = @_;
-    eval {
-        $c->send_request($req);
-    };
-    if (my $e = $@) {
-        if ($e->isa('Gungho::Exception::RequestThrottled')) {
-            # This request was throttled. Attempt to do it later
-            $self->pushback_request($c, $req);
-        } else {
-            die $e;
-        }
-    }
+    $c->send_request($req);
 }
 
 sub pushback_request {}

@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Engine/IO/Async.pm 7095 2007-05-08T11:46:52.290398Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Engine/IO/Async.pm 7174 2007-05-14T00:57:34.032439Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -8,7 +8,6 @@ use strict;
 use warnings;
 use base qw(Gungho::Engine);
 use HTTP::Parser;
-use HTTP::Status;
 use IO::Async::Buffer;
 use IO::Async::Notifier;
 use IO::Socket::INET;
@@ -88,20 +87,10 @@ sub lookup_host
         handle => $bgsock,
         on_read_ready => sub {
             $self->impl->remove($_[0]);
-            my $packet = $resolver->bgread($bgsock);
-            foreach my $rr ($packet->answer) {
-                next unless $rr->type eq 'A';
-                $request->notes('original_host', $request->uri->host);
-                $request->push_header('Host', $request->uri->host);
-                $request->uri->host($rr->address);
-                $self->start_request($c, $request);
-                return;
-            }
-
-            $self->handle_response(
+            $self->handle_dns_response(
                 $c,
                 $request,
-                $self->_http_error(500, "Failed to resolve host " . $request->uri->host, $request)
+                $resolver->bgread($bgsock), 
             );
         }
     );
