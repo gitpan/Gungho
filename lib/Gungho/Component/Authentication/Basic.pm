@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Component/Authentication/Basic.pm 6452 2007-04-10T02:26:11.598323Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Component/Authentication/Basic.pm 7194 2007-05-15T09:58:12.998753Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endworks.jp>
 # All rights reserved.
@@ -10,7 +10,7 @@ use base qw(Gungho::Component::Authentication);
 use MIME::Base64 ();
 use URI;
 
-__PACKAGE__->mk_accessors($_) for qw(basic_authentication);
+__PACKAGE__->mk_classdata($_) for qw(basic_authentication);
 
 sub setup
 {

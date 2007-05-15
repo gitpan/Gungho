@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Component/RobotRules.pm 7192 2007-05-15T04:06:52.376453Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Component/RobotRules.pm 7193 2007-05-15T09:57:39.972590Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 
@@ -56,6 +56,8 @@ sub allowed
 
         my $uri = $request->original_uri;
         $uri->path('/robots.txt');
+        $uri->query(undef);
+        $uri->fragment(undef);
         my $req = Gungho::Request->new(GET => $uri);
         $req->notes('auto_robot_rules' => 1);
         $c->provider->pushback_request( $c, $req );

@@ -50,4 +50,4 @@ requires:
   UNIVERSAL::require: 0
   perl: 5.8.0
 tests: t/01_load.t t/02_config.t t/03_live/perl.t t/99_pod-coverage.t t/99_pod.t
-version: 0.08001
+version: 0.08002

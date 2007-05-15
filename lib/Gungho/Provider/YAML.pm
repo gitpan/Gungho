@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Provider/YAML.pm 7190 2007-05-15T00:12:58.296498Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Provider/YAML.pm 7194 2007-05-15T09:58:12.998753Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -12,7 +12,7 @@ use Best [
     qw(LoadFile)
 ];
 
-__PACKAGE__->mk_accessors($_) for qw(read_done requests);
+__PACKAGE__->mk_classdata($_) for qw(read_done requests);
 
 sub new
 {
