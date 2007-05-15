@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Component/RobotRules/Storage.pm 7191 2007-05-15T02:45:51.609363Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Component/RobotRules/Storage.pm 7192 2007-05-15T04:06:52.376453Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 
@@ -15,6 +15,6 @@ __END__
 
 =head1 NAME
 
-Gunghoe::Component::RobotRules::Storage - RobotRules Storage Base Class
+Gungho::Component::RobotRules::Storage - RobotRules Storage Base Class
 
 =cut

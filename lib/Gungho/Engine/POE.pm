@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Engine/POE.pm 7191 2007-05-15T02:45:51.609363Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Engine/POE.pm 7192 2007-05-15T04:06:52.376453Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -23,17 +23,17 @@ use constant FORCE_ENCODE_CONTENT =>
 BEGIN
 {
     if (SKIP_DECODE_CONTENT) {
-        eval <<'        EOCODE';
+        eval sprintf(<<'        EOCODE', 'HTTP::Response');
             no warnings 'redefine';
-            package HTTP::Response;
+            package %s;
             sub HTTP::Response::decoded_content {
-                my ($self, %opt) = @_;
+                my ($self, %%opt) = @_;
                 my $caller = (caller(2))[3];
 
                 if ($caller eq 'POE::Component::Client::HTTP::Request::return_response') {
                     $opt{charset} = 'none';
                 }
-                $self->SUPER::decoded_content(%opt);
+                $self->SUPER::decoded_content(%%opt);
             }
         EOCODE
     }

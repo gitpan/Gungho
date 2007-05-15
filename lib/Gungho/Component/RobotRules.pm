@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Component/RobotRules.pm 7191 2007-05-15T02:45:51.609363Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Component/RobotRules.pm 7192 2007-05-15T04:06:52.376453Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 
@@ -155,7 +155,7 @@ sub parse_robot_rules
 
 =head1 NAME
 
-Gungho::Compoent::RobotRules - Respect robots.txt
+Gungho::Component::RobotRules - Respect robots.txt
 
 =head1 SYNOPSIS
 

@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho.pm 7191 2007-05-15T02:45:51.609363Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho.pm 7192 2007-05-15T04:06:52.376453Z lestrrat  $
 # 
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -29,7 +29,7 @@ __PACKAGE__->mk_classdata($_) for (
     @CONFIGURABLE_PARAMS,
 );
 
-our $VERSION = '0.08';
+our $VERSION = '0.08001';
 
 sub new
 {
