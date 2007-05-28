@@ -68,6 +68,7 @@ script/gungho
 t/01_load.t
 t/02_config.t
 t/03_live/perl.t
+t/04_dns.t
 t/99_pod-coverage.t
 t/99_pod.t
 t/data/02_config/yaml.yml

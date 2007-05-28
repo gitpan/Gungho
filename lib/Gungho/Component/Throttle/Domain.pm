@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Component/Throttle/Domain.pm 7189 2007-05-14T21:43:40.758591Z lestrrat  $
+# $Id: /local/gungho/lib/Gungho/Component/Throttle/Domain.pm 7189 2007-05-14T21:43:40.758591Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.

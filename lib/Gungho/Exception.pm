@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Exception.pm 7191 2007-05-15T02:45:51.609363Z lestrrat  $
+# $Id: /local/gungho/lib/Gungho/Exception.pm 7191 2007-05-15T02:45:51.609363Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.

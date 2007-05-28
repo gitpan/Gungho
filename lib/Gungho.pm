@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho.pm 7195 2007-05-15T10:01:43.719828Z lestrrat  $
+# $Id: /local/gungho/lib/Gungho.pm 11679 2007-05-28T07:05:33.711727Z daisuke  $
 # 
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -29,7 +29,7 @@ __PACKAGE__->mk_classdata($_) for (
     @CONFIGURABLE_PARAMS,
 );
 
-our $VERSION = '0.08002';
+our $VERSION = '0.08003';
 
 sub new
 {
@@ -77,6 +77,7 @@ sub setup_components
     my $list = $self->config->{components};
     foreach my $module (@$list) {
         my $pkg = $self->load_gungho_module($module, 'Component');
+        $pkg->isa('Gungho::Component') or die "$pkg is not a Gungho::Component subclass";
         $pkg->inject_base($self);
     }
 
@@ -111,11 +112,12 @@ sub setup_provider
     my $self = shift;
 
     my $config = $self->config->{provider};
-    if (! $config) {
+    if (! $config || ref $config ne 'HASH') {
         croak("Gungho requires a provider");
     }
 
     my $pkg = $self->load_gungho_module($config->{module}, 'Provider');
+    $pkg->isa('Gungho::Provider') or die "$pkg is not a Gungho::Provider subclass";
     $pkg->config($config->{config}) if $config->{config};
     my $obj = $pkg->new();
     $obj->setup( $self );
@@ -128,11 +130,12 @@ sub setup_engine
     my $config = $self->config->{engine} || {
         module => 'POE',
     };
-    if (! $config) {
+    if (! $config || ref $config ne 'HASH') {
         croak("Gungho requires a engine");
     }
 
     my $pkg = $self->load_gungho_module($config->{module}, 'Engine');
+    $pkg->isa('Gungho::Engine') or die "$pkg is not a Gungho::Engine subclass";
     $pkg->config($config->{config}) if $config->{config};
     my $obj = $pkg->new();
     $obj->setup( $self );
@@ -148,6 +151,7 @@ sub setup_handler
         config => {}
     };
     my $pkg = $self->load_gungho_module($config->{module}, 'Handler');
+    $pkg->isa('Gungho::Handler') or die "$pkg is not a Gungho::Handler subclass";
     $pkg->config($config->{config}) if $config->{config};
     my $obj = $pkg->new();
     $obj->setup( $self );
@@ -304,14 +308,28 @@ Gungho - Yet Another High Performance Web Crawler Framework
 
 =head1 DESCRIPTION
 
-Gungho is Yet Another Web Crawler Framework, aimed to be an extensible and
+Gungho is Yet Another Web Crawler Framework, aimed to be extensible and
 fast. Its meant to be a culmination of lessons learned while building Xango --
-Xango was *fast*, but it was horribly hard to debug. Gungho tries to build
-from clean structures, based upon principles from the likes of Catalyst and
-Plagger.
+Xango was *fast*, but it was horribly hard to debug or to extend (Gungho
+even works right out of the box ;)
 
-All components (engine, provider, handler) are overridable and switcheable.
-Plugin mechanism is available to add hooks to be executed during the run.
+Therefore, Gungho's main aim is to make it as easy as possible to write
+crawlers, while still keeping crawling *fast*. You can simply specify
+the urls to fetch and some code to handle the responses -- we do the rest.
+Gungho tries to build from clean structures, based upon principles from the
+likes of Catalyst and Plagger, so that you can easily extend it to your
+liking.
+
+Features such as robot rules handling (robots.txt) and request throttling
+can be removed/added on the fly, just by specifying the components that
+you want to load. You can easily create additional functionality by writing
+your own component.
+
+Gungho is still very fast -- it uses event driven frameworks such as
+POE, Danga::Socket, and IO::Async as the main engine to drive requests.
+Choose the best engine for your needs: For example, if you plan on creating
+a POE-based handler to process the response, you might choose the POE engine -
+it will fit nicely into the request cycle.
 
 WARNING: *ALL* APIs are still subject to change.
 
@@ -324,6 +342,11 @@ Engine, which controls the entire process.
 There are also "hooks". These hooks can be registered from anywhere by
 invoking the register_hook() method. They are run at particular points,
 which are specified when you call register_hook().
+
+All components (engine, provider, handler) are overridable and switcheable.
+However, do note that if you plan on customizing stuff, you should be aware
+that Gungho uses Class::C3 extensively, and hence you may see warnings about
+the code you use.
 
 =head1 CONFIGURATION OPTIONS
 
@@ -343,7 +366,7 @@ Setting debug to a non-zero value will trigger debug messages to be displayed.
 
 Setting this to a non-zero value will make addresses resolved via DNS lookups
 to be blocked, if they resolved to a private IP address such as 192.168.1.1.
-127.0.0.1 isn't considered to be a private IP.
+Note that 127.0.0.1 is also considered a private IP.
 
 =back
 
@@ -364,6 +387,26 @@ startup time fro the config file / hash given to Gungho constructor.
 Components modify Gungho's inheritance structure at run time to add
 extra functionality to Gungho, and therefore should only be loaded
 before starting the engine.
+
+Here are some available components. Checkout the distribution for a current,
+complete list:
+
+=over 4
+
+=item RobotRules
+
+Handles collecting, parsing robots.txt, as well rejecting requests based on 
+the rules provided from it.
+
+=item Authentication::Basic
+
+Handles basic auth automatically.
+
+=item Throttle::Domain
+
+Throttles requests based on the number of requests sent to a domain.
+
+=back
 
 =head1 INLINE
 
@@ -460,6 +503,19 @@ Loads a Gungho component. Compliments the module name with 'Gungho::$prefix::',
 unless the name is prefixed with a '+'. In that case, no transformation is
 performed, and the module name is used as-is.
 
+=head1 HOW *NOT* TO USE Gungho
+
+One last note about Gungho - Don't use it if you are planning on accessing
+a single url -- It's usually not worth it, so you might as well use
+LWP::UserAgent or an equivalent module.
+
+Gungho's event driven engine works best when you are accessing hundreds,
+if not thousands of urls. It may in fact be slower than using LWP::UserAgent
+if you are accessing just a single url.
+
+Of course, you may wish to utilize features other than speed that Gungho 
+provides, so at that point, it's simply up to you.
+
 =head1 CODE
 
 You can obtain the current code base from
@@ -469,7 +525,6 @@ You can obtain the current code base from
 =head1 AUTHOR
 
 Copyright (c) 2007 Daisuke Maki E<lt>daisuke@endeworks.jpE<gt>
-All rights reserved.
 
 =head1 CONTRIBUTORS
 

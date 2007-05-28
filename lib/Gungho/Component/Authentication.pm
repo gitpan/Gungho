@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Component/Authentication.pm 6452 2007-04-10T02:26:11.598323Z lestrrat  $
+# $Id: /local/gungho/lib/Gungho/Component/Authentication.pm 6452 2007-04-10T02:26:11.598323Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # all rights reserved.

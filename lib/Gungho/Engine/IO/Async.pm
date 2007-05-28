@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Engine/IO/Async.pm 7174 2007-05-14T00:57:34.032439Z lestrrat  $
+# $Id: /local/gungho/lib/Gungho/Engine/IO/Async.pm 7174 2007-05-14T00:57:34.032439Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.

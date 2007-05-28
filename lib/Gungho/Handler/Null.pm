@@ -1,10 +1,11 @@
-# $Id: /mirror/gungho/lib/Gungho/Handler/Null.pm 6417 2007-04-07T10:46:29.321551Z lestrrat  $
+# $Id: /local/gungho/lib/Gungho/Handler/Null.pm 7199 2007-05-16T01:24:11.741951Z daisuke  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
 
 package Gungho::Handler::Null;
 use strict;
+use warnings;
 use base qw(Gungho::Handler);
 
 sub handle_response
