@@ -1,4 +1,4 @@
-# $Id: /local/gungho/lib/Gungho/Component/RobotRules.pm 7193 2007-05-15T09:57:39.972590Z lestrrat  $
+# $Id: /local/gungho/lib/Gungho/Component/RobotRules.pm 1735 2007-05-15T09:57:39.972590Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 

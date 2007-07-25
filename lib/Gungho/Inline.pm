@@ -1,4 +1,4 @@
-# $Id: /local/gungho/lib/Gungho/Inline.pm 7191 2007-05-15T02:45:51.609363Z lestrrat  $
+# $Id: /local/gungho/lib/Gungho/Inline.pm 1750 2007-06-10T08:54:22.827421Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # Copyright (c) 2007 Kazuho Oku
@@ -170,8 +170,8 @@ Gungho::Inline - Inline Your Providers And Handlers
            my ($handler, $c, $req, $res) = @_;
            print $res->code, ' ', $req->uri, "\n";
         }
-    },
-  });
+    }
+  );
 
 =head1 DESCRIPTION
 

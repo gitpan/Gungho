@@ -1,4 +1,4 @@
-# $Id: /local/gungho/lib/Gungho/Plugin/RequestTimer.pm 6422 2007-04-09T02:27:47.388429Z lestrrat  $
+# $Id: /local/gungho/lib/Gungho/Plugin/RequestTimer.pm 1650 2007-04-09T02:27:47.388429Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki  <daisuke@endeworks.jp>
 # All rights reserved.

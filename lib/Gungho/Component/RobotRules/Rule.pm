@@ -1,4 +1,4 @@
-# $Id: /local/gungho/lib/Gungho/Component/RobotRules/Rule.pm 7191 2007-05-15T02:45:51.609363Z lestrrat  $
+# $Id: /local/gungho/lib/Gungho/Component/RobotRules/Rule.pm 1733 2007-05-15T02:45:51.609363Z lestrrat  $
 
 package Gungho::Component::RobotRules::Rule;
 use strict;

@@ -1,4 +1,4 @@
-# $Id: /local/gungho/lib/Gungho/Request/http.pm 6472 2007-04-11T23:57:08.645886Z lestrrat  $
+# $Id: /local/gungho/lib/Gungho/Request/http.pm 1676 2007-04-11T23:57:08.645886Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rightsreserved.

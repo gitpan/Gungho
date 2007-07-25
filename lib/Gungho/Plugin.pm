@@ -1,4 +1,4 @@
-# $Id: /local/gungho/lib/Gungho/Plugin.pm 6450 2007-04-10T01:52:17.416998Z lestrrat  $
+# $Id: /local/gungho/lib/Gungho/Plugin.pm 1655 2007-04-10T01:52:17.416998Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.

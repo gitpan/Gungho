@@ -1,4 +1,4 @@
-# $Id: /local/gungho/lib/Gungho/Handler/FileWriter/Simple.pm 7072 2007-05-07T10:13:36.135025Z lestrrat  $
+# $Id: /local/gungho/lib/Gungho/Handler/FileWriter/Simple.pm 1749 2007-06-10T08:52:31.230704Z lestrrat  $
 #
 # Copyrigt (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -30,7 +30,7 @@ sub path_to
     # Just writes to a file name that has been "properly" (for better
     # or for worse...) URl-encoded
 
-    return $self->dir->file( uri_escape( $res->uri ) );
+    return $self->dir->file( uri_escape( $req->uri ) );
 }
 
 sub handle_response

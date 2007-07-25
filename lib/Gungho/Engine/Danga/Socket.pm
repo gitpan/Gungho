@@ -1,4 +1,4 @@
-# $Id: /local/gungho/lib/Gungho/Engine/Danga/Socket.pm 7191 2007-05-15T02:45:51.609363Z lestrrat  $
+# $Id: /local/gungho/lib/Gungho/Engine/Danga/Socket.pm 1751 2007-07-06T01:13:08.316580Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -61,7 +61,8 @@ sub send_request
     if ($req->requires_name_lookup) {
         $self->lookup_name($c, $req);
     } else {
-        $self->start_request($c, $req);
+        $self->block_private_ip_address($c, $req, $req->uri->host)
+            or $self->start_request($c, $req);
     }
 }
 

@@ -1,4 +1,4 @@
-# $Id: /local/gungho/lib/Gungho/Component/Throttle/Simple.pm 6457 2007-04-11T03:32:16.482599Z lestrrat  $
+# $Id: /local/gungho/lib/Gungho/Component/Throttle/Simple.pm 1661 2007-04-11T03:32:16.482599Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.

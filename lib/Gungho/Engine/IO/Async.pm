@@ -1,4 +1,4 @@
-# $Id: /local/gungho/lib/Gungho/Engine/IO/Async.pm 7174 2007-05-14T00:57:34.032439Z lestrrat  $
+# $Id: /local/gungho/lib/Gungho/Engine/IO/Async.pm 1754 2007-07-12T20:14:16.269914Z kazuhooku  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -63,7 +63,8 @@ sub send_request
     if ($request->requires_name_lookup) {
         $self->lookup_host($c, $request);
     } else {
-        $self->start_request($c, $request);
+        $self->block_private_ip_address($c, $request, $request->uri->host)
+            or $self->start_request($c, $request);
     }
 }
 
@@ -106,7 +107,15 @@ sub start_request
         PeerPort => $uri->port || $uri->default_port,
         Blocking => 0,
     );
-    die if $@;
+    if ($@) {
+        $self->handle_response(
+            $c,
+            $req,
+            $self->_http_error(500, "Failed to connect to " . $uri->host . ": $@
+", $req)
+        );
+        return;
+    }
 
     my $buffer = IO::Async::Buffer->new(
         handle => $socket,
