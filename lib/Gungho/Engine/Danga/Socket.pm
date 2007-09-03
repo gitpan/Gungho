@@ -1,4 +1,4 @@
-# $Id: /local/gungho/lib/Gungho/Engine/Danga/Socket.pm 1751 2007-07-06T01:13:08.316580Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Engine/Danga/Socket.pm 2431 2007-09-03T13:55:47.913037Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -113,7 +113,7 @@ sub start_request
         return;
     }
 
-    $req->headers->push_header(user_agent => $c->default_user_agent);
+    $req->headers->push_header(user_agent => $c->user_agent);
     my $danga = Danga::Socket::Callback->new(
         handle         => $socket,
         context        => { write_done => 0 },

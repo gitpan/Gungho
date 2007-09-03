@@ -1,4 +1,4 @@
-# $Id: /local/gungho/lib/Gungho/Component.pm 1694 2007-04-25T03:56:51.229630Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Component.pm 2427 2007-09-03T13:35:22.402606Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -50,6 +50,9 @@ Gungho::Component is yet another way to modify Gungho's behavior. It differs
 from plugins in that it adds directly to Gungho's internals via subclassing.
 Plugins are called from various hooks, but components can directly interfere
 and/or add functionality to Gungho.
+
+To add a new component, just create a Gungho::Component subclass, and add
+it in your config. Gungho will ensure that it is loaded and setup.
 
 =head1 METHODS
 

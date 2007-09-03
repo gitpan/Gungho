@@ -1,4 +1,4 @@
-# $Id: /local/gungho/lib/Gungho/Engine/POE.pm 1751 2007-07-06T01:13:08.316580Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Engine/POE.pm 2432 2007-09-03T13:57:46.604914Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -23,6 +23,8 @@ use constant FORCE_ENCODE_CONTENT =>
 BEGIN
 {
     if (SKIP_DECODE_CONTENT) {
+        # PoCo::Client::HTTP workaround for blindly decoding content for us
+        # when encountering Contentn-Encoding
         eval sprintf(<<'        EOCODE', 'HTTP::Response');
             no warnings 'redefine';
             package %s;
@@ -87,8 +89,8 @@ sub run
 
     POE::Component::Client::HTTP->spawn(
         FollowRedirects   => 1,
-        %$client_config,
         Agent             => $c->user_agent,
+        %$client_config,
         Alias             => &UserAgentAlias,
         ConnectionManager => $keepalive,
     );
@@ -324,6 +326,17 @@ main control.
 =head2 send_request($request)
 
 Sends a request to the http client
+
+=head1 CAVEATS
+
+The POE engine supports multiple values in the user-agent header, but this
+is an exception. To be portable with other engines, and if you are using only
+one user-agent, set it at the top level:
+
+  user_agent: my_user_agent
+  engine:
+    module: POE
+    ...
 
 =head1 TODO
 

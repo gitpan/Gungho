@@ -1,4 +1,4 @@
-# $Id: /local/gungho/lib/Gungho.pm 1767 2007-07-25T03:39:58.248952Z daisuke  $
+# $Id: /mirror/gungho/lib/Gungho.pm 2434 2007-09-03T14:21:54.720743Z lestrrat  $
 # 
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -29,7 +29,7 @@ __PACKAGE__->mk_classdata($_) for (
     @CONFIGURABLE_PARAMS,
 );
 
-our $VERSION = '0.08004';
+our $VERSION = '0.08005';
 
 sub new
 {
@@ -54,7 +54,7 @@ sub setup
         $self->$key( $config->{$key} || $CONFIGURABLE_PARAM_DEFAULTS{$key} );
     }
 
-    $self->user_agent("Gungho/$Gungho::VERSION (http://code.google.com/p/gungho-crawler/wiki/Index)") unless $self->user_agent;
+    $self->user_agent("Gungho/$Gungho::VERSION (http://code.google.com/p/gungho-crawler/wiki/Index)") unless $config->{user_agent};
     $self->hooks({});
     $self->features({});
 
