@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Engine/POE.pm 2432 2007-09-03T13:57:46.604914Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Engine/POE.pm 2473 2007-09-04T07:08:58.221716Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -171,9 +171,13 @@ sub _poe_start_request
             $kernel->yield('got_dns_response', $dns_response);
         }
         return;
-    } else {
-        return if $c->engine->block_private_ip_address($c, $request, $request->uri->host);
     }
+
+    $request->uri->host($request->notes('resolved_ip'))
+        if $request->notes('resolved_ip');
+
+    # block private IP addreses
+    return if $c->engine->block_private_ip_address($c, $request, $request->uri->host);
 
     POE::Kernel->post(&UserAgentAlias, 'request', 'handle_response', $request);
 }

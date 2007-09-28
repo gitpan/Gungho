@@ -1,4 +1,4 @@
-# $Id: /local/gungho/lib/Gungho/Engine/IO/Async.pm 1754 2007-07-12T20:14:16.269914Z kazuhooku  $
+# $Id: /mirror/gungho/lib/Gungho/Engine/IO/Async.pm 2473 2007-09-04T07:08:58.221716Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -63,8 +63,12 @@ sub send_request
     if ($request->requires_name_lookup) {
         $self->lookup_host($c, $request);
     } else {
-        $self->block_private_ip_address($c, $request, $request->uri->host)
-            or $self->start_request($c, $request);
+        $request->uri->host( $request->notes('resolved_ip') )
+            if $request->notes('resolved_ip');
+        if ( $self->block_private_ip_address($c, $request, $request->uri->host)) {
+            return;
+        }
+        $self->start_request($c, $request);
     }
 }
 

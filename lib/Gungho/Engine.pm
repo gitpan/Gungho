@@ -1,4 +1,4 @@
-# $Id: /local/gungho/lib/Gungho/Engine.pm 1751 2007-07-06T01:13:08.316580Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Engine.pm 2473 2007-09-04T07:08:58.221716Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -21,10 +21,12 @@ sub handle_dns_response
             next if $answer->type ne 'A';
             my $host = $request->uri->host;
             # Check if we are filtering private addresses
-            return if $self->block_private_ip_address($c, $request, $answer->address);
-            $request->push_header(Host => $host);
+            my $addr = $answer->address;
+            return if $self->block_private_ip_address($c, $request, $addr);
+
+            $request->header(Host => $host);
             $request->notes(original_host => $host);
-            $request->uri->host($answer->address);
+            $request->notes(resolved_ip   => $addr);
             eval {
                 $c->send_request($request);
             };

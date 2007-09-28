@@ -1,4 +1,4 @@
-# $Id: /local/gungho/lib/Gungho/Request/http.pm 1676 2007-04-11T23:57:08.645886Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Request/http.pm 2473 2007-09-04T07:08:58.221716Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rightsreserved.
@@ -43,7 +43,7 @@ sub format
     
     my @h;
     my @connection;
-    my %given = (host => 0, "content-length" => 0, "te" => 0);
+    my %given = (host => $request->header('Host') || 0, "content-length" => 0, "te" => 0);
     while (@_) {
         my($k, $v) = splice(@_, 0, 2);
         my $lc_k = lc($k);
