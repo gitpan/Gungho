@@ -1,4 +1,4 @@
-# $Id: /local/gungho/lib/Gungho/Handler.pm 1739 2007-05-16T02:08:52.622396Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Handler.pm 2907 2007-09-28T10:39:52.301767Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -21,12 +21,12 @@ Gungho::Handler - Base Class For Gungho Handlers
 
   sub handle_response
   {
-     my ($self, $request, $response) = @_;
+     my ($self, $c, $request, $response) = @_;
   }
 
 =head1 METHODS
 
-=head2 handle_response($request, response)
+=head2 handle_response($c, $request, response)
 
 This is where you want to process the response.
 

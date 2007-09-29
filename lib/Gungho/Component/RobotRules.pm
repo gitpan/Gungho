@@ -1,4 +1,4 @@
-# $Id: /local/gungho/lib/Gungho/Component/RobotRules.pm 1735 2007-05-15T09:57:39.972590Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Component/RobotRules.pm 2906 2007-09-28T10:37:05.674821Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 
@@ -73,9 +73,7 @@ sub handle_response
     my ($request, $response) = @_;
 
     if ($request->uri->path eq '/robots.txt' && $request->notes('auto_robot_rules')) {
-        if ($response->is_success) {
-            $c->parse_robot_rules($request, $response);
-        }
+        $c->parse_robot_rules($request, $response);
         $c->dispatch_pending_robots_txt($request);
         Gungho::Exception::HandleResponse::Handle->throw;
     }
@@ -123,7 +121,7 @@ sub setup_robot_rules_storage
     my $pkg = $config->{module} || 'RobotRules::Storage::DB_File';
     my $pkg_config = $config->{config} || {};
     $pkg = $c->load_gungho_module($pkg, 'Component');
-    my $storage = $pkg->new($config);
+    my $storage = $pkg->new(%$config);
     $storage->setup();
     $c->robot_rules_storage( $storage );
 }
@@ -145,7 +143,7 @@ sub parse_robot_rules
 {
     my ($c, $request, $response) = @_;
 
-    my $h = $response->content ?
+    my $h = ($request && $response && $response->is_success && $response->content) ?
         $c->robot_rules_parser->parse($request->original_uri, $response->content) :
         {}
     ;
