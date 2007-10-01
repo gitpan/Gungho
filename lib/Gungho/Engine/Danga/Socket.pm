@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Engine/Danga/Socket.pm 2473 2007-09-04T07:08:58.221716Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Engine/Danga/Socket.pm 2912 2007-10-01T02:36:26.816021Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -63,7 +63,7 @@ sub send_request
     } else {
         $req->uri->host( $req->notes('resolved_ip') ) 
             if $req->notes('resolved_ip');
-        if ($self->block_private_ip_address($c, $req, $req->uri->host)) {
+        if ($self->block_private_ip_address($c, $req, $req->uri)) {
             return;
         }
         $self->start_request($c, $req);

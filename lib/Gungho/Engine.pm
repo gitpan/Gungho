@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Engine.pm 2473 2007-09-04T07:08:58.221716Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Engine.pm 2912 2007-10-01T02:36:26.816021Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -48,6 +48,14 @@ sub handle_dns_response
 
 sub block_private_ip_address {
     my ($self, $c, $request, $address) = @_;
+
+    if (ref $address && $address->isa('URI')) {
+        if (! $address->can('host')) {
+            # no host, no check
+            return undef;
+        }
+        $address = $address->host;
+    }
 
     if ($c->block_private_ip_address && $self->_address_is_private($address)) {
         $c->log->debug('Hostname ' . $request->uri->host . ' has a private ip address: ' . $address);

@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Request.pm 2473 2007-09-04T07:08:58.221716Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Request.pm 2912 2007-10-01T02:36:26.816021Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -91,7 +91,8 @@ sub original_uri
 sub requires_name_lookup
 {
     my $self = shift;
-    return ! $self->notes('resolved_ip') && $self->uri->host() !~ /^$RE{net}{IPv4}$/;
+    return ! $self->notes('resolved_ip') && 
+        ($self->uri->can('host') && $self->uri->host() !~ /^$RE{net}{IPv4}$/);
 }
 
 sub format

@@ -17,6 +17,7 @@ recommends:
   Class::C3: 0.16
   Class::C3::XS: 0.02
   DB_File: 0
+  Danga::Socket: 1.57
   Danga::Socket::Callback: 0
   Data::Throttler: 0
   HTTP::Headers::Util: 0
@@ -52,4 +53,4 @@ requires:
   UNIVERSAL::require: 0
   perl: 5.8.0
 tests: t/01_load.t t/02_config.t t/03_live/perl.t t/03_live/twitter.t t/99_kwalitee.t t/99_pod-coverage.t t/99_pod.t t/engine/danga-socket/01_load.t t/engine/danga-socket/04_dns.t t/engine/io-async/01_load.t t/engine/io-async/04_dns.t t/engine/poe/01_load.t t/engine/poe/04_dns.t t/engine/poe/05_dns_params.t
-version: 0.08007
+version: 0.08008
