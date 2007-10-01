@@ -35,6 +35,7 @@ lib/Gungho/Base.pm
 lib/Gungho/Component.pm
 lib/Gungho/Component/Authentication.pm
 lib/Gungho/Component/Authentication/Basic.pm
+lib/Gungho/Component/Cache.pm
 lib/Gungho/Component/RobotRules.pm
 lib/Gungho/Component/RobotRules/Rule.pm
 lib/Gungho/Component/RobotRules/Storage.pm
