@@ -1,4 +1,4 @@
-# $Id: /local/gungho/lib/Gungho/Component/RobotRules/Storage/DB_File.pm 1733 2007-05-15T02:45:51.609363Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Component/RobotRules/Storage/DB_File.pm 3231 2007-10-10T14:07:00.280259Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 
@@ -12,7 +12,7 @@ use Storable qw(nfreeze thaw);
 sub setup
 {
     my $self = shift;
-    my $config = $self->config();
+    my $config = $self->{config};
     $config->{filename} ||= File::Spec->catfile(File::Spec->tmpdir, 'robots.db');
 
     my %o;
@@ -22,7 +22,8 @@ sub setup
 
 sub get_rule
 {
-    my $self = shift;
+    my $self    = shift;
+    my $c       = shift;
     my $request = shift;
     my $v;
 
@@ -35,7 +36,8 @@ sub get_rule
 
 sub put_rule
 {
-    my $self = shift;
+    my $self    = shift;
+    my $c       = shift;
     my $request = shift;
     my $rule    = shift;
 

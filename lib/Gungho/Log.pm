@@ -1,4 +1,4 @@
-# $Id: /local/gungho/lib/Gungho/Log.pm 1655 2007-04-10T01:52:17.416998Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Log.pm 3229 2007-10-10T09:59:08.562859Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -72,7 +72,7 @@ sub _log {
     my $level   = shift;
     my $message = join( "\n", @_ );
     $message .= "\n" unless $message =~ /\n$/;
-    $self->{body} .= sprintf( "[%s] %s", $level, $message );
+    $self->{body} .= sprintf( "[%s:%s] %s", $level, $$, $message );
     $self->_flush if $self->autoflush;
 }
 
