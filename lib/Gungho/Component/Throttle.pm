@@ -1,4 +1,4 @@
-# $Id: /local/gungho/lib/Gungho/Component/Throttle.pm 1733 2007-05-15T02:45:51.609363Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Component/Throttle.pm 3224 2007-10-10T08:08:59.964068Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 
@@ -35,6 +35,59 @@ Gungho::Component::Throttle - Base Class To Throttle Requests
 
   package Gungho::Component::Throttle::Domain;
   use base qw(Gungho::Component::Throttle);
+
+=head1 DESCRIPTION
+
+If you create a serious enough crawler, throttling will become a major issue.
+After all, you want to *crawl* the sites, not overwhelm them with requests.
+
+While the concept is simple, implementing this on your own is relatively 
+costly, so Gungho provides a few simple ways to work with this problem.
+
+Gungho::Component::Throttle::Simple will throttle simply by the number of
+requests being sent at a time, regardless of what they are. This simple
+approach will work well if your client-side resources are limited -- for
+example, you don't want your requests to hog up too much bandwidth, so
+you limit the actual number of requests being sent.
+
+  # throttle down to 100 requests / hour
+  components:
+    - Throttle::Simple
+  throttle:
+    simple:
+      max_iterms: 100
+      interval: 3600
+
+In most cases, however, you will probably want Gungho::Component::Throttle::Domain,
+which throttles requests on a per-domain basis. This way you can, for example,
+limit the number of requests being sent to one host, while letting the remaining
+time slices to be used against some other host.
+
+  # throttle down to 100 requests / host / hour
+  components:
+    - Throttle::Domain
+  throttle:
+    domain:
+      max_iterms: 100
+      interval: 3600
+
+This component utilises Data::Throttler or Data::Throttler::Memcached for the
+main engine to keep track of the throttling. Data::Throttler will suffice
+if you are working from a single host. You will need Data::Throttler::Memcached if you have a farm of crawlers that may potentially be residing on different
+hosts.
+
+By default Data::Throttler will be used. If you want to override this, specify
+the throttler argument in the configuration:
+
+  components:
+    - Throttle::Domain
+  throttle:
+    domain:
+      throttler: Data::Throttler::Memcached
+      cache:
+        data: 127.0.0.1:11211
+      max_items: 100
+      interval: 3600
 
 =head1 METHODS
 

@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Component/Throttle/Domain.pm 2914 2007-10-01T02:40:17.789916Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Component/Throttle/Domain.pm 3224 2007-10-10T08:08:59.964068Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -18,7 +18,7 @@ sub setup
 
     $self->prepare_throttler(
         map { ($_ => $config->{$_}) }
-            qw(max_items interval db_file)
+            qw(max_items interval db_file throttler cache)
     );
 
     my $domains = $config->{domains} || [];

@@ -20,6 +20,7 @@ recommends:
   Danga::Socket: 1.57
   Danga::Socket::Callback: 0
   Data::Throttler: 0
+  Data::Throttler::Memcached: 0
   HTTP::Headers::Util: 0
   HTTP::Parser: 0
   HTTP::Status: 0
@@ -52,5 +53,5 @@ requires:
   UNIVERSAL::isa: 0
   UNIVERSAL::require: 0
   perl: 5.8.0
-tests: t/01_load.t t/02_config.t t/03_live/perl.t t/03_live/twitter.t t/99_kwalitee.t t/99_pod-coverage.t t/99_pod.t t/component/cache/01_load.t t/engine/danga-socket/01_load.t t/engine/danga-socket/04_dns.t t/engine/io-async/01_load.t t/engine/io-async/04_dns.t t/engine/poe/01_load.t t/engine/poe/04_dns.t t/engine/poe/05_dns_params.t
-version: 0.08009
+tests: t/01_load.t t/02_config.t t/03_live/perl.t t/03_live/twitter.t t/99_kwalitee.t t/99_pod-coverage.t t/99_pod.t t/component/cache/01_load.t t/component/throttle/01_load.t t/engine/danga-socket/01_load.t t/engine/danga-socket/04_dns.t t/engine/io-async/01_load.t t/engine/io-async/04_dns.t t/engine/poe/01_load.t t/engine/poe/04_dns.t t/engine/poe/05_dns_params.t
+version: 0.08010

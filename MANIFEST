@@ -4,6 +4,7 @@ deps/Component-Authentication-Basic.yaml
 deps/Component-Authentication.yaml
 deps/Component-RobotRules.yml
 deps/Component-Throttle-Domain.yaml
+deps/Component-Throttle-Memcached.yaml
 deps/Component-Throttle-Simple.yaml
 deps/Engine-Danga-Socket.yaml
 deps/Engine-IO-Async.yaml
@@ -73,6 +74,8 @@ t/03_live/twitter.t
 t/99_kwalitee.t
 t/99_pod-coverage.t
 t/99_pod.t
+t/component/cache/01_load.t
+t/component/throttle/01_load.t
 t/data/02_config/yaml.yml
 t/engine/danga-socket/01_load.t
 t/engine/danga-socket/04_dns.t

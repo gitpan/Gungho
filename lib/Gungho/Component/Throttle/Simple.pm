@@ -1,4 +1,4 @@
-# $Id: /local/gungho/lib/Gungho/Component/Throttle/Simple.pm 1661 2007-04-11T03:32:16.482599Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Component/Throttle/Simple.pm 3224 2007-10-10T08:08:59.964068Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -16,7 +16,7 @@ sub setup
 
     $self->prepare_throttler(
         map { ($_ => $config->{$_}) }
-            qw(max_items interval db_file)
+            qw(max_items interval db_file throttler cache)
     );
     $self->next::method(@_);
 }
