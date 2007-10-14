@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Log.pm 3234 2007-10-13T15:12:58.068532Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Log.pm 3261 2007-10-14T05:37:42.099746Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -22,3 +22,25 @@ BEGIN
 }
 
 1;
+
+__END__
+
+=head1 NAME
+
+Gungho::Log - Log Base Class For Gungho
+
+=head1 METHODS
+
+=head2 is_debug
+
+=head2 is_info
+
+=head2 is_warn
+
+=head2 is_error
+
+=head2 is_fatal
+
+These methods have been deprecated, and are here only for backwards compatibility
+
+=cut

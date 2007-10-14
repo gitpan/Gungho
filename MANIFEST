@@ -14,6 +14,7 @@ deps/Provider-YAML.yaml
 examples/robotrules/simple.yml
 examples/simple-file/simple-file.yml
 examples/simple-file/url.txt
+examples/simple-log-dispatch/simple.yml
 examples/simple-write-to-file/simple-write-to-file.yml
 examples/simple/simple.yml
 examples/throttle-simple/throttle-simple.yml

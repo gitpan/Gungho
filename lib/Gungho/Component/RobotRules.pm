@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Component/RobotRules.pm 3234 2007-10-13T15:12:58.068532Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Component/RobotRules.pm 3257 2007-10-14T03:29:36.340822Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 
@@ -83,28 +83,14 @@ sub handle_response
 sub push_pending_robots_txt
 {
     my ($c, $request) = @_;
-
-    my $uri = $request->original_uri;
-    my $h = $c->pending_robots_txt->{ $uri->host_port };
-    if (! $h) {
-        $h = {};
-        $c->pending_robots_txt->{ $uri->host_port } = $h;
-    }
-
-    if(! exists $h->{ $request->id }) {
-        $c->log->debug("Pushing request " . $request->uri . " to pending list (robot rules)...");
-        $h->{ $request->id } = $request ;
-        return 1;
-    }
-    return 0;
+    return $c->robot_rules_storage->push_pending_robots_txt( $request );
 }
 
 sub dispatch_pending_robots_txt
 {
     my ($c, $request) = @_;
 
-    my $uri = $request->original_uri;
-    my $pending = delete $c->pending_robots_txt->{ $uri->host_port };
+    my $pending = $c->robot_rules_storage->get_pending_robots_txt($request);
     if ($pending && ref $pending eq 'HASH') {
         $c->provider->pushback_request( $c, $_ ) for values %$pending;
     }

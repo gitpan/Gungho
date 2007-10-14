@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Component/RobotRules/Storage/DB_File.pm 3231 2007-10-10T14:07:00.280259Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Component/RobotRules/Storage/DB_File.pm 3258 2007-10-14T03:35:40.766816Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 
@@ -45,6 +45,31 @@ sub put_rule
     $self->storage->put( $uri->host_port, nfreeze($rule) );
 }
 
+sub get_pending_robots_txt
+{
+    my ($self, $c, $request) = @_;
+    my $uri = $request->original_uri;
+    delete $c->pending_robots_txt->{ $uri->host_port };
+}
+
+sub push_pending_robots_txt
+{
+    my ($self, $c, $request) = @_;
+    my $uri = $request->original_uri;
+    my $h = $c->pending_robots_txt->{ $uri->host_port };
+    if (! $h) {
+        $h = {};
+        $c->pending_robots_txt->{ $uri->host_port } = $h;
+    }
+
+    if(! exists $h->{ $request->id }) {
+        $c->log->debug("Pushing request " . $request->uri . " to pending list (robot rules)...");
+        $h->{ $request->id } = $request ;
+        return 1;
+    }
+    return 0;
+}
+
 1;
 
 __END__
@@ -60,5 +85,9 @@ Gungho::Component::RobotRules::Storage::DB_File - DB_File Storage For RobotRules
 =head2 get_rule
 
 =head2 put_rule
+
+=head2 get_pending_robots_txt
+
+=head2 push_pending_robots_txt
 
 =cut
