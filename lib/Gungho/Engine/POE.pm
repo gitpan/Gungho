@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Engine/POE.pm 2912 2007-10-01T02:36:26.816021Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Engine/POE.pm 3235 2007-10-13T15:50:33.445011Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -129,7 +129,7 @@ sub _poe_session_loop
     my $c = $heap->{CONTEXT};
 
     if (! $c->is_running) {
-        $c->log->debug("is_running = 0, waiting for other queued states to finish...\n") if $c->log->is_debug;
+        $c->log->debug("is_running = 0, waiting for other queued states to finish...\n");
         return;
     }
 
@@ -148,9 +148,6 @@ sub _poe_session_loop
 sub send_request
 {
     my ($self, $c, $request) = @_;
-
-    $c->run_hook('engine.send_request', { request => $request });
-
     POE::Kernel->post($self->alias, 'start_request', $request);
 }
 
@@ -179,6 +176,7 @@ sub _poe_start_request
     # block private IP addreses
     return if $c->engine->block_private_ip_address($c, $request, $request->uri);
 
+    $c->run_hook('engine.send_request', { request => $request });
     POE::Kernel->post(&UserAgentAlias, 'request', 'handle_response', $request);
 }
 

@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho.pm 3232 2007-10-10T14:44:46.917715Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho.pm 3255 2007-10-14T00:15:51.859382Z lestrrat  $
 # 
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -14,7 +14,6 @@ use Class::Inspector;
 use UNIVERSAL::isa;
 use UNIVERSAL::require;
 
-use Gungho::Log;
 use Gungho::Exception;
 
 my @INTERNAL_PARAMS             = qw(setup_finished);
@@ -29,7 +28,7 @@ __PACKAGE__->mk_classdata($_) for (
     @CONFIGURABLE_PARAMS,
 );
 
-our $VERSION = '0.08011';
+our $VERSION = '0.08012';
 
 sub new
 {
@@ -93,17 +92,12 @@ sub setup_log
 {
     my $self = shift;
 
-    my $log_config = $self->config->{log} || {};
-    my @levels     = @{ $log_config->{levels} || [ qw(info warn error fatal) ] };
+    my $log_config = { %{$self->config->{log} || {}} };
+    my $module     = delete $log_config->{module} || 'Simple';
+    my $pkg        = $self->load_gungho_module($module, 'Log');
+    my $log        = $pkg->new();
 
-    my $log = Gungho::Log->new(@levels);
-    $log->autoflush(1);
-
-    # Only explicitly enable debug if the global debug flag is set
-    if ($self->config->{debug}) {
-        $log->enable('debug');
-    }
-
+    $log->setup($self, $log_config);
     $self->log($log);
 }
 

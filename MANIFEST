@@ -40,6 +40,7 @@ lib/Gungho/Component/Cache.pm
 lib/Gungho/Component/RobotRules.pm
 lib/Gungho/Component/RobotRules/Rule.pm
 lib/Gungho/Component/RobotRules/Storage.pm
+lib/Gungho/Component/RobotRules/Storage/Cache.pm
 lib/Gungho/Component/RobotRules/Storage/DB_File.pm
 lib/Gungho/Component/Throttle.pm
 lib/Gungho/Component/Throttle/Domain.pm
@@ -55,7 +56,10 @@ lib/Gungho/Handler/FileWriter/Simple.pm
 lib/Gungho/Handler/Null.pm
 lib/Gungho/Inline.pm
 lib/Gungho/Log.pm
+lib/Gungho/Log/Dispatch.pm
+lib/Gungho/Log/Simple.pm
 lib/Gungho/Plugin.pm
+lib/Gungho/Plugin/RequestLog.pm
 lib/Gungho/Plugin/RequestTimer.pm
 lib/Gungho/Provider.pm
 lib/Gungho/Provider/File/Simple.pm

@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Engine/IO/Async.pm 2912 2007-10-01T02:36:26.816021Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Engine/IO/Async.pm 3235 2007-10-13T15:50:33.445011Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -131,7 +131,9 @@ sub start_request
             $$buffref = '';
 
             if ($st == 0) {
-                $self->handle_response($c, $notifier->{request}, $parser->object);
+                my $res = $parser->object;
+                $c->run_hook('engine.handle_response', { request => $req, response => $res });
+                $self->handle_response($c, $notifier->{request}, $res);
                 $notifier->handle_closed();
                 $self->impl->remove($notifier);
             }
@@ -144,6 +146,7 @@ sub start_request
         on_write_error => sub {
             my $notifier = shift;
             my $res = $self->_http_error(500, "Could not write to socket ", $notifier->{request});
+            $c->run_hook('engine.handle_response', { request => $req, response => $res });
             $self->handle_response($c, $notifier->{request}, $res);
         }
     );
@@ -152,6 +155,7 @@ sub start_request
     $buffer->{parser}  = HTTP::Parser->new(response => 1);
     $buffer->{request} = $req;
 
+    $c->run_hook('engine.send_request', { request => $req });
     $buffer->send($req->format);
     $self->impl->add($buffer);
 }

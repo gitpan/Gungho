@@ -1,6 +1,10 @@
 --- 
 abstract: Yet Another High Performance Web Crawler Framework
 author: Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
+build_requires: 
+  DirHandle: 0
+  File::Spec: 0
+  YAML: 0
 distribution_type: module
 generated_by: Module::Install version 0.67
 license: perl
@@ -46,6 +50,7 @@ requires:
   Exception::Class: 0
   FindBin: 0
   Getopt::Long: 0
+  Log::Dispatch: 0
   Path::Class: 0
   Pod::Usage: 0
   Regexp::Common: 0
@@ -54,4 +59,4 @@ requires:
   UNIVERSAL::require: 0
   perl: 5.8.0
 tests: t/01_load.t t/02_config.t t/03_live/perl.t t/03_live/twitter.t t/99_kwalitee.t t/99_pod-coverage.t t/99_pod.t t/component/cache/01_load.t t/component/throttle/01_load.t t/engine/danga-socket/01_load.t t/engine/danga-socket/04_dns.t t/engine/io-async/01_load.t t/engine/io-async/04_dns.t t/engine/poe/01_load.t t/engine/poe/04_dns.t t/engine/poe/05_dns_params.t
-version: 0.08011
+version: 0.08012

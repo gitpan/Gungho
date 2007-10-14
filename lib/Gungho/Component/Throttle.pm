@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Component/Throttle.pm 3224 2007-10-10T08:08:59.964068Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Component/Throttle.pm 3234 2007-10-13T15:12:58.068532Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 
@@ -15,8 +15,7 @@ sub send_request
     my ($c, $request) = @_;
 
     if (! $request->notes('original_host') && ! $c->throttle($request)) {
-        $c->log->debug("Request " . $request->url . " (" . $request->id . ") was throttled")
-            if $c->log->is_debug;
+        $c->log->debug("Request " . $request->url . " (" . $request->id . ") was throttled");
         $c->provider->pushback_request($c, $request);
         Gungho::Exception::SendRequest::Handled->throw();
     }
