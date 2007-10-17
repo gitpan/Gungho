@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Component/Cache.pm 2916 2007-10-01T14:37:39.892482Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Component/Cache.pm 3533 2007-10-17T13:07:25.302309Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -73,10 +73,10 @@ Gungho::Component::Cache - Use Cache In Your App
     default_backend: small_things
     backends:
       large_things:
-        class: 'Cache::Memcached::Managed',
+        class: '+Cache::Memcached::Managed',
         data: '127.0.0.1:11211'
       small_things:
-        class: 'Cache::Memcached::Managed',
+        class: '+Cache::Memcached::Managed',
         data: '127.0.0.1:11212'
 
 =head1 DESCRIPTION

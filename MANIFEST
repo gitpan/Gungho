@@ -3,6 +3,7 @@ deps/Class-C3-XS.yaml
 deps/Component-Authentication-Basic.yaml
 deps/Component-Authentication.yaml
 deps/Component-RobotRules.yml
+deps/Component-RobotsMETA.yaml
 deps/Component-Throttle-Domain.yaml
 deps/Component-Throttle-Memcached.yaml
 deps/Component-Throttle-Simple.yaml
@@ -43,6 +44,7 @@ lib/Gungho/Component/RobotRules/Rule.pm
 lib/Gungho/Component/RobotRules/Storage.pm
 lib/Gungho/Component/RobotRules/Storage/Cache.pm
 lib/Gungho/Component/RobotRules/Storage/DB_File.pm
+lib/Gungho/Component/RobotsMETA.pm
 lib/Gungho/Component/Throttle.pm
 lib/Gungho/Component/Throttle/Domain.pm
 lib/Gungho/Component/Throttle/Simple.pm
@@ -68,6 +70,7 @@ lib/Gungho/Provider/Simple.pm
 lib/Gungho/Provider/YAML.pm
 lib/Gungho/Request.pm
 lib/Gungho/Request/http.pm
+lib/Gungho/Response.pm
 Makefile.PL
 MANIFEST			This list of files
 META.yml
@@ -79,7 +82,10 @@ t/03_live/twitter.t
 t/99_kwalitee.t
 t/99_pod-coverage.t
 t/99_pod.t
+t/component/authentication/01_load.t
 t/component/cache/01_load.t
+t/component/robot_rules/01_load.t
+t/component/robots_meta/01_load.t
 t/component/throttle/01_load.t
 t/data/02_config/yaml.yml
 t/engine/danga-socket/01_load.t

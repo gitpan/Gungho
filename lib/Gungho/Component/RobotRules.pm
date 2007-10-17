@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Component/RobotRules.pm 3257 2007-10-14T03:29:36.340822Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Component/RobotRules.pm 3539 2007-10-17T15:48:38.501780Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 
@@ -29,10 +29,10 @@ sub send_request
         $c->allowed($request)
     ;
     if ($allowed == -2) {
-        $c->log->debug("Fetch for /robots.txt already scheduled for " . $request->uri->host_port);
+        $c->log->debug("Fetch for /robots.txt already scheduled for " . $request->original_uri->host_port);
         Gungho::Exception::SendRequest::Handled->throw;
     } elsif ($allowed == -1) {
-        $c->log->debug("No robot rules found for " . $request->uri->host_port . ", going to fetch one");
+        $c->log->debug("No robot rules found for " . $request->original_uri->host_port . ", going to fetch one");
         Gungho::Exception::SendRequest::Handled->throw;
     } elsif ($allowed) {
         $c->maybe::next::method($request);
@@ -71,7 +71,7 @@ sub handle_response
     my ($request, $response) = @_;
 
     if ($request->uri->path eq '/robots.txt' && $request->notes('auto_robot_rules')) {
-        $c->log->debug("Handling robots.txt response for " . $request->uri->path);
+        $c->log->debug("Handling robots.txt response for " . $request->uri);
         $c->parse_robot_rules($request, $response);
         $c->dispatch_pending_robots_txt($request);
         Gungho::Exception::HandleResponse::Handled->throw;
@@ -83,14 +83,14 @@ sub handle_response
 sub push_pending_robots_txt
 {
     my ($c, $request) = @_;
-    return $c->robot_rules_storage->push_pending_robots_txt( $request );
+    return $c->robot_rules_storage->push_pending_robots_txt( $c, $request );
 }
 
 sub dispatch_pending_robots_txt
 {
     my ($c, $request) = @_;
 
-    my $pending = $c->robot_rules_storage->get_pending_robots_txt($request);
+    my $pending = $c->robot_rules_storage->get_pending_robots_txt($c, $request);
     if ($pending && ref $pending eq 'HASH') {
         $c->provider->pushback_request( $c, $_ ) for values %$pending;
     }

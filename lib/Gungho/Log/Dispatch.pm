@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Log/Dispatch.pm 3234 2007-10-13T15:12:58.068532Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Log/Dispatch.pm 3534 2007-10-17T14:39:53.410645Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -106,6 +106,18 @@ Gungho::Log::Dispatch - Log::Dispatch-Based Log For Gungho
       }
     ]
   });
+
+=head1 DESCRIPTION
+
+This is the main log class for Gungho. It gives you the full power of
+Log::Dispatch for your needs.
+
+=head1 CAVEATS
+
+Do NOT use Log::Dispatch::File::Locked if you're running Gungho in a 
+multi-process environment. It's obvious if you think about it, but this is a 
+hard-to-debug problem because File::Locked will simply sit on its flock()
+wait while 1 Gungho process will merrily go processing requests.
 
 =head1 METHODS
 

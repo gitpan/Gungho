@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho.pm 3262 2007-10-14T05:38:28.676216Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho.pm 3541 2007-10-17T16:04:31.989495Z lestrrat  $
 # 
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -15,6 +15,8 @@ use UNIVERSAL::isa;
 use UNIVERSAL::require;
 
 use Gungho::Exception;
+use Gungho::Request;
+use Gungho::Response;
 
 my @INTERNAL_PARAMS             = qw(setup_finished);
 my @CONFIGURABLE_PARAMS         = qw(block_private_ip_address user_agent);
@@ -28,7 +30,7 @@ __PACKAGE__->mk_classdata($_) for (
     @CONFIGURABLE_PARAMS,
 );
 
-our $VERSION = '0.08013';
+our $VERSION = '0.08014';
 
 sub new
 {
@@ -276,17 +278,29 @@ sub send_request
 sub handle_response
 {
     my $c = shift;
+    my ($req, $res) = @_;
+
+    {
+        my $old = $res;
+        $res = Gungho::Response->new(
+            $res->code,
+            $res->message,
+            $res->headers,
+            $res->content
+        );
+        $res->request( $old->request );
+    }
 
     my $e;
     eval {
-        $c->maybe::next::method(@_);
+        $c->maybe::next::method($req, $res);
     };
     if ($e = Gungho::Exception->caught('Gungho::Exception::HandleResponse::Handled')) {
         return;
     } elsif ($e = Gungho::Exception->caught()) {
         die $e;
     }
-    $c->handler->handle_response($c, @_);
+    $c->handler->handle_response($c, $req, $res);
 }
 
 1;
