@@ -97,3 +97,4 @@ t/engine/poe/04_dns.t
 t/engine/poe/05_dns_params.t
 t/lib/GunghoTest.pm
 t/lib/GunghoTest/PrivateDNS.pm
+t/plugin/request_log/01_basic.t

@@ -1,4 +1,4 @@
-# $Id: /local/gungho/lib/Gungho/Plugin/RequestTimer.pm 1650 2007-04-09T02:27:47.388429Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Plugin/RequestTimer.pm 3752 2007-10-19T23:33:34.500383Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki  <daisuke@endeworks.jp>
 # All rights reserved.
@@ -12,6 +12,7 @@ __PACKAGE__->mk_accessors($_) for qw(verbose);
 
 BEGIN
 {
+    warn "Gungho::Plugin::RequestTimer has been deprecated, use Gungho::Plugin::RequestLog";
     eval { Time::HiRes->require };
     if (! $@) {
         Time::HiRes->import(qw(time));

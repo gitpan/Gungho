@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Engine/POE.pm 3235 2007-10-13T15:50:33.445011Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Engine/POE.pm 3754 2007-10-19T23:40:57.072441Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -90,6 +90,7 @@ sub run
     POE::Component::Client::HTTP->spawn(
         FollowRedirects   => 1,
         Agent             => $c->user_agent,
+        Timeout           => 60,
         %$client_config,
         Alias             => &UserAgentAlias,
         ConnectionManager => $keepalive,

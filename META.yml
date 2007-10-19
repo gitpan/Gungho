@@ -52,6 +52,9 @@ requires:
   Exception::Class: 0
   FindBin: 0
   Getopt::Long: 0
+  HTTP::Request: 0
+  HTTP::Response: 0
+  HTTP::Status: 0
   Log::Dispatch: 0
   Path::Class: 0
   Pod::Usage: 0
@@ -59,6 +62,7 @@ requires:
   Storable: 0
   UNIVERSAL::isa: 0
   UNIVERSAL::require: 0
+  URI: 0
   perl: 5.8.0
-tests: t/01_load.t t/02_config.t t/03_live/perl.t t/03_live/twitter.t t/99_kwalitee.t t/99_pod-coverage.t t/99_pod.t t/component/authentication/01_load.t t/component/cache/01_load.t t/component/robot_rules/01_load.t t/component/robots_meta/01_load.t t/component/throttle/01_load.t t/engine/danga-socket/01_load.t t/engine/danga-socket/04_dns.t t/engine/io-async/01_load.t t/engine/io-async/04_dns.t t/engine/poe/01_load.t t/engine/poe/04_dns.t t/engine/poe/05_dns_params.t
-version: 0.08014
+tests: t/01_load.t t/02_config.t t/03_live/perl.t t/03_live/twitter.t t/99_kwalitee.t t/99_pod-coverage.t t/99_pod.t t/component/authentication/01_load.t t/component/cache/01_load.t t/component/robot_rules/01_load.t t/component/robots_meta/01_load.t t/component/throttle/01_load.t t/engine/danga-socket/01_load.t t/engine/danga-socket/04_dns.t t/engine/io-async/01_load.t t/engine/io-async/04_dns.t t/engine/poe/01_load.t t/engine/poe/04_dns.t t/engine/poe/05_dns_params.t t/plugin/request_log/01_basic.t
+version: 0.08015
