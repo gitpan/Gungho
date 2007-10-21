@@ -1,4 +1,4 @@
-# $Id: /local/gungho/lib/Gungho/Provider/YAML.pm 1743 2007-05-28T06:34:14.539886Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Provider/YAML.pm 1743 2007-05-28T06:34:14.539886Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.

@@ -1,4 +1,4 @@
-# $Id: /local/gungho/lib/Gungho/Provider/Simple.pm 1691 2007-04-24T01:05:24.535007Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Provider/Simple.pm 1691 2007-04-24T01:05:24.535007Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.

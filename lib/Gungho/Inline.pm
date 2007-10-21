@@ -1,4 +1,4 @@
-# $Id: /local/gungho/lib/Gungho/Inline.pm 1750 2007-06-10T08:54:22.827421Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Inline.pm 1750 2007-06-10T08:54:22.827421Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # Copyright (c) 2007 Kazuho Oku

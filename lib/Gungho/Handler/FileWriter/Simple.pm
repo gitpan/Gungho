@@ -1,4 +1,4 @@
-# $Id: /local/gungho/lib/Gungho/Handler/FileWriter/Simple.pm 1749 2007-06-10T08:52:31.230704Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Handler/FileWriter/Simple.pm 1749 2007-06-10T08:52:31.230704Z lestrrat  $
 #
 # Copyrigt (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
