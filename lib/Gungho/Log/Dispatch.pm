@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Log/Dispatch.pm 3534 2007-10-17T14:39:53.410645Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Log/Dispatch.pm 4201 2007-10-25T14:51:48.965187Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -22,11 +22,13 @@ sub setup
 {
     my $self   = shift;
     my $c      = shift;
-    my $config = shift;
-    $self->next::method($c, @_);
 
+    $self->next::method($c);
+
+    my $config = $self->config || {};
     my $list = $config->{logs};
-    if (ref $list ne 'ARRAY') {
+
+    if ($list && ref $list ne 'ARRAY') {
         $list = [ $list ];
     }
 

@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Engine/Danga/Socket.pm 3235 2007-10-13T15:50:33.445011Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Engine/Danga/Socket.pm 4037 2007-10-25T14:20:48.994833Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -63,7 +63,7 @@ sub send_request
     } else {
         $req->uri->host( $req->notes('resolved_ip') ) 
             if $req->notes('resolved_ip');
-        if ($self->block_private_ip_address($c, $req, $req->uri)) {
+        if ($c->block_private_ip_address($req, $req->uri)) {
             return;
         }
         $self->start_request($c, $req);
@@ -93,7 +93,7 @@ sub lookup_name
             $self->handle_response(
                 $c,
                 $req,
-                $self->_http_error(500, "Failed to resolve host " . $req->uri->host, $req)
+                $c->_http_error(500, "Failed to resolve host " . $req->uri->host, $req)
             );
         }
     );
@@ -112,7 +112,7 @@ sub start_request
     if ($@) {
         $self->handle_response(
             $req,
-            $self->_http_error(500, "Failed to connect to " . $uri->host . ": $@", $req)
+            $c->_http_error(500, "Failed to connect to " . $uri->host . ": $@", $req)
         );
         return;
     }

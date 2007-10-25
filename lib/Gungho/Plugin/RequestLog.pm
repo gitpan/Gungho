@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Plugin/RequestLog.pm 3752 2007-10-19T23:33:34.500383Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Plugin/RequestLog.pm 4201 2007-10-25T14:51:48.965187Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -23,8 +23,7 @@ sub setup
 {
     my ($self, $c) = @_;
 
-    my $log = Gungho::Log::Dispatch->new();
-    $log->setup($c, {
+    my $log = Gungho::Log::Dispatch->new(config => {
         logs      => $self->config,
         callbacks => sub {
             my %args = @_;
@@ -35,6 +34,7 @@ sub setup
             return $message;
         },
     });
+    $log->setup($c);
     $self->log($log);
 
     $c->register_hook(

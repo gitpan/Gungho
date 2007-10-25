@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Base.pm 1739 2007-05-16T02:08:52.622396Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Base.pm 4200 2007-10-25T14:51:15.908897Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -6,11 +6,10 @@
 package Gungho::Base;
 use strict;
 use warnings;
-use base qw(Class::Accessor::Fast Class::Data::Inheritable);
-use Class::C3;
-INIT { Class::C3::initialize() }
+use Gungho::Base::Class;
+use base qw(Gungho::Base::Class Class::Accessor::Fast);
 
-__PACKAGE__->mk_classdata(config => {});
+__PACKAGE__->mk_accessors($_) for qw(config);
 
 sub new
 {
@@ -18,8 +17,6 @@ sub new
     my $self = bless { @_ }, $class;
     return $self;
 }
-
-sub setup {}
 
 1;
 

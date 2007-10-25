@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Engine/IO/Async.pm 3235 2007-10-13T15:50:33.445011Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Engine/IO/Async.pm 4037 2007-10-25T14:20:48.994833Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -65,7 +65,7 @@ sub send_request
     } else {
         $request->uri->host( $request->notes('resolved_ip') )
             if $request->notes('resolved_ip');
-        if ( $self->block_private_ip_address($c, $request, $request->uri)) {
+        if ( $c->block_private_ip_address($request, $request->uri)) {
             return;
         }
         $self->start_request($c, $request);
@@ -115,7 +115,7 @@ sub start_request
         $self->handle_response(
             $c,
             $req,
-            $self->_http_error(500, "Failed to connect to " . $uri->host . ": $@
+            $c->_http_error(500, "Failed to connect to " . $uri->host . ": $@
 ", $req)
         );
         return;
@@ -140,12 +140,12 @@ sub start_request
         },
         on_read_error => sub {
             my $notifier = shift;
-            my $res = $self->_http_error(400, "incomplete response", $notifier->{request});
+            my $res = $c->_http_error(400, "incomplete response", $notifier->{request});
             $c->handle_response($c, $notifier->{request}, $res);
         },
         on_write_error => sub {
             my $notifier = shift;
-            my $res = $self->_http_error(500, "Could not write to socket ", $notifier->{request});
+            my $res = $c->_http_error(500, "Could not write to socket ", $notifier->{request});
             $c->run_hook('engine.handle_response', { request => $req, response => $res });
             $self->handle_response($c, $notifier->{request}, $res);
         }

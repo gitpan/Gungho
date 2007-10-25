@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Provider/Simple.pm 1691 2007-04-24T01:05:24.535007Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Provider/Simple.pm 4037 2007-10-25T14:20:48.994833Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -22,7 +22,6 @@ sub new
 sub setup
 {
     my $self = shift;
-
     my $url = $self->config->{url};
     if ($url && ! ref($url) ) {
         $url = [ $url ];

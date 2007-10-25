@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Inline.pm 1750 2007-06-10T08:54:22.827421Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Inline.pm 4037 2007-10-25T14:20:48.994833Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # Copyright (c) 2007 Kazuho Oku
@@ -19,7 +19,7 @@ BEGIN
     }
 }
 
-sub setup
+sub bootstrap
 {
     my $class = shift;
     if (&OLD_PARAMETER_LIST) {
@@ -62,7 +62,7 @@ sub _setup_old_parameters
 }
 
 package Gungho::Provider::Inline;
-
+use strict;
 use base qw(Gungho::Provider);
 use Gungho::Request;
 
@@ -88,11 +88,6 @@ sub add_request {
     my ($self, $req) = @_;
     push @{$self->requests}, $req;
     $self->has_requests(1);
-}
-
-sub pushback_request {
-    my ($self, $c, $req) = @_;
-    $self->add_request($req);
 }
 
 sub dispatch {

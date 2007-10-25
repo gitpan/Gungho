@@ -6,7 +6,7 @@ all_from("lib/Gungho.pm");
 
 requires("Best");
 requires("Class::Accessor::Fast");
-requires("Class::C3");
+requires("Class::C3::Componentised");
 requires("Class::Data::Inheritable");
 requires("Class::Inspector");
 requires("Config::Any");
@@ -19,7 +19,6 @@ requires("HTTP::Response");
 requires("Log::Dispatch");
 requires("Path::Class");
 requires("Pod::Usage");
-requires("Regexp::Common");
 requires("Storable");
 requires("URI");
 requires("UNIVERSAL::isa");

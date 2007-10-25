@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Log/Simple.pm 3234 2007-10-13T15:12:58.068532Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Log/Simple.pm 4037 2007-10-25T14:20:48.994833Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -8,19 +8,19 @@ use strict;
 use warnings;
 use base qw(Gungho::Log::Dispatch);
 
-sub setup {
+sub setup
+{
     my $self   = shift;
     my $c      = shift;
-    my $config = shift;
 
-    $config ||= {};
+    my $config = $c->config || {};
     if (ref $config->{logs} ne 'HASH') {
         $config->{logs} = {};
     }
 
     $config->{logs}{module} = 'Screen';
     $config->{logs}{name}   = 'simple';
-    $self->next::method($c, $config);
+    $self->next::method($c);
 }
 
 1;

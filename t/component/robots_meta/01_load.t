@@ -7,15 +7,18 @@ BEGIN
 {
     if (! GunghoTest::assert_engine()) {
         plan(skip_all => "No engine available");
-    } elsif ( ! eval "use HTML::RobotsMETA" || $@) {
-        plan(skip_all => "HTML::RobotsMETA not installed: $@");
     } else {
-        plan(tests => 4);
-        use_ok("Gungho");
+        eval "use HTML::RobotsMETA";
+        if ($@) {
+            plan(skip_all => "HTML::RobotsMETA not installed: $@");
+        } else {
+            plan(tests => 4);
+            use_ok("Gungho");
+        }
     }
 }
 
-Gungho->setup({ 
+Gungho->bootstrap({ 
     components => [
         'RobotsMETA'
     ],

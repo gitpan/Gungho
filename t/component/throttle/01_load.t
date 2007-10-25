@@ -7,22 +7,24 @@ BEGIN
 {
     if (! GunghoTest::assert_engine()) {
         plan(skip_all => "No engine available");
-    } elsif ( ! eval "use Data::Throttler" || $@) {
-        plan(skip_all => "Data::Throttler not installed: $@");
     } else {
-        plan(tests => 10);
-        use_ok("Gungho");
+        eval "use Data::Throttler";
+        if ($@) {
+            plan(skip_all => "Data::Throttler not installed: $@");
+        } else {
+            plan(tests => 2);
+            use_ok("Gungho");
+        }
     }
 }
 
-eval {
-    Gungho->setup({ 
-        components => [
-            'Throttle::Domain'
-        ],
-        provider => {
-            module => 'Simple'
-        }
-    });
-};
-ok(!$@);
+Gungho->bootstrap({ 
+    components => [
+        'Throttle::Domain'
+    ],
+    provider => {
+        module => 'Simple'
+    }
+});
+
+can_ok('Gungho', 'throttle');

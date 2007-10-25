@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Engine/POE.pm 3754 2007-10-19T23:40:57.072441Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Engine/POE.pm 4037 2007-10-25T14:20:48.994833Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -140,7 +140,7 @@ sub _poe_session_loop
     if (! $alarm_id) {
         my $delay = $self->loop_delay;
         if (! defined $delay || $delay <= 0) {
-            $delay = 5;
+            $delay = 1;
         }
         $self->loop_alarm($kernel->delay_set('session_loop', $delay));
     }
@@ -174,8 +174,10 @@ sub _poe_start_request
     $request->uri->host($request->notes('resolved_ip'))
         if $request->notes('resolved_ip');
 
-    # block private IP addreses
-    return if $c->engine->block_private_ip_address($c, $request, $request->uri);
+    if (! $c->request_is_allowed($request)) {
+        # For whatever reason, the request was not allowed
+        return;
+    }
 
     $c->run_hook('engine.send_request', { request => $request });
     POE::Kernel->post(&UserAgentAlias, 'request', 'handle_response', $request);
@@ -267,6 +269,12 @@ Gungho::Engine::POE - POE Engine For Gungho
 =head1 DESCRIPTION
 
 Gunghog::Engine::POE gives you the full power of POE to Gungho.
+
+=head1 CHOOSING THE RIGHT loop_delay
+
+C<loop_delay> specifies the number of seconds to wait until calling C<dispatch>
+again. If you feel like Gungho is running slow, try setting this parameter to
+a smaller amount. Things will run much smoother.
 
 =head1 POE::Component::Client::HTTP AND DECODED CONTENTS
 

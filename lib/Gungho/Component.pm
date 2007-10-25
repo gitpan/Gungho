@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Component.pm 2427 2007-09-03T13:35:22.402606Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Component.pm 4037 2007-10-25T14:20:48.994833Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -6,16 +6,7 @@
 package Gungho::Component;
 use strict;
 use warnings;
-use base qw(Gungho::Base);
-
-sub inject_base
-{
-    my $class = shift;
-    my $c     = shift;
-
-    push @Gungho::ISA, $class;
-    $c->features->{ $class->feature_name }++;
-}
+use base qw(Gungho::Base::Class);
 
 sub feature_name
 {

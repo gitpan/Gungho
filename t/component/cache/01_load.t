@@ -7,15 +7,18 @@ BEGIN
 {
     if (! GunghoTest::assert_engine()) {
         plan(skip_all => "No engine available");
-    } elsif ( ! eval "use Cache::Memory" || $@) {
-        plan(skip_all => "Cache::Memory not installed: $@");
     } else {
-        plan(tests => 10);
-        use_ok("Gungho");
+        eval "use Cache::Memory";
+        if ($@) {
+            plan(skip_all => "Cache::Memory not installed: $@");
+        } else {
+            plan(tests => 10);
+            use_ok("Gungho");
+        }
     }
 }
 
-Gungho->setup({ 
+Gungho->bootstrap({ 
     components => [
         'Cache'
     ],

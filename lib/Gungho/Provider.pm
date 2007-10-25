@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Provider.pm 1739 2007-05-16T02:08:52.622396Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Provider.pm 4037 2007-10-25T14:20:48.994833Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -19,7 +19,10 @@ sub dispatch_request
     $c->send_request($req);
 }
 
-sub pushback_request {}
+sub pushback_request {
+    my ($self, $c, $req) = @_;
+    $self->add_request($req);
+}
 
 1;
 
