@@ -61,6 +61,7 @@ requires:
   Log::Dispatch: 0
   Path::Class: 0
   Pod::Usage: 0
+  Regexp::Common: 0
   Storable: 0
   UNIVERSAL::isa: 0
   UNIVERSAL::require: 0
