@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Engine.pm 4037 2007-10-25T14:20:48.994833Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Engine.pm 4227 2007-10-29T06:55:42.728631Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -7,7 +7,6 @@ package Gungho::Engine;
 use strict;
 use warnings;
 use base qw(Gungho::Base);
-use HTTP::Status qw(status_message);
 
 sub run {}
 

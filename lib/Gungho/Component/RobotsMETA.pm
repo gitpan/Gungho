@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Component/RobotsMETA.pm 3532 2007-10-17T12:49:55.724702Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Component/RobotsMETA.pm 4226 2007-10-29T06:54:40.756956Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -22,13 +22,13 @@ sub handle_response
 {
     my ($self, $req, $res) = @_;
 
-    if ($res->content_type =~ m{^text/html}i) {
+    if ($res->is_success && $res->content_type =~ m{^text/html}i) {
         eval {
             my $rules = $self->robots_meta->parse_rules( $res->content );
             $res->notes( robots_meta => $rules );
         };
         if ($@) {
-            $self->log->debug("Failed to parse " . $res->uri . " for robots META information: $@");
+            $self->log->debug("Failed to parse " . $res->request->uri . " for robots META information: $@");
         }
     }
     $self->next::method($req, $res);

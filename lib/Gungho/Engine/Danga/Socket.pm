@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Engine/Danga/Socket.pm 4037 2007-10-25T14:20:48.994833Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Engine/Danga/Socket.pm 4229 2007-10-29T06:59:39.061291Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -191,7 +191,8 @@ sub handle_response
         $request->uri->host($host);
     }
 
-    $self->context->handle_response($request, $response);
+    my $c = $self->context;
+    $c->handle_response($request, $c->prepare_response($response) );
 }
 
 1;

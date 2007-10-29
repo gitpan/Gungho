@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Engine/POE.pm 4037 2007-10-25T14:20:48.994833Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Engine/POE.pm 4236 2007-10-29T14:49:24.751696Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -144,6 +144,7 @@ sub _poe_session_loop
         }
         $self->loop_alarm($kernel->delay_set('session_loop', $delay));
     }
+    $c->run_hook('engine.end_loop');
 }
 
 sub send_request
@@ -234,8 +235,8 @@ sub _poe_handle_response
         # return if auth has taken care of the response
         return if $code->($c, $req, $res);
     }
-        
-    $c->handle_response($req, $res);
+
+    $c->handle_response($req, $c->prepare_response($res) );
 }
 
 1;

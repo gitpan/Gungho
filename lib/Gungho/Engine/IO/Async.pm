@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Engine/IO/Async.pm 4037 2007-10-25T14:20:48.994833Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Engine/IO/Async.pm 4228 2007-10-29T06:56:31.308425Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -79,7 +79,7 @@ sub handle_response
         # Put it back
         $req->uri->host($host);
     }
-    $c->handle_response($req, $res);
+    $c->handle_response($req, $c->prepare_response($res) );
 }
 
 sub lookup_host

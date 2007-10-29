@@ -2,6 +2,7 @@ Changes
 deps/Class-C3-XS.yaml
 deps/Component-Authentication-Basic.yaml
 deps/Component-Authentication.yaml
+deps/Component-BlockPrivateIP.yaml
 deps/Component-RobotRules.yml
 deps/Component-RobotsMETA.yaml
 deps/Component-Scraper.yaml
@@ -40,7 +41,6 @@ lib/Gungho/Base/Class.pm
 lib/Gungho/Component.pm
 lib/Gungho/Component/Authentication.pm
 lib/Gungho/Component/Authentication/Basic.pm
-lib/Gungho/Component/Setup.pm
 lib/Gungho/Component/BlockPrivateIP.pm
 lib/Gungho/Component/Cache.pm
 lib/Gungho/Component/Core.pm
@@ -51,6 +51,7 @@ lib/Gungho/Component/RobotRules/Storage/Cache.pm
 lib/Gungho/Component/RobotRules/Storage/DB_File.pm
 lib/Gungho/Component/RobotsMETA.pm
 lib/Gungho/Component/Scraper.pm
+lib/Gungho/Component/Setup.pm
 lib/Gungho/Component/Throttle.pm
 lib/Gungho/Component/Throttle/Domain.pm
 lib/Gungho/Component/Throttle/Simple.pm
@@ -68,8 +69,12 @@ lib/Gungho/Log.pm
 lib/Gungho/Log/Dispatch.pm
 lib/Gungho/Log/Simple.pm
 lib/Gungho/Plugin.pm
+lib/Gungho/Plugin/Apoptosis.pm
 lib/Gungho/Plugin/RequestLog.pm
 lib/Gungho/Plugin/RequestTimer.pm
+lib/Gungho/Plugin/Statistics.pm
+lib/Gungho/Plugin/Statistics/Format/XML.pm
+lib/Gungho/Plugin/Statistics/Storage/SQLite.pm
 lib/Gungho/Provider.pm
 lib/Gungho/Provider/File/Simple.pm
 lib/Gungho/Provider/Simple.pm
@@ -105,3 +110,4 @@ t/engine/poe/05_dns_params.t
 t/lib/GunghoTest.pm
 t/lib/GunghoTest/PrivateDNS.pm
 t/plugin/request_log/01_basic.t
+t/plugin/statistics/02_parts.t

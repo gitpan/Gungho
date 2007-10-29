@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Component/Core.pm 4213 2007-10-29T04:35:40.075740Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Component/Core.pm 4230 2007-10-29T07:00:03.398091Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -154,6 +154,7 @@ sub dispatch_requests
     my $c = shift;
     if ($c->is_running) {
         $c->provider->dispatch($c, @_);
+        $c->run_hook('dispatch.dispatch_requests');
     }
 }
 
@@ -163,6 +164,23 @@ sub prepare_request
     my $req  = shift;
     $c->run_hook('dispatch.prepare_request', $req);
     return $req;
+}
+
+sub prepare_response
+{
+    my ($c, $res) = @_;
+
+    {
+        my $old = $res;
+        $res = Gungho::Response->new(
+            $res->code,
+            $res->message,
+            $res->headers,
+            $res->content
+        );
+        $res->request( $old->request );
+    }
+    return $res;
 }
 
 sub send_request
@@ -179,17 +197,6 @@ sub handle_response
 {
     my $c = shift;
     my ($req, $res) = @_;
-
-    {
-        my $old = $res;
-        $res = Gungho::Response->new(
-            $res->code,
-            $res->message,
-            $res->headers,
-            $res->content
-        );
-        $res->request( $old->request );
-    }
 
     my $e;
     eval {
@@ -234,7 +241,7 @@ sub _http_error
     my ($self, $code, $message, $request) = @_;
 
     my $nl = "\n";
-    my $r = HTTP::Response->new($code);
+    my $r = Gungho::Response->new($code);
     my $http_msg = status_message($code);
     my $m = (
       "<html>$nl"
@@ -324,6 +331,10 @@ Calls provider->dispatch
 =head2 prepare_request($req)
 
 Given a request, preps it before sending it to the engine
+
+=head2 prepare_response($req)
+
+Given a response, preps it before sending it to handle_response()
 
 =head2 send_request
 

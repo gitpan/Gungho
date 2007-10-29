@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Component/RobotRules.pm 3539 2007-10-17T15:48:38.501780Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Component/RobotRules.pm 4225 2007-10-29T06:53:53.124374Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 
@@ -77,7 +77,7 @@ sub handle_response
         Gungho::Exception::HandleResponse::Handled->throw;
     }
 
-    $c->maybe::next::method(@_);
+    $c->next::method(@_);
 }
 
 sub push_pending_robots_txt

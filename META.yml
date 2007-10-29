@@ -20,6 +20,7 @@ recommends:
   Best: 0
   Class::C3: 0.16
   Class::C3::XS: 0.02
+  DBI: 0
   DB_File: 0
   Danga::Socket: 1.57
   Danga::Socket::Callback: 0
@@ -27,6 +28,7 @@ recommends:
   Data::Throttler: 0
   Data::Throttler::Memcached: 0
   Digest::MD5: 0
+  File::Temp: 0
   HTML::RobotsMETA: 0
   HTTP::Headers::Util: 0
   HTTP::Parser: 0
@@ -39,11 +41,14 @@ recommends:
   POE::Component::Client::DNS: 0
   POE::Component::Client::HTTP: 0
   POE::Component::Client::Keepalive: 0
+  Path::Class::Dir: 0
   Regexp::Common: 0
+  Sys::Hostname: 0
   Time::HiRes: 0
   URI: 0
   WWW::RobotRules::Parser: 0
   Web::Scraper::Config: 0
+  XML::LibXML: 0
   YAML: 0
 requires: 
   Best: 0
@@ -67,5 +72,5 @@ requires:
   UNIVERSAL::require: 0
   URI: 0
   perl: 5.8.0
-tests: t/01_load.t t/02_config.t t/03_live/perl.t t/03_live/twitter.t t/99_kwalitee.t t/99_pod-coverage.t t/99_pod.t t/component/authentication/01_load.t t/component/cache/01_load.t t/component/robot_rules/01_load.t t/component/robots_meta/01_load.t t/component/scraper/01_load.t t/component/throttle/01_load.t t/engine/danga-socket/01_load.t t/engine/danga-socket/04_dns.t t/engine/io-async/01_load.t t/engine/io-async/04_dns.t t/engine/poe/01_load.t t/engine/poe/04_dns.t t/engine/poe/05_dns_params.t t/plugin/request_log/01_basic.t
+tests: t/01_load.t t/02_config.t t/03_live/perl.t t/03_live/twitter.t t/99_kwalitee.t t/99_pod-coverage.t t/99_pod.t t/component/authentication/01_load.t t/component/cache/01_load.t t/component/robot_rules/01_load.t t/component/robots_meta/01_load.t t/component/scraper/01_load.t t/component/throttle/01_load.t t/engine/danga-socket/01_load.t t/engine/danga-socket/04_dns.t t/engine/io-async/01_load.t t/engine/io-async/04_dns.t t/engine/poe/01_load.t t/engine/poe/04_dns.t t/engine/poe/05_dns_params.t t/plugin/request_log/01_basic.t t/plugin/statistics/01_load.t t/plugin/statistics/02_parts.t
 version: 0.09000
