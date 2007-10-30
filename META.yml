@@ -1,6 +1,7 @@
 --- 
 abstract: Yet Another High Performance Web Crawler Framework
-author: Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
+author:
+  Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 build_requires: 
   DirHandle: 0
   File::Spec: 0

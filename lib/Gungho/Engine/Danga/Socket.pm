@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Engine/Danga/Socket.pm 4229 2007-10-29T06:59:39.061291Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Engine/Danga/Socket.pm 4568 2007-10-30T11:07:50.661955Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -161,7 +161,7 @@ sub start_request
             if (! $success) {
                 $self->handle_response(
                     $req,
-                    $self->_http_error(400, "incomplete response", $req)
+                    $c->_http_error(400, "incomplete response", $req)
                 );
                 return;
             }

@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Component/RobotRules.pm 4225 2007-10-29T06:53:53.124374Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Component/RobotRules.pm 4564 2007-10-29T16:25:42.369911Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 
@@ -30,15 +30,12 @@ sub send_request
     ;
     if ($allowed == -2) {
         $c->log->debug("Fetch for /robots.txt already scheduled for " . $request->original_uri->host_port);
-        Gungho::Exception::SendRequest::Handled->throw;
     } elsif ($allowed == -1) {
         $c->log->debug("No robot rules found for " . $request->original_uri->host_port . ", going to fetch one");
-        Gungho::Exception::SendRequest::Handled->throw;
     } elsif ($allowed) {
-        $c->maybe::next::method($request);
+        $c->next::method($request);
     } else {
         $c->log->debug($request->uri . " is disallowed by robot rules");
-        Gungho::Exception::SendRequest::Handled->throw;
     }
 }
 
@@ -74,7 +71,7 @@ sub handle_response
         $c->log->debug("Handling robots.txt response for " . $request->uri);
         $c->parse_robot_rules($request, $response);
         $c->dispatch_pending_robots_txt($request);
-        Gungho::Exception::HandleResponse::Handled->throw;
+        return;
     }
 
     $c->next::method(@_);
