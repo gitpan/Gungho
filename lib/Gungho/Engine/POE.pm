@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Engine/POE.pm 4236 2007-10-29T14:49:24.751696Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Engine/POE.pm 8769 2007-11-08T05:55:36.931222Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -63,21 +63,6 @@ sub run
 
     my $keepalive = POE::Component::Client::Keepalive->new(%$keepalive_config);
 
-    my $dns_config = delete $config{dns} || {};
-    foreach my $key (keys %$dns_config) {
-        if ($key =~ /^[a-z]/) { # ah, need to make this CamelCase
-            my $camel = ucfirst($key);
-            $camel =~ s/_(\w)/uc($1)/ge;
-            $dns_config->{$camel} = delete $dns_config->{$key};
-        }
-    }
-
-    my $resolver = POE::Component::Client::DNS->spawn(
-        %$dns_config,
-        Alias => &DnsResolverAlias,
-    );
-    $self->resolver($resolver);
-
     my $client_config = delete $config{client} || {};
     foreach my $key (keys %$client_config) {
         if ($key =~ /^[a-z]/) { # ah, need to make this CamelCase
@@ -85,6 +70,31 @@ sub run
             $camel =~ s/_(\w)/uc($1)/ge;
             $client_config->{$camel} = delete $client_config->{$key};
         }
+    }
+
+    # Starting from 0.09002, we accept that there are environments where
+    # DNS resolution is NOT necessary. This turns out to be a problem when
+    # going through, for example, a misconfigured proxy.
+    #
+    # Here, we detect if one of the following is true:
+    #   1) The user has explicitly disable DNS resolution via dns.disable = 1
+    #   2) The user has requested the use of a proxy via engine.client.proxy
+    #   3) The user has implicitly requested the use of a proxy via
+    #      $ENV{HTTP_PROXY}
+    my $dns_config = delete $config{dns} || {};
+    unless ($dns_config->{disable} || $client_config->{Proxy} || $client_config->{proxy} || $ENV{HTTP_PROXY}) {
+        foreach my $key (keys %$dns_config) {
+            if ($key =~ /^[a-z]/) { # ah, need to make this CamelCase
+                my $camel = ucfirst($key);
+                $camel =~ s/_(\w)/uc($1)/ge;
+                $dns_config->{$camel} = delete $dns_config->{$key};
+            }
+        }
+        my $resolver = POE::Component::Client::DNS->spawn(
+            %$dns_config,
+            Alias => &DnsResolverAlias,
+        );
+        $self->resolver($resolver);
     }
 
     POE::Component::Client::HTTP->spawn(
@@ -159,7 +169,7 @@ sub _poe_start_request
     my $c = $heap->{CONTEXT};
 
     # check if this request requires a DNS resolution
-    if ($request->requires_name_lookup()) {
+    if ($c->engine->resolver && $request->requires_name_lookup()) {
         my $dns_response = $c->engine->resolver->resolve(
             event => "got_dns_response",
             host  => $request->uri->host,
@@ -265,6 +275,8 @@ Gungho::Engine::POE - POE Engine For Gungho
         max_open: 200
         max_per_host: 20
         timeout: 10
+      dns:
+        # disable: 1 If you want to disable DNS resolution by Gungho
 
 
 =head1 DESCRIPTION

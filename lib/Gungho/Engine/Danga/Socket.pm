@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Engine/Danga/Socket.pm 4568 2007-10-30T11:07:50.661955Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Engine/Danga/Socket.pm 8769 2007-11-08T05:55:36.931222Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -22,6 +22,9 @@ sub setup
     my $self = shift;
     $self->active_requests({});
     $self->loop_delay( $self->config->{loop_delay} ) if $self->config->{loop_delay};
+    if (! $self->config->{dns}{disable}) {
+        $self->resolver(Net::DNS::Resolver->new);
+    }
     $self->next::method(@_);
 }
 
@@ -29,7 +32,6 @@ sub run
 {
     my ($self, $c) = @_;
 
-    $self->resolver(Net::DNS::Resolver->new);
     $self->context($c);
     Danga::Socket->SetPostLoopCallback(
         sub {
@@ -58,12 +60,12 @@ sub send_request
     my $c    = shift;
     my $req  = shift;
 
-    if ($req->requires_name_lookup) {
+    if ($self->resolver && $req->requires_name_lookup) {
         $self->lookup_name($c, $req);
     } else {
         $req->uri->host( $req->notes('resolved_ip') ) 
             if $req->notes('resolved_ip');
-        if ($c->block_private_ip_address($req, $req->uri)) {
+        if (! $c->request_is_allowed($req)) {
             return;
         }
         $self->start_request($c, $req);

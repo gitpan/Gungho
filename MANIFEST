@@ -13,6 +13,7 @@ deps/Engine-Danga-Socket.yaml
 deps/Engine-IO-Async.yaml
 deps/Engine-POE.yaml
 deps/Plugin-RequestTimer.yaml
+deps/Plugin-Statistics.yaml
 deps/Provider-YAML.yaml
 examples/robotrules/simple.yml
 examples/simple-file/simple-file.yml
@@ -88,6 +89,7 @@ META.yml
 script/gungho
 t/01_load.t
 t/02_config.t
+t/03_live/perl-proxy.t
 t/03_live/perl.t
 t/03_live/twitter.t
 t/99_kwalitee.t
@@ -101,13 +103,19 @@ t/component/scraper/01_load.t
 t/component/throttle/01_load.t
 t/data/02_config/yaml.yml
 t/engine/danga-socket/01_load.t
+t/engine/danga-socket/02_live.t
 t/engine/danga-socket/04_dns.t
 t/engine/io-async/01_load.t
+t/engine/io-async/02_live.t
 t/engine/io-async/04_dns.t
 t/engine/poe/01_load.t
+t/engine/poe/02_live.t
 t/engine/poe/04_dns.t
 t/engine/poe/05_dns_params.t
+t/engine/poe/06_dns_disable.t
 t/lib/GunghoTest.pm
+t/lib/GunghoTest/Live.pm
 t/lib/GunghoTest/PrivateDNS.pm
 t/plugin/request_log/01_basic.t
+t/plugin/statistics/01_load.t
 t/plugin/statistics/02_parts.t
