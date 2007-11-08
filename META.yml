@@ -27,7 +27,7 @@ recommends:
   Danga::Socket::Callback: 0
   Data::Dumper: 0
   Data::Throttler: 0
-  Data::Throttler::Memcached: 0
+  Data::Throttler::Memcached: 0.00003
   Digest::MD5: 0
   File::Temp: 0
   HTML::RobotsMETA: 0

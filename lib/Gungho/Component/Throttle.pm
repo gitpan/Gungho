@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Component/Throttle.pm 4037 2007-10-25T14:20:48.994833Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Component/Throttle.pm 8775 2007-11-08T09:53:44.496906Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 
@@ -8,7 +8,13 @@ use warnings;
 use base qw(Gungho::Component);
 
 sub feature_name { 'Throttle' }
-sub throttle { 1 }
+
+sub throttle
+{
+    my $c = shift;
+    $c->log->debug( $_[0]->url . " NOT throttled" );
+    return 1;
+}
 
 sub send_request
 {
@@ -87,6 +93,11 @@ the throttler argument in the configuration:
         data: 127.0.0.1:11211
       max_items: 100
       interval: 3600
+
+Starting from 0.09003, you can stack throttlers. For example, you can throttle
+by Throttle::Simple first, and if Throttle::Simple allowed the request to
+go, then you can  throttle with Throttle::Domain as well to make sure that
+the same host doesn't get beaten up.
 
 =head1 METHODS
 
