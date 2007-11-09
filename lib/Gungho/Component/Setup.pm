@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Component/Setup.pm 4037 2007-10-25T14:20:48.994833Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Component/Setup.pm 8883 2007-11-09T10:49:21.147243Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -34,6 +34,13 @@ sub run
     my $c = shift;
     $c->bootstrap(@_);
     $c->is_running(1);
+
+    my $banner = sprintf(<<EOBANNER, $Gungho::VERSION, join(', ', map { my $name = $_; $name =~ s/Gungho::Component:://; $name } @Gungho::ISA ) );
+Starting $c 
+Gungho Version: %s
+Components: %s
+EOBANNER
+    $c->log->info($_) for split(/\n/, $banner);
     $c->engine->run($c);
 }
 
