@@ -69,6 +69,7 @@ lib/Gungho/Inline.pm
 lib/Gungho/Log.pm
 lib/Gungho/Log/Dispatch.pm
 lib/Gungho/Log/Simple.pm
+lib/Gungho/Manual/FAQ.pod
 lib/Gungho/Plugin.pm
 lib/Gungho/Plugin/Apoptosis.pm
 lib/Gungho/Plugin/RequestLog.pm
@@ -83,6 +84,7 @@ lib/Gungho/Provider/YAML.pm
 lib/Gungho/Request.pm
 lib/Gungho/Request/http.pm
 lib/Gungho/Response.pm
+lib/Gungho/Util.pm
 Makefile.PL
 MANIFEST			This list of files
 META.yml

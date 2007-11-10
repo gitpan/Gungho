@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Component/RobotRules.pm 4564 2007-10-29T16:25:42.369911Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Component/RobotRules.pm 8891 2007-11-10T14:10:30.426265Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 
@@ -55,7 +55,7 @@ sub allowed
         $uri->fragment(undef);
         my $req = Gungho::Request->new(GET => $uri);
         $req->notes('auto_robot_rules' => 1);
-        $c->provider->pushback_request( $c, $req );
+        $c->pushback_request( $req );
         return -1;
     } else {
         return $rule->allowed( $c, $request->uri );
@@ -89,7 +89,7 @@ sub dispatch_pending_robots_txt
 
     my $pending = $c->robot_rules_storage->get_pending_robots_txt($c, $request);
     if ($pending && ref $pending eq 'HASH') {
-        $c->provider->pushback_request( $c, $_ ) for values %$pending;
+        $c->pushback_request( $_ ) for values %$pending;
     }
 }
 

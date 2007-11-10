@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Base.pm 4200 2007-10-25T14:51:15.908897Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Base.pm 8892 2007-11-10T14:11:01.888849Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -6,7 +6,6 @@
 package Gungho::Base;
 use strict;
 use warnings;
-use Gungho::Base::Class;
 use base qw(Gungho::Base::Class Class::Accessor::Fast);
 
 __PACKAGE__->mk_accessors($_) for qw(config);

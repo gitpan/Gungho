@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Base/Class.pm 4037 2007-10-25T14:20:48.994833Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Base/Class.pm 8892 2007-11-10T14:11:01.888849Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -6,6 +6,7 @@
 package Gungho::Base::Class;
 use strict;
 use base qw(Class::Data::Inheritable);
+use Class::C3;
 
 sub setup {}
 
