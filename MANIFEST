@@ -64,6 +64,7 @@ lib/Gungho/Engine/POE.pm
 lib/Gungho/Exception.pm
 lib/Gungho/Handler.pm
 lib/Gungho/Handler/FileWriter/Simple.pm
+lib/Gungho/Handler/Inline.pm
 lib/Gungho/Handler/Null.pm
 lib/Gungho/Inline.pm
 lib/Gungho/Log.pm
@@ -79,6 +80,7 @@ lib/Gungho/Plugin/Statistics/Format/XML.pm
 lib/Gungho/Plugin/Statistics/Storage/SQLite.pm
 lib/Gungho/Provider.pm
 lib/Gungho/Provider/File/Simple.pm
+lib/Gungho/Provider/Inline.pm
 lib/Gungho/Provider/Simple.pm
 lib/Gungho/Provider/YAML.pm
 lib/Gungho/Request.pm

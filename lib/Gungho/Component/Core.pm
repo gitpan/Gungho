@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Component/Core.pm 8900 2007-11-10T15:40:32.116873Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Component/Core.pm 8909 2007-11-12T01:04:17.979695Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -49,7 +49,24 @@ sub setup_provider
     my $c = shift;
 
     my $config = $c->config->{provider};
-    if (! $config || ref $config ne 'HASH') {
+
+    my $ref = ref $config;
+    if (! $config || ! defined $ref) {
+        Carp::croak("Gungho requires a provider");
+    }
+
+    if ($ref eq 'CODE') {
+        # Smells like an inlined provider
+        my $code = $config;
+        $config = {
+            module => "Inline",
+            config => {
+                callback => $code
+            }
+        }
+    }
+
+    if ( $ref ne 'HASH') {
         Carp::croak("Gungho requires a provider");
     }
 
@@ -86,6 +103,26 @@ sub setup_handler
         module => 'Null',
         config => {}
     };
+    my $ref = ref $config;
+    if (! $config || ! defined $ref) {
+        Carp::croak("Gungho requires a handler");
+    }
+
+    if ($ref eq 'CODE') {
+        # Smells like an inlined handler
+        my $code = $config;
+        $config = {
+            module => "Inline",
+            config => {
+                callback => $code
+            }
+        }
+    }
+
+    if ( $ref ne 'HASH') {
+        Carp::croak("Gungho requires a handler");
+    }
+
     my $pkg = $c->load_gungho_module($config->{module}, 'Handler');
     $pkg->isa('Gungho::Handler') or die "$pkg is not a Gungho::Handler subclass";
     my $obj = $pkg->new( config => $config->{config} || {});

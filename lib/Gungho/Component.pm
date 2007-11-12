@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Component.pm 4037 2007-10-25T14:20:48.994833Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Component.pm 8910 2007-11-12T01:05:01.438419Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -46,12 +46,6 @@ To add a new component, just create a Gungho::Component subclass, and add
 it in your config. Gungho will ensure that it is loaded and setup.
 
 =head1 METHODS
-
-=head2 inject_base($c)
-
-Inject the component to Gungho. It also sets a flag in the features() hash
-so that other components in the system can query Gungho if it supprots
-a certain feature X
 
 =head2 feature_name()
 
