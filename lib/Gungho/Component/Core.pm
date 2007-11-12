@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Component/Core.pm 8909 2007-11-12T01:04:17.979695Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Component/Core.pm 8914 2007-11-12T01:49:30.037664Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -64,9 +64,7 @@ sub setup_provider
                 callback => $code
             }
         }
-    }
-
-    if ( $ref ne 'HASH') {
+    } elsif ( $ref ne 'HASH') {
         Carp::croak("Gungho requires a provider");
     }
 
@@ -117,9 +115,7 @@ sub setup_handler
                 callback => $code
             }
         }
-    }
-
-    if ( $ref ne 'HASH') {
+    } elsif ( $ref ne 'HASH') {
         Carp::croak("Gungho requires a handler");
     }
 
