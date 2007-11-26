@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Engine/Danga/Socket.pm 8769 2007-11-08T05:55:36.931222Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Engine/Danga/Socket.pm 9352 2007-11-21T02:13:31.513580Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -70,6 +70,7 @@ sub send_request
         }
         $self->start_request($c, $req);
     }
+    return 1;
 }
 
 sub lookup_name
@@ -132,7 +133,7 @@ sub start_request
             }
             my $c = $ds->{context}{context};
 
-            $c->run_hook('engine.send_request', { request => $req });
+            $c->notify('engine.send_request', { request => $req });
             my $req_str = $req->format();
             if ($ds->write($req_str)) {
                 $ds->watch_write(0);

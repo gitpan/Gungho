@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Component/RobotsMETA.pm 4226 2007-10-29T06:54:40.756956Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Component/RobotsMETA.pm 31095 2007-11-26T00:05:40.329716Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -56,6 +56,14 @@ directies embedded in the document.
 
 =head2 setup
 
+Initializes the component.
+
 =head2 handle_response
+
+Overrides Gungho::Component::Core::handle_response()
+
+=head1 SEE ALSO 
+
+L<HTML::RobotsMETA|HTML::RobotsMETA>
 
 =cut

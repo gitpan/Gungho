@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Component/BlockPrivateIP.pm 4037 2007-10-25T14:20:48.994833Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Component/BlockPrivateIP.pm 31095 2007-11-26T00:05:40.329716Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -110,5 +110,9 @@ error HTTP Response/
 =head2 address_is_private
 
 Given an address, returns true if the address looks like a private IP
+
+=head1 SEE ALSO
+
+L<Regexp::Common|Regexp::Common>
 
 =cut

@@ -15,6 +15,21 @@ deps/Engine-POE.yaml
 deps/Plugin-RequestTimer.yaml
 deps/Plugin-Statistics.yaml
 deps/Provider-YAML.yaml
+docs/ja/Gungho.pod
+docs/ja/Gungho/Component.pod
+docs/ja/Gungho/Component/Authentication.pod
+docs/ja/Gungho/Component/BlockPrivateIP.pod
+docs/ja/Gungho/Component/RobotRules.pod
+docs/ja/Gungho/Component/RobotsMETA.pod
+docs/ja/Gungho/Component/Throttle.pod
+docs/ja/Gungho/Engine/POE.pod
+docs/ja/Gungho/Log/Dispatch.pod
+docs/ja/Gungho/Manual/Basics.pod
+docs/ja/Gungho/Manual/FAQ.pod
+docs/ja/Gungho/Manual/Intro.pod
+docs/ja/Gungho/Manual/Tutorial.pod
+docs/ja/Gungho/Request.pod
+docs/ja/Gungho/Response.pod
 examples/robotrules/simple.yml
 examples/simple-file/simple-file.yml
 examples/simple-file/url.txt
@@ -71,6 +86,7 @@ lib/Gungho/Log.pm
 lib/Gungho/Log/Dispatch.pm
 lib/Gungho/Log/Simple.pm
 lib/Gungho/Manual/FAQ.pod
+lib/Gungho/Manual/TODO.pod
 lib/Gungho/Plugin.pm
 lib/Gungho/Plugin/Apoptosis.pm
 lib/Gungho/Plugin/RequestLog.pm
@@ -123,3 +139,4 @@ t/lib/GunghoTest/PrivateDNS.pm
 t/plugin/request_log/01_basic.t
 t/plugin/statistics/01_load.t
 t/plugin/statistics/02_parts.t
+README

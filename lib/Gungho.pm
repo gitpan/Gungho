@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho.pm 8914 2007-11-12T01:49:30.037664Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho.pm 31122 2007-11-26T13:29:03.013547Z lestrrat  $
 # 
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -8,7 +8,7 @@ use strict;
 use warnings;
 use 5.008;
 use base qw(Class::C3::Componentised);
-our $VERSION = '0.09004';
+our $VERSION = '0.09005';
 
 __PACKAGE__->load_components('Setup');
 
@@ -297,24 +297,6 @@ Used for Class::C3::Componentised
 You can obtain the current code base from
 
   http://gungho-crawler.googlecode.com/svn/trunk
-
-=head1 TODO
-
-=head2 1. Thorough re-evaluation of the internal API
-
-Names like send_request(), handle_response() are fine, but those are names
-that I tacked on to the code just because I could.
-
-To allow a more flexible interface for component/plugin writers, we really
-need to make the namings more uniform.
-
-Still open to ideas. I haven't made up my mind yet.
-
-# This needs to be done before we can call ourselves *really* production ready
-
-=head2 2. Add manuals
-
-Volunteers welcome!
 
 =head1 AUTHOR
 

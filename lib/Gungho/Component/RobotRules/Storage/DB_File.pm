@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Component/RobotRules/Storage/DB_File.pm 3258 2007-10-14T03:35:40.766816Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Component/RobotRules/Storage/DB_File.pm 9009 2007-11-12T15:00:57.083186Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 
@@ -16,7 +16,12 @@ sub setup
     $config->{filename} ||= File::Spec->catfile(File::Spec->tmpdir, 'robots.db');
 
     my %o;
-    $self->storage( tie %o, 'DB_File', $config->{filename} );
+    my $dbm = tie %o, 'DB_File', $config->{filename};
+    if (! $dbm) {
+        die "Failed to tie $config->{filename} to hash: $!";
+    }
+
+    $self->storage( $dbm );
     $self->next::method(@_);
 }
 

@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Component/Core.pm 8914 2007-11-12T01:49:30.037664Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Component/Core.pm 31119 2007-11-26T13:12:48.719759Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -6,9 +6,11 @@
 package Gungho::Component::Core;
 use strict;
 use warnings;
+use base qw(Gungho::Component);
 use Carp ();
 use Config::Any;
 use Class::Inspector;
+use Event::Notify;
 use UNIVERSAL::isa;
 use UNIVERSAL::require;
 use HTTP::Status qw(status_message);
@@ -18,10 +20,13 @@ use Gungho::Request;
 use Gungho::Response;
 use Gungho::Util;
 
+__PACKAGE__->mk_classdata('notify_hub');
+
 sub setup
 {
     my $c = shift;
 
+    $c->notify_hub( Event::Notify->new );
     $c->setup_log();
     $c->setup_provider();
     $c->setup_handler();
@@ -38,7 +43,7 @@ sub setup_log
     my $log_config = { %{$c->config->{log} || { logs => [] }} };
     my $module     = delete $log_config->{module} || 'Simple';
     my $pkg        = $c->load_gungho_module($module, 'Log');
-    my $log        = $pkg->new(config => $log_config);
+    my $log        = $pkg->new(config => $log_config->{config} || $log_config);
 
     $log->setup($c);
     $c->log($log);
@@ -138,31 +143,6 @@ sub setup_plugins
     }
 }
 
-sub register_hook
-{
-    my $c = shift;
-    my $hooks = $c->hooks;
-    while(@_) {
-        my($name, $hook) = splice(@_, 0, 2);
-        $hooks->{$name} ||= [];
-        push @{ $hooks->{$name} }, $hook;
-    }
-}
-
-sub run_hook
-{
-    my $c = shift;
-    my $name = shift;
-    my $hooks = $c->hooks->{$name} || [];
-    foreach my $hook (@{ $hooks }) {
-        if (ref($hook) eq 'CODE') {
-            $hook->($c, @_);
-        } else {
-            $hook->execute($c, @_);
-        }
-    }
-}
-
 sub has_feature
 {
     my ($c, $name) = @_;
@@ -185,7 +165,7 @@ sub dispatch_requests
     my $c = shift;
     if ($c->is_running) {
         $c->provider->dispatch($c, @_);
-        $c->run_hook('dispatch.dispatch_requests');
+        $c->notify('dispatch.dispatch_requests');
     }
 }
 
@@ -193,7 +173,7 @@ sub prepare_request
 {
     my $c = shift;
     my $req  = shift;
-    $c->run_hook('dispatch.prepare_request', $req);
+    $c->notify('dispatch.prepare_request', $req);
     return $req;
 }
 
@@ -219,7 +199,7 @@ sub send_request
     my $c = shift;
     my $request = shift;
     $request = $c->prepare_request($request);
-    $c->engine->send_request($c, $request);
+    return $c->engine->send_request($c, $request);
 }
 
 sub pushback_request
@@ -295,6 +275,27 @@ sub _http_error
     return $r;
 }
 
+sub register_event
+{
+    my $c = shift;
+    $c->notify_hub->register_event(@_);
+}
+*register_hook = \&register_event;
+
+sub unregister_event
+{
+    my $c = shift;
+    $c->notify_hub->unregister_event(@_);
+}
+
+sub notify
+{
+    my ($c, $event, @args) = @_;
+    $c->notify_hub->notify($event, $c, @args);
+}
+*run_hook = \&notify;
+
+
 1;
 
 __END__
@@ -339,11 +340,25 @@ Sets up the various components.
 
 =head2 register_hook($hook_name => $coderef[, $hook_name => $coderef])
 
-Registers a hook to be run under the specified $hook_name
+Is deprecated. Use register_event instead.
 
-=head2 run_hook($hook_name)
+=head2 register_event($event, $observer)
 
-Runs all the hooks under the hook $hook_name
+Registers an observer that gets notified when $event happens. The $observer
+argument can be either an object implementing notify(), or a subroutine
+reference.
+
+=head2 unregister_event($event, $observer)
+
+Unregisters an observer from the specified event
+
+=head2 run_hook($hook_name, @args)
+
+Is deprecated. Use notify() instead.
+
+=head2 notify($event, @args)
+
+Notifies observers of an event.
 
 =head2 has_requests
 

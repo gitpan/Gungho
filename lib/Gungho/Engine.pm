@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Engine.pm 4227 2007-10-29T06:55:42.728631Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Engine.pm 31118 2007-11-26T13:12:05.043232Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -9,6 +9,24 @@ use warnings;
 use base qw(Gungho::Base);
 
 sub run {}
+
+sub stop {}
+
+sub finish_request
+{
+    my ($self, $c, $request) = @_;
+    if (my $host = $request->notes('original_host')) {
+        # Put it back
+        $request->uri->host($host);
+    }
+}
+
+sub handle_response
+{
+    my ($self, $c, $request, $response) = @_;
+    $self->finish_request($c, $request);
+    $c->handle_response($request, $response);
+}
 
 sub handle_dns_response
 {
@@ -51,12 +69,21 @@ Gungho::Engine - Base Class For Gungho Engine
 
 Handles the response from DNS lookups.
 
-=head2 block_private_ip_address()
+=head2 handle_response
 
-Checks if the given DNS response contains a private IP address to be blocked
+Call finish_request() on the request, and delegates to Gungho's
+hnalde_response()
+
+=head2 finish_request
+
+Perform whatever cleanup required on the request
 
 =head2 run()
 
-Starts the engine. The exact behavior differs between each engine
+Starts the engine. The exact behavior differs between each engines
+
+=head2 stop()
+
+Stops the engine.  The exact behavior differs between each engines
 
 =cut

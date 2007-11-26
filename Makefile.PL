@@ -10,6 +10,7 @@ requires("Class::C3::Componentised");
 requires("Class::Data::Inheritable");
 requires("Class::Inspector");
 requires("Config::Any");
+requires("Event::Notify", '0.00003');
 requires("Exception::Class");
 requires("FindBin");
 requires("Getopt::Long");
@@ -27,9 +28,11 @@ requires("UNIVERSAL::require");
 
 recommends('Digest::MD5');
 
+build_requires('Test::More');
 build_requires('YAML');
 build_requires('DirHandle');
 build_requires('File::Spec');
+build_requires('Test::More');
 
 # Hey, stolen right off of Plagger
 eval {

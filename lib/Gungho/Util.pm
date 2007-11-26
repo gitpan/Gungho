@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Util.pm 8890 2007-11-10T13:31:05.351929Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Util.pm 31104 2007-11-26T05:21:09.665051Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved
@@ -38,8 +38,10 @@ Gungho::Util - Gungho General Utilities
 
 =head1 METHODS
 
-=head2 load_module
+=head2 load_module($module, $prefix)
 
-Loads a module
+Loads a module. If the module name starts with a '+', then the module name
+is taken as-is without the '+'. Otherwise, the module name is prefixed with
+the second argument $prefix
 
 =cut

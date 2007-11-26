@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Provider.pm 4037 2007-10-25T14:20:48.994833Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Provider.pm 31105 2007-11-26T06:18:38.487252Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -21,7 +21,7 @@ sub dispatch_request
 
 sub pushback_request {
     my ($self, $c, $req) = @_;
-    $self->add_request($req);
+    die ref($self) . '::pushback_request is not implemented';
 }
 
 1;

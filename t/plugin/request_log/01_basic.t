@@ -5,7 +5,9 @@ use GunghoTest;
 
 BEGIN
 {
-    if (! GunghoTest::assert_engine()) {
+    if (! $ENV{GUNGHO_TEST_LIVE}) {
+        plan skip_all => "Enable GUNGHO_TEST_LIVE to run these tests";
+    } elsif (! GunghoTest::assert_engine()) {
         plan(skip_all => "No engine available");
     } else {
         eval "use IO::Scalar";
@@ -18,12 +20,13 @@ BEGIN
     }
 }
 
-my ($fh, $output);
-$fh = IO::Scalar->new(\$output) || die "Failed to open handle to scalar \$output";
+my $output = '';
+my $fh     = IO::Scalar->new(\$output) ||
+    die "Failed to open handle to scalar \$output";
 
 # If we're not connect to the net the request itself may fail, but we're
 # not interested in that
-Gungho::Inline->run(
+Gungho->run(
     {
         plugins => [
             { module => "RequestLog",
@@ -32,14 +35,12 @@ Gungho::Inline->run(
               ]
             },
         ],
-    },
-    {
         provider => sub {
             my($p, $c) = @_;
-            $p->add_request(Gungho::Request->new(GET => $_)) for qw(
-                http://www.perl.com
-                http://search.cpan.org
-            )
+
+            foreach my $url qw( http://www.perl.com http://search.cpan.org ) {
+                $c->send_request(Gungho::Request->new(GET => $url));
+            }
         }
     }
 );

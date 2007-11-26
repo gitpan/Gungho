@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Engine/POE.pm 8885 2007-11-10T07:19:07.305088Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Engine/POE.pm 31116 2007-11-26T13:09:51.933010Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -135,12 +135,29 @@ sub run
                 _start => '_poe_session_start',
                 _stop  => '_poe_session_stop',
                 map { ($_ => "_poe_$_") }
-                    qw(session_loop start_request handle_response got_dns_response)
+                    qw(session_loop start_request handle_response got_dns_response shutdown)
             }
         ]
     );
     
     POE::Kernel->run();
+}
+
+sub stop
+{
+    my ($self, $c) = @_;
+    POE::Kernel->post($self->alias, 'shutdown');
+}
+
+sub _poe_shutdown
+{
+    my ($self, $kernel, $heap) = @_[OBJECT, KERNEL, HEAP];
+    my $clients = $self->clients;
+    foreach my $client (@$clients) {
+        $kernel->post($client, 'shutdown');
+    }
+    my $c = $heap->{CONTEXT};
+    $c->is_running(0);
 }
 
 sub _poe_session_start
@@ -181,13 +198,14 @@ sub _poe_session_loop
     }
     $self->loop_alarm($kernel->alarm_set('session_loop', time() + $delay));
 
-    $c->run_hook('engine.end_loop');
+    $c->notify('engine.end_loop');
 }
 
 sub send_request
 {
     my ($self, $c, $request) = @_;
     POE::Kernel->post($self->alias, 'start_request', $request);
+    return 1;
 }
 
 sub _poe_start_request
@@ -217,7 +235,7 @@ sub _poe_start_request
         return;
     }
 
-    $c->run_hook('engine.send_request', { request => $request });
+    $c->notify('engine.send_request', { request => $request });
 
     if (DEBUG) {
         my $uri = $request->uri->clone;
@@ -277,7 +295,7 @@ sub _poe_handle_response
         }
     }
 
-    $c->run_hook('engine.handle_response', { request => $req, response => $res });
+    $c->notify('engine.handle_response', { request => $req, response => $res });
 
     # Do we support auth challenge ?
     my $code = $c->can('check_authentication_challenge');
@@ -440,6 +458,10 @@ sets up the engine.
 
 Instantiates a PoCo::Client::HTTP session and a main session that handles the
 main control.
+
+=head2 stop
+
+Shutsdown the engine
 
 =head2 send_request($request)
 

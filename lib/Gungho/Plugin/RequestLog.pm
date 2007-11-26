@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Plugin/RequestLog.pm 4201 2007-10-25T14:51:48.965187Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Plugin/RequestLog.pm 31117 2007-11-26T13:10:33.379262Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -37,15 +37,13 @@ sub setup
     $log->setup($c);
     $self->log($log);
 
-    $c->register_hook(
-        'engine.send_request'    => sub { $self->log_request(@_) },
-        'engine.handle_response' => sub { $self->log_response(@_) },
-    );
+    $c->register_event('engine.send_request' => sub { $self->log_request(@_) } );
+    $c->register_event('engine.handle_response' => sub { $self->log_response(@_) } );
 }
 
 sub log_request
 {
-    my ($self, $c, $data) = @_;
+    my ($self, $event, $c, $data) = @_;
 
     # Only log this if we've been asked to do soA
     my $request = $data->{request};
@@ -57,7 +55,7 @@ sub log_request
 
 sub log_response
 {
-    my ($self, $c, $data) = @_;
+    my ($self, $event, $c, $data) = @_;
 
     my( $request, $response ) = ($data->{request}, $data->{response});
     my $time = time();
