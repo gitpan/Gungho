@@ -18,14 +18,20 @@ deps/Provider-YAML.yaml
 docs/ja/Gungho.pod
 docs/ja/Gungho/Component.pod
 docs/ja/Gungho/Component/Authentication.pod
+docs/ja/Gungho/Component/Authentication/Basic.pod
 docs/ja/Gungho/Component/BlockPrivateIP.pod
+docs/ja/Gungho/Component/Cache.pod
 docs/ja/Gungho/Component/RobotRules.pod
+docs/ja/Gungho/Component/RobotRules/Rule.pod
+docs/ja/Gungho/Component/RobotRules/Storage.pod
+docs/ja/Gungho/Component/RobotRules/Storage/DB_File.pod
 docs/ja/Gungho/Component/RobotsMETA.pod
 docs/ja/Gungho/Component/Throttle.pod
 docs/ja/Gungho/Engine/POE.pod
 docs/ja/Gungho/Log/Dispatch.pod
 docs/ja/Gungho/Manual/Basics.pod
 docs/ja/Gungho/Manual/FAQ.pod
+docs/ja/Gungho/Manual/Install.pod
 docs/ja/Gungho/Manual/Intro.pod
 docs/ja/Gungho/Manual/Tutorial.pod
 docs/ja/Gungho/Request.pod
@@ -36,6 +42,7 @@ examples/simple-file/url.txt
 examples/simple-log-dispatch/simple.yml
 examples/simple-write-to-file/simple-write-to-file.yml
 examples/simple/simple.yml
+examples/site-crawler/site-crawler.pl
 examples/throttle-simple/throttle-simple.yml
 examples/throttle-simple/url.txt
 examples/yaml/config.yml
@@ -106,6 +113,7 @@ lib/Gungho/Util.pm
 Makefile.PL
 MANIFEST			This list of files
 META.yml
+README
 script/gungho
 t/01_load.t
 t/02_config.t
@@ -118,6 +126,7 @@ t/99_pod.t
 t/component/authentication/01_load.t
 t/component/cache/01_load.t
 t/component/robot_rules/01_load.t
+t/component/robot_rules/02_storage.t
 t/component/robots_meta/01_load.t
 t/component/scraper/01_load.t
 t/component/throttle/01_load.t

@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Base.pm 8892 2007-11-10T14:11:01.888849Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Base.pm 31143 2007-11-27T06:57:15.188797Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -15,6 +15,18 @@ sub new
     my $class  = shift;
     my $self = bless { @_ }, $class;
     return $self;
+}
+
+sub mk_virtual_methods
+{
+    my $class = shift;
+    foreach my $method (@_) {
+        my $slot = "${class}::${method}";
+        {
+            no strict 'refs';
+            *{$slot} = sub { die(ref($_[0]) . "::${method} is not overridden") };
+        }
+    }
 }
 
 1;
@@ -46,5 +58,11 @@ Sets up the object. Use it like this in your object:
      # do custom setup
      $self->next::method(@_);
   }
+
+=head2 mk_virtual_methods
+
+Creates virtual methods (methods that must be overridden).
+These methods will C<die()> unless you provide an implementation in your
+subclass
 
 =cut

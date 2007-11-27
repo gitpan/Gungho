@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Component/Cache.pm 4037 2007-10-25T14:20:48.994833Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Component/Cache.pm 31133 2007-11-27T01:57:33.833442Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -29,8 +29,9 @@ sub setup_cache_backends
 
     my $backends = $c->_backends();
     while (my($name, $config) = each %{ $config->{backends} } ) {
-        die "No class specified for cache backend" unless $config->{class};
-        my $pkg = $c->load_gungho_module(delete $config->{class}, __PACKAGE__);
+        my $class = delete($config->{class}) || delete($config->{module});
+        die "No class specified for cache backend" unless $class;
+        my $pkg = $c->load_gungho_module( $class, __PACKAGE__);
 
         $backends->{$name} = $pkg->new(%$config);
     }
@@ -73,10 +74,10 @@ Gungho::Component::Cache - Use Cache In Your App
     default_backend: small_things
     backends:
       large_things:
-        class: '+Cache::Memcached::Managed',
+        module: '+Cache::Memcached::Managed',
         data: '127.0.0.1:11211'
       small_things:
-        class: '+Cache::Memcached::Managed',
+        module: '+Cache::Memcached::Managed',
         data: '127.0.0.1:11212'
 
 =head1 DESCRIPTION

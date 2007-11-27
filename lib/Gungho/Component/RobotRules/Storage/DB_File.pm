@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Component/RobotRules/Storage/DB_File.pm 9009 2007-11-12T15:00:57.083186Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Component/RobotRules/Storage/DB_File.pm 31139 2007-11-27T03:20:36.518654Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 
@@ -82,6 +82,26 @@ __END__
 =head1 NAME
 
 Gungho::Component::RobotRules::Storage::DB_File - DB_File Storage For RobotRules
+
+=head1 SYNOPSIS
+
+  # In your config
+  components:
+    - RobotRules
+  robot_rules:
+    storage:
+      module: DB_File
+      config:
+        filename: '/path/to/storage.db'
+
+  # or elsewhere in your code
+  use Gungho::Component::RobotRules::Storage::DB_File;
+
+  my $storage = Gungho::Component::RobotRules::Storage::DB_File->new(
+    config => {
+      filename => '/path/to/storage.db'
+    }
+  );
 
 =head1 METHODS
 
