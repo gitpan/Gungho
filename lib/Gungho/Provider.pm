@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Provider.pm 31105 2007-11-26T06:18:38.487252Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Provider.pm 31310 2007-11-29T13:19:42.807767Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -10,18 +10,16 @@ use base qw(Gungho::Base);
 use Gungho::Request;
 
 __PACKAGE__->mk_accessors($_) for qw(has_requests);
+__PACKAGE__->mk_virtual_methods($_) for qw(dispatch pushback_request);
 
-sub dispatch {}
+sub stop { }
 
+# XXX - Hmm, yank this method out?
 sub dispatch_request
 {
     my ($self, $c, $req) = @_;
+    $c->log->debug("[PROVIDER]: Dispatch " . $req->uri);
     $c->send_request($req);
-}
-
-sub pushback_request {
-    my ($self, $c, $req) = @_;
-    die ref($self) . '::pushback_request is not implemented';
 }
 
 1;
@@ -50,5 +48,10 @@ Dispatch a single request
 
 Push back a request which couldn't be sent to the engine, for example
 because the request was throttled.
+
+=head2 stop($reason)
+
+Stop the Provider. Place code that needs to be executed to shutdown the
+provider here.
 
 =cut

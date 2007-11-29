@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Component/RobotRules.pm 8891 2007-11-10T14:10:30.426265Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Component/RobotRules.pm 31300 2007-11-29T11:51:03.339151Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 
@@ -9,12 +9,13 @@ use base qw(Gungho::Component);
 use Gungho::Component::RobotRules::Rule;
 use WWW::RobotRules::Parser;
 
-__PACKAGE__->mk_classdata($_) for qw(pending_robots_txt robot_rules_parser robot_rules_storage);
+__PACKAGE__->mk_classdata($_) for qw(pending_robots_txt robot_rules_parser robot_rules_storage pending_count);
 
 sub setup
 {
     my $c = shift;
     $c->pending_robots_txt({});
+    $c->pending_count(0);
     $c->setup_robot_rules_storage();
     $c->setup_robot_rules_parser();
     $c->next::method(@_);
@@ -29,14 +30,15 @@ sub send_request
         $c->allowed($request)
     ;
     if ($allowed == -2) {
-        $c->log->debug("Fetch for /robots.txt already scheduled for " . $request->original_uri->host_port);
+        $c->log->debug("[ROBOT RULES] Fetch for /robots.txt already scheduled for " . $request->original_uri->host_port);
     } elsif ($allowed == -1) {
-        $c->log->debug("No robot rules found for " . $request->original_uri->host_port . ", going to fetch one");
+        $c->log->debug("[ROBOT RULES] No robot rules found for " . $request->original_uri->host_port . ", going to fetch one");
     } elsif ($allowed) {
-        $c->next::method($request);
+        return $c->next::method($request);
     } else {
-        $c->log->debug($request->uri . " is disallowed by robot rules");
+        $c->log->debug("[ROBOT RULES] " . $request->uri . " is disallowed by robot rules");
     }
+    return 0;
 }
 
 sub allowed
@@ -80,6 +82,10 @@ sub handle_response
 sub push_pending_robots_txt
 {
     my ($c, $request) = @_;
+    $c->pending_count( $c->pending_count + 1 );
+    $c->log->debug(
+        "[ROBOT RULES]: Requests still pending: " . $c->pending_count
+    );
     return $c->robot_rules_storage->push_pending_robots_txt( $c, $request );
 }
 
@@ -89,8 +95,14 @@ sub dispatch_pending_robots_txt
 
     my $pending = $c->robot_rules_storage->get_pending_robots_txt($c, $request);
     if ($pending && ref $pending eq 'HASH') {
-        $c->pushback_request( $_ ) for values %$pending;
+        foreach my $request (values %$pending) {
+            $c->pending_count( $c->pending_count - 1 );
+            $c->pushback_request( $request );
+        }
     }
+    $c->log->debug(
+        "[ROBOT RULES]: Requests still pending: " . $c->pending_count
+    );
 }
 
 sub setup_robot_rules_storage
@@ -99,9 +111,9 @@ sub setup_robot_rules_storage
 
     my $config = $c->config->{robotrules}{storage} || {};
 
-    my $pkg = $config->{module} || 'RobotRules::Storage::DB_File';
+    my $pkg = $config->{module} || 'DB_File';
     my $pkg_config = $config->{config} || {};
-    $pkg = $c->load_gungho_module($pkg, 'Component');
+    $pkg = $c->load_gungho_module($pkg, 'Component::RobotRules::Storage');
     my $storage = $pkg->new(%$config);
     $storage->setup($c);
     $c->robot_rules_storage( $storage );

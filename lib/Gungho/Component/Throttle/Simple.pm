@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Component/Throttle/Simple.pm 8775 2007-11-08T09:53:44.496906Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Component/Throttle/Simple.pm 31301 2007-11-29T11:51:44.807693Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -28,7 +28,7 @@ sub throttle
     my $t = $c->throttler;
 
     if ( ! $t->try_push() ) {
-        $c->log->debug($request->uri . " throttled by Throttle::Simple");
+        $c->log->debug("[THROTTLE] " . $request->uri . " throttled by Throttle::Simple");
         return ();
     }
 

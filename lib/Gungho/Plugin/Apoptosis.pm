@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Plugin/Apoptosis.pm 4220 2007-10-29T06:18:40.343638Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Plugin/Apoptosis.pm 31304 2007-11-29T11:56:44.884140Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved,
@@ -16,26 +16,26 @@ sub setup
     my $c    = shift;
     $self->next::method(@_);
     $self->strategy( Gungho::Plugin::Apoptosis::Time->new($self->config) );
-    $c->register_hook(
+    $c->register_event(
         'dispatch.dispatch_requests' => sub { $self->check_apoptosis(@_) },
     );
 }
 
 sub check_apoptosis
 {
-    my ($self, $c) = @_;
+    my ($self, $event, $c) = @_;
 
     # Check apoptosis condition.
     if ($c->is_running && $self->is_time_to_die) {
-        $c->log->info("Apoptosis condition reached. Waiting for engine to stop");
-        $c->is_running(0);
+        $c->log->info("[APOPTOSIS] Apoptosis condition reached. Waiting for engine to stop");
+        $c->shutdown("Apoptosis condition reached");
     }
 }
 
 sub is_time_to_die
 {
     my $c = shift;
-    $c->strategy->is_time_to_die();
+    $c->strategy->is_time_to_die($c);
 }
 
 package Gungho::Plugin::Apoptosis::Time;
@@ -60,8 +60,12 @@ sub new
 
 sub is_time_to_die
 {
-    my $self = shift;
-    return $self->timeout <= time();
+    my ($self, $c) = @_;
+    if ($self->timeout <= time()) {
+        $c->log->info("[APOPTOSIS] Apoptosis condition reached (timeout = " . $self->timeout . ", current time = " . time() . ")");
+        return 1;
+    }
+    return 0;
 }
 
 1;

@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Provider/Inline.pm 8911 2007-11-12T01:12:09.994728Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Provider/Inline.pm 31310 2007-11-29T13:19:42.807767Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # Copyright (c) 2007 Kazuho Oku
@@ -33,6 +33,12 @@ sub add_request {
     $self->has_requests(1);
 }
 
+sub pushback_request {
+    my ($self, $c, $req) = @_;
+    $c->log->debug( "[PROVIDER]: Pushback request " . $req->uri );
+    $self->add_request($req);
+}
+
 sub dispatch {
     my ($self, $c) = @_;
     
@@ -46,12 +52,6 @@ sub dispatch {
         unless ($self->callback->(@args)) {
             $self->callback(undef);
         }
-    }
-    
-    my $reqs = $self->requests;
-    $self->requests([]);
-    while (@$reqs) {
-        $self->dispatch_request($c, shift @$reqs);
     }
     
     if (! $self->callback && @{$self->requests} == 0) {
@@ -96,5 +96,7 @@ in the Gungho::Provider::Inline package.
 =head2 add_request
 
 =head2 dispatch
+
+=head2 pushback_request
 
 =cut

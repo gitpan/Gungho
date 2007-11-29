@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Handler.pm 2907 2007-09-28T10:39:52.301767Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Handler.pm 31310 2007-11-29T13:19:42.807767Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -9,7 +9,9 @@ use warnings;
 use base qw(Gungho::Base);
 use Gungho::Request;
 
-sub handle_response {}
+__PACKAGE__->mk_virtual_methods($_) for qw(handle_response);
+
+sub stop {}
 
 1;
 
@@ -29,5 +31,10 @@ Gungho::Handler - Base Class For Gungho Handlers
 =head2 handle_response($c, $request, response)
 
 This is where you want to process the response.
+
+=head2 stop($reason)
+
+Stop the Handler. Place code that needs to be executed to shutdown the
+handler here.
 
 =cut

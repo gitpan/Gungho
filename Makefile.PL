@@ -10,7 +10,7 @@ requires("Class::C3::Componentised");
 requires("Class::Data::Inheritable");
 requires("Class::Inspector");
 requires("Config::Any");
-requires("Event::Notify", '0.00003');
+requires("Event::Notify", '0.00004');
 requires("Exception::Class");
 requires("FindBin");
 requires("Getopt::Long");
@@ -34,8 +34,6 @@ build_requires('DirHandle');
 build_requires('File::Spec');
 build_requires('Test::More');
 build_requires('Test::MockObject');
-
-no_index('directory' => 'docs');
 
 # Hey, stolen right off of Plagger
 eval {

@@ -27,6 +27,8 @@ docs/ja/Gungho/Component/RobotRules/Storage.pod
 docs/ja/Gungho/Component/RobotRules/Storage/DB_File.pod
 docs/ja/Gungho/Component/RobotsMETA.pod
 docs/ja/Gungho/Component/Throttle.pod
+docs/ja/Gungho/Component/Throttle/Domain.pod
+docs/ja/Gungho/Component/Throttle/Simple.pod
 docs/ja/Gungho/Engine/POE.pod
 docs/ja/Gungho/Log/Dispatch.pod
 docs/ja/Gungho/Manual/Basics.pod
@@ -34,6 +36,8 @@ docs/ja/Gungho/Manual/FAQ.pod
 docs/ja/Gungho/Manual/Install.pod
 docs/ja/Gungho/Manual/Intro.pod
 docs/ja/Gungho/Manual/Tutorial.pod
+docs/ja/Gungho/Plugin/Apoptosis.pod
+docs/ja/Gungho/Plugin/RequestLog.pod
 docs/ja/Gungho/Request.pod
 docs/ja/Gungho/Response.pod
 examples/robotrules/simple.yml
@@ -42,7 +46,6 @@ examples/simple-file/url.txt
 examples/simple-log-dispatch/simple.yml
 examples/simple-write-to-file/simple-write-to-file.yml
 examples/simple/simple.yml
-examples/site-crawler/site-crawler.pl
 examples/throttle-simple/throttle-simple.yml
 examples/throttle-simple/url.txt
 examples/yaml/config.yml
@@ -148,4 +151,3 @@ t/lib/GunghoTest/PrivateDNS.pm
 t/plugin/request_log/01_basic.t
 t/plugin/statistics/01_load.t
 t/plugin/statistics/02_parts.t
-README

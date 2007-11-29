@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Component/RobotRules/Storage/Cache.pm 3538 2007-10-17T15:47:42.541677Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Component/RobotRules/Storage/Cache.pm 31308 2007-11-29T13:15:39.399180Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -139,7 +139,7 @@ Gungho::Component::RobotRules::Storage::Cache - Cache Storage For RobotRules
 
 =head1 SYNOPSIS
 
-  robotrules:
+  robot_rules:
     cache:
       module: 'Cache::Memcached'
       expiration: 86400

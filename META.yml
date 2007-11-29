@@ -17,7 +17,6 @@ meta-spec:
 name: Gungho
 no_index: 
   directory: 
-    - docs
     - inc
     - t
 recommends: 
@@ -61,7 +60,7 @@ requires:
   Class::Data::Inheritable: 0
   Class::Inspector: 0
   Config::Any: 0
-  Event::Notify: 0.00003
+  Event::Notify: 0.00004
   Exception::Class: 0
   FindBin: 0
   Getopt::Long: 0
