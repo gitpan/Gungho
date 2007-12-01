@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Request.pm 2912 2007-10-01T02:36:26.816021Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Request.pm 31624 2007-12-01T04:20:00.298198Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -60,7 +60,11 @@ sub clone
 {
     my $self  = shift;
     my $clone = $self->SUPER::clone;
-    $clone->notes( %{ dclone $self->notes } );
+
+    my $cloned_notes = dclone $self->notes;
+    foreach my $note (keys %$cloned_notes) {
+        $clone->notes( $note => $cloned_notes->{$note} );
+    }
     return $clone;
 }
 

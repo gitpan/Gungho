@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Engine.pm 31118 2007-11-26T13:12:05.043232Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Engine.pm 31637 2007-12-01T14:04:35.046822Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -8,9 +8,7 @@ use strict;
 use warnings;
 use base qw(Gungho::Base);
 
-sub run {}
-
-sub stop {}
+__PACKAGE__->mk_virtual_methods($_) for qw(run stop);
 
 sub finish_request
 {

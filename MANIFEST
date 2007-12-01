@@ -130,6 +130,7 @@ t/component/authentication/01_load.t
 t/component/cache/01_load.t
 t/component/robot_rules/01_load.t
 t/component/robot_rules/02_storage.t
+t/component/robot_rules/regression_jkim_20071201.t
 t/component/robots_meta/01_load.t
 t/component/scraper/01_load.t
 t/component/throttle/01_load.t
@@ -151,3 +152,5 @@ t/lib/GunghoTest/PrivateDNS.pm
 t/plugin/request_log/01_basic.t
 t/plugin/statistics/01_load.t
 t/plugin/statistics/02_parts.t
+t/request/regression_jkim_20071201.t
+t/response/regression_jkim_20071201.t

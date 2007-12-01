@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Component/RobotRules/Rule.pm 31131 2007-11-27T01:47:07.270907Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Component/RobotRules/Rule.pm 31623 2007-12-01T04:12:45.036041Z lestrrat  $
 
 package Gungho::Component::RobotRules::Rule;
 use strict;
@@ -30,8 +30,13 @@ sub allowed
     my $uri  = shift;
 
     $uri = URI->new($uri) unless ref $uri;
-    my $str   = $uri->path_query;
+    my $str   = $uri->path_query || '/';
     my $rules = $self->rules;
+
+    # XXX - There seems to be a problem where each %$rules doesn't get
+    # reset when we get out of the while loop in the middle of execution.
+    # We do this stupid hack to make sure that the context is reset correctly
+    keys %$rules;
     while (my ($key, $list) = each %$rules) {
         next unless $self->is_me($c, $key);
 
@@ -50,7 +55,7 @@ sub is_me
     my $c    = shift;
     my $name = shift;
 
-    return index(lc($c->user_agent), lc($name)) >= 0;
+    return $name eq '*' || index(lc($c->user_agent), lc($name)) >= 0;
 }
 
 1;

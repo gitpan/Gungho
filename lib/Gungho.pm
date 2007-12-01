@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho.pm 31122 2007-11-26T13:29:03.013547Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho.pm 31638 2007-12-01T14:05:21.518042Z lestrrat  $
 # 
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -305,6 +305,8 @@ Copyright (c) 2007 Daisuke Maki E<lt>daisuke@endeworks.jpE<gt>
 =head1 CONTRIBUTORS
 
 =over 4
+
+=item Jeff Kim
 
 =item Kazuho Oku
 

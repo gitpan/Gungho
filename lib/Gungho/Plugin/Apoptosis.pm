@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Plugin/Apoptosis.pm 31304 2007-11-29T11:56:44.884140Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Plugin/Apoptosis.pm 31467 2007-11-30T00:42:50.705701Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved,
@@ -26,7 +26,7 @@ sub check_apoptosis
     my ($self, $event, $c) = @_;
 
     # Check apoptosis condition.
-    if ($c->is_running && $self->is_time_to_die) {
+    if ($c->is_running && $self->is_time_to_die($c)) {
         $c->log->info("[APOPTOSIS] Apoptosis condition reached. Waiting for engine to stop");
         $c->shutdown("Apoptosis condition reached");
     }
@@ -34,8 +34,8 @@ sub check_apoptosis
 
 sub is_time_to_die
 {
-    my $c = shift;
-    $c->strategy->is_time_to_die($c);
+    my ($self, $c) = shift;
+    $self->strategy->is_time_to_die($c);
 }
 
 package Gungho::Plugin::Apoptosis::Time;
