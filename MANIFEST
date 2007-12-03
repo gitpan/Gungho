@@ -46,6 +46,7 @@ examples/simple-file/url.txt
 examples/simple-log-dispatch/simple.yml
 examples/simple-write-to-file/simple-write-to-file.yml
 examples/simple/simple.yml
+examples/site-crawler/site-crawler.pl
 examples/throttle-simple/throttle-simple.yml
 examples/throttle-simple/url.txt
 examples/yaml/config.yml
