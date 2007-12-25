@@ -81,6 +81,7 @@ lib/Gungho/Component/Scraper.pm
 lib/Gungho/Component/Setup.pm
 lib/Gungho/Component/Throttle.pm
 lib/Gungho/Component/Throttle/Domain.pm
+lib/Gungho/Component/Throttle/Provider.pm
 lib/Gungho/Component/Throttle/Simple.pm
 lib/Gungho/Component/Throttle/Throttler.pm
 lib/Gungho/Engine.pm

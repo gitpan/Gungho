@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho.pm 31638 2007-12-01T14:05:21.518042Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho.pm 36887 2007-12-25T07:01:24.866954Z lestrrat  $
 # 
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -8,7 +8,7 @@ use strict;
 use warnings;
 use 5.008;
 use base qw(Class::C3::Componentised);
-our $VERSION = '0.09005';
+our $VERSION = '0.09006';
 
 __PACKAGE__->load_components('Setup');
 

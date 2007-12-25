@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Engine/POE.pm 31130 2007-11-27T01:45:05.109813Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Engine/POE.pm 35439 2007-12-17T05:32:05.323703Z kazuhooku  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -113,7 +113,7 @@ sub run
     # PoCo::Client::HTTP 0.82, PoCo::Client::HTTP tended to get filled up
     # pretty quickcly)
     $self->clients( [] );
-    my $spawn = $client_config->{spawn} || 2;
+    my $spawn = delete $client_config->{Spawn} || 2;
     if ($spawn < 1) { $spawn = 2 }
     for my $i ( 1 .. $spawn ) {
         my $alias = join('-', &UserAgentAlias, $i);
