@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Engine/POE.pm 35439 2007-12-17T05:32:05.323703Z kazuhooku  $
+# $Id: /mirror/gungho/lib/Gungho/Engine/POE.pm 39017 2008-01-16T16:05:45.674472Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -139,8 +139,9 @@ sub run
             }
         ]
     );
-    
-    POE::Kernel->run();
+
+    POE::Kernel->run() if
+        ! exists $config{ kernel_start } || $config{ kernel_start };
 }
 
 sub stop
@@ -366,6 +367,14 @@ Or in perl,
       }
     }
   }
+
+=head2 kernel_start
+
+If you're embedding Gungho into another POE application, you probably don't
+want Gungho to call POE::Kernel->run(). This option can control that behavior.
+
+If you don't want to start the kernel, then specify 0 for this option.
+The default is 1.
 
 =head2 client.loop_delay
 

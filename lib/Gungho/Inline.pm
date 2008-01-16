@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Inline.pm 8909 2007-11-12T01:04:17.979695Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Inline.pm 39015 2008-01-16T15:58:40.917983Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # Copyright (c) 2007 Kazuho Oku
@@ -104,8 +104,6 @@ subroutine references instead of a full config.
 
 As of Gungho 0.09003, inlined handlers and providers are supported natively.
 The only reason to use this module is for you to use the old parameter list.
-
-This module is still experimental. Feedback welcome
 
 =head1 BACKWARDS COMPATIBILITY WITH VERSIONS < 0.08
 
