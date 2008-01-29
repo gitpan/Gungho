@@ -60,6 +60,7 @@ inc/Module/Install/Fetch.pm
 inc/Module/Install/Include.pm
 inc/Module/Install/Makefile.pm
 inc/Module/Install/Metadata.pm
+inc/Module/Install/Scripts.pm
 inc/Module/Install/Win32.pm
 inc/Module/Install/WriteAll.pm
 lib/Gungho.pm
@@ -132,6 +133,7 @@ t/component/authentication/01_load.t
 t/component/cache/01_load.t
 t/component/robot_rules/01_load.t
 t/component/robot_rules/02_storage.t
+t/component/robot_rules/regression_daiba.t
 t/component/robot_rules/regression_jkim_20071201.t
 t/component/robots_meta/01_load.t
 t/component/scraper/01_load.t
