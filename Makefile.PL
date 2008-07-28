@@ -1,8 +1,18 @@
 use strict;
 use inc::Module::Install;
+{
+    no warnings 'redefine';
+    *recommends_hack = $Module::Install::VERSION > 0.70 ?
+        sub { recommends(@_); $_[0] } :
+        \&recommends;
+}
+
+
 
 name("Gungho");
 all_from("lib/Gungho.pm");
+
+no_index( directory => 'examples' );
 
 # This used to be optional, but we're making it mandatory.
 # You're still free to use other engines, but we're forcing
@@ -68,7 +78,7 @@ eval {
         features(
             $meta->{name}, [
                 -default => $meta->{default},
-                map recommends($_ => $meta->{depends}->{$_}), keys %{$meta->{depends} || {}},
+                map recommends_hack($_ => $meta->{depends}->{$_}), keys %{$meta->{depends} || {}},
             ],
         );
     }

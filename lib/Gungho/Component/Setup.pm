@@ -1,4 +1,4 @@
-# $Id: /mirror/gungho/lib/Gungho/Component/Setup.pm 9149 2007-11-14T03:46:08.901340Z lestrrat  $
+# $Id: /mirror/gungho/lib/Gungho/Component/Setup.pm 41086 2008-02-01T16:49:41.285355Z lestrrat  $
 #
 # Copyright (c) 2007 Daisuke Maki <daisuke@endeworks.jp>
 # All rights reserved.
@@ -85,7 +85,11 @@ sub load_config
         my $filename = $config;
         # In the future, we may support multiple configs, but for now
         # just load a single file via Config::Any
-        my $list = Config::Any->load_files( { files => [ $filename ] } );
+    
+        my $list = Config::Any->load_files( {
+            files => [ $filename ],
+            use_ext => 1,
+        } );
         ($config) = $list->[0]->{$filename};
     }
 
